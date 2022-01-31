@@ -94,5 +94,8 @@ class MainApp(MDApp):
             self.root.ids.welcome_label.text = "Account created successfully"
         conn.commit()
         conn.close()
+        
+    def pressReg(self):
+        screen_manager.current = "reg"
 
 MainApp().run()
