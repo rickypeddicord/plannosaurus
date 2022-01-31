@@ -75,8 +75,8 @@ class MainApp(MDApp):
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        if self.root.ids.user.text == "" and self.root.ids.password.text == "":
-            print("fields cannot be empty")
+        if self.root.ids.user.text == "" or self.root.ids.password.text == "":
+            self.root.ids.welcome_label.text = "Fields cannot be empty"
             return
         else:
             c.execute("SELECT * FROM users")
