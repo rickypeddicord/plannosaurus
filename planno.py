@@ -42,10 +42,10 @@ class MainApp(MDApp):
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "SELECT * FROM users WHERE username = %s"
         c.execute(query, (self.root.ids.user.text,))
-        records = c.fetchall()
+        records = c.fetchone()
         
         if records:
-            if records[0][1] == self.root.ids.user.text and records[0][2] == self.root.ids.password.text:
+            if records[1] == self.root.ids.user.text and records[2] == self.root.ids.password.text:
                 self.root.ids.welcome_label.text = "Logged in successfully"
                 loginCode = 1
             else:
@@ -81,7 +81,6 @@ class MainApp(MDApp):
         else:
             c.execute("SELECT * FROM users")
             records = c.fetchall()
-            print(records)
         if records:
             for record in records:
                 if record[1] == self.root.ids.user.text:
