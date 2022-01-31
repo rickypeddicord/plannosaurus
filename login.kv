@@ -55,7 +55,7 @@ ScreenManager:
                 text: "REGISTER"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: app.register()
+                on_press: screen_manager.current = "reg"
                 
             
             Widget:
@@ -66,3 +66,80 @@ ScreenManager:
         name: "main_sc"
         MDLabel:
             text: "Main App screen"
+            
+    Screen:
+        name:  "reg"
+        MDCard:
+            size_hint: None, None
+            size: 300,470
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 10
+            padding: 25
+            spacing: 25
+            orientation: 'vertical'
+            
+            MDLabel:
+                text: "REGISTRATION:"
+                pos_hint: {"center_x": 0.6, "center_y": 0.2}
+                font_size: 30
+                bold: True
+            MDTextFieldRound:
+                hint_text: "First Name"
+                helper_text: ""
+                pos_hint: {"center_x": 0.5, "center_y": 0.9}
+                padding: 25
+                spacing: 25
+                width: 200
+                normal_color: app.theme_cls.accent_color
+                color_active: 1, 0, 1, 1
+                helper_text_mode: "on_focus"
+            MDTextFieldRound:
+                hint_text: "Last Name"
+                helper_text: ""
+                pos_hint: {"center_y": 0.8}
+                width: 200
+                normal_color: app.theme_cls.accent_color
+                color_active: 1, 0, 1, 1
+                helper_text_mode: "on_focus"
+            MDTextFieldRound:
+                hint_text: "Email"
+                helper_text: ""
+                pos_hint: {"center_y": 0.7}
+                width: 200
+                icon_left: 'email'
+                normal_color: app.theme_cls.accent_color
+                color_active: 1, 0, 1, 1
+                helper_text_mode: "on_focus"
+            MDTextFieldRound:
+                id: enterPass
+                hint_text: "Password:"
+                helper_text: ""
+                pos_hint: {"center_y": 0.6}
+                icon_left: 'key-variant'
+                icon_right: 'eye-off'
+                width: 200
+                normal_color: app.theme_cls.accent_color
+                color_active: 1, 0, 1, 1
+                password: True
+                helper_text_mode: "on_focus"
+            MDTextFieldRound:
+                id: passReEnter
+                hint_text: "Re-enter Password:"
+                pos_hint: {"center_y": 0.5}
+                helper_text: "Confirm Password" if passReEnter.text=='' else "Passwords do not match" if passReEnter.text!=enterPass.text else "Passwords Match"
+                helper_text_mode: "on_focus" if passReEnter.text=='' else "on_error" if passReEnter.text!=enterPass.text else "on_focus"  
+                error : False if passReEnter.text=='' else True if passReEnter.text!=enterPass.text else False
+                width: 200
+                icon_left: 'key-variant'
+                icon_right: 'eye-off'
+                normal_color: app.theme_cls.accent_color
+                color_active: 1, 0, 1, 1
+                password: True
+                
+            
+            MDRoundFlatButton:
+                text: "SUBMIT"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press: screen_manager.current = "reg"
+            
