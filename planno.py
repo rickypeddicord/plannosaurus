@@ -2,10 +2,101 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 import psycopg2
 import psycopg2.extras
+from datetime import *
+from dateutil.relativedelta import *
+from kivy.uix.screenmanager import ScreenManager
 
+
+class StartingDates:
+    def __init__(self, day1, day2, day3, day4, day5, day6, day7):
+        self._day1 = day1
+        self._day2 = day2
+        self._day3 = day3
+        self._day4 = day4
+        self._day5 = day5
+        self._day6 = day6
+        self._day7 = day7
+    
+    @property
+    def day1(self):
+        return self._day1
+
+    @day1.setter
+    def day1(self, val):
+        self._day1 = val
+    
+    @property
+    def day2(self):
+        return self._day2
+
+    @day2.setter
+    def day2(self, val):
+        self._day2 = val
+    
+    @property
+    def day3(self):
+        return self._day3
+
+    @day3.setter
+    def day3(self, val):
+        self._day3 = val
+
+    @property
+    def day4(self):
+        return self._day4
+
+    @day4.setter
+    def day4(self, val):
+        self._day4 = val
+
+    @property
+    def day5(self):
+        return self._day5
+
+    @day5.setter
+    def day5(self, val):
+        self._day5 = val
+    
+    @property
+    def day6(self):
+        return self._day6
+
+    @day6.setter
+    def day6(self, val):
+        self._day6 = val
+
+    @property
+    def day7(self):
+        return self._day7
+
+    @day7.setter
+    def day7(self, val):
+        self._day7 = val
+
+
+class WindowManager(ScreenManager):
+    def init_load(self, root):
+        root.current = "cal"
+        first_day = date.today()
+        second_day = first_day + relativedelta(days = + 1)
+        third_day = second_day + relativedelta(days = + 1)
+        fourth_day = third_day + relativedelta(days = + 1)
+        fifth_day = fourth_day + relativedelta(days = + 1)
+        sixth_day = fifth_day + relativedelta(days = + 1)
+        seventh_day = sixth_day + relativedelta(days = + 1)
+        theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
+        theMonth = date.today().month
+        theYear = date.today().year
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        self.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
+        + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
+    
+        
 
 class MainApp(MDApp):
     def build(self):
+        Builder.load_file("app.kv")
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "BlueGray"
 
@@ -27,7 +118,16 @@ class MainApp(MDApp):
         conn.commit()
         conn.close()
 
-        return Builder.load_file('login.kv')
+        first_day = date.today()
+        second_day = first_day + relativedelta(days = + 1)
+        third_day = second_day + relativedelta(days = + 1)
+        fourth_day = third_day + relativedelta(days = + 1)
+        fifth_day = fourth_day + relativedelta(days = + 1)
+        sixth_day = fifth_day + relativedelta(days = + 1)
+        seventh_day = sixth_day + relativedelta(days = + 1)
+        self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
+    
+        return WindowManager()
         
     def login(self):
         loginCode = -1
@@ -94,8 +194,50 @@ class MainApp(MDApp):
             self.root.ids.welcome_label.text = "Account created successfully"
         conn.commit()
         conn.close()
+
+    def left_cal(self):
+        self.theDays.day1 = self.theDays.day1 + relativedelta(days = - 7)
+        self.theDays.day2 = self.theDays.day2 + relativedelta(days = - 7)
+        self.theDays.day3 = self.theDays.day3 + relativedelta(days = - 7)
+        self.theDays.day4 = self.theDays.day4 + relativedelta(days = - 7)
+        self.theDays.day5 = self.theDays.day5 + relativedelta(days = - 7)
+        self.theDays.day6 = self.theDays.day6 + relativedelta(days = - 7)
+        self.theDays.day7 = self.theDays.day7 + relativedelta(days = - 7)
+        day1 = self.theDays.day1
+        day2 = self.theDays.day2
+        day3 = self.theDays.day3
+        day4 = self.theDays.day4
+        day5 = self.theDays.day5
+        day6 = self.theDays.day6
+        day7 = self.theDays.day7
+        theMonth = day7.month
+        theYear = day7.year
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        self.root.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
+             + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
+
+    def right_cal(self):
+        self.theDays.day1 = self.theDays.day1 + relativedelta(days = + 7)
+        self.theDays.day2 = self.theDays.day2 + relativedelta(days = + 7)
+        self.theDays.day3 = self.theDays.day3 + relativedelta(days = + 7)
+        self.theDays.day4 = self.theDays.day4 + relativedelta(days = + 7)
+        self.theDays.day5 = self.theDays.day5 + relativedelta(days = + 7)
+        self.theDays.day6 = self.theDays.day6 + relativedelta(days = + 7)
+        self.theDays.day7 = self.theDays.day7 + relativedelta(days = + 7)
+        day1 = self.theDays.day1
+        day2 = self.theDays.day2
+        day3 = self.theDays.day3
+        day4 = self.theDays.day4
+        day5 = self.theDays.day5
+        day6 = self.theDays.day6
+        day7 = self.theDays.day7
+        theMonth = day7.month
+        theYear = day7.year
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        self.root.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
+        + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
         
-    def pressReg(self):
-        screen_manager.current = "reg"
 
 MainApp().run()
