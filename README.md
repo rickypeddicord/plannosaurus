@@ -1,4 +1,8 @@
 # Plannosaurus
+**Ricky Peddicord, Hailey Maimone, Kelli Huff, Daniel Hentosz || GROUP 2**
+
+**ped8697@calu.edu, mai5013@calu.edu, huf2203@calu.edu, hen3883@calu.edu**
+
 :shit: :shit: :shit: :shit: :shit: :shit: :shit::shit::shit:
 ### Orginize With Plannosaurus
 Have you ever wanted to be more organized, but don’t want to lug around a big planner everywhere you go?  Plannosaurus is a completely customizable virtual planner that is perfect to help get you the organization you need. 
