@@ -1,4 +1,4 @@
-ScreenManager:
+<WindowManager>:
     id: screen_manager
 
     Screen:
@@ -45,6 +45,7 @@ ScreenManager:
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: screen_manager.current = "main_sc" if app.login() == 1 else "login_sc"
+
             MDRoundFlatButton:
                 text: "CLEAR"
                 font_size: 12
@@ -56,11 +57,48 @@ ScreenManager:
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: screen_manager.current = "reg"
+
+            MDRoundFlatButton:
+                text: "Calendar"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press: root.init_load(root)
                 
             
             Widget:
                 size_hint_y: None
-                height: 8
+                height: 8 
+
+
+
+
+    Screen:
+        name: "cal"
+        MDLabel:
+            id: days_label
+            text: ""
+            text_size: root.width, root.height
+            halign: 'center'
+            height: self.texture_size[1]
+
+        MDLabel:
+            id: days_label2
+            text: ""
+            pos_hint: {'center_x': .8, 'center_y': .45}
+            height: self.texture_size[1]
+
+        MDRoundFlatButton:
+            text: "<<<"
+            font_size: 12
+            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+            on_press: app.left_cal()
+
+        MDRoundFlatButton:
+            text: ">>>"
+            font_size: 12
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+            on_press: app.right_cal()
+                 
 
     Screen:
         name: "main_sc"
@@ -68,7 +106,7 @@ ScreenManager:
             text: "Main App screen"
             
     Screen:
-        name:  "reg"
+        name: "reg"
         MDCard:
             size_hint: None, None
             size: 300,470
@@ -83,6 +121,7 @@ ScreenManager:
                 pos_hint: {"center_x": 0.6, "center_y": 0.2}
                 font_size: 30
                 bold: True
+
             MDTextFieldRound:
                 hint_text: "First Name"
                 helper_text: ""
@@ -93,6 +132,7 @@ ScreenManager:
                 normal_color: app.theme_cls.accent_color
                 color_active: 1, 0, 1, 1
                 helper_text_mode: "on_focus"
+
             MDTextFieldRound:
                 hint_text: "Last Name"
                 helper_text: ""
@@ -101,6 +141,7 @@ ScreenManager:
                 normal_color: app.theme_cls.accent_color
                 color_active: 1, 0, 1, 1
                 helper_text_mode: "on_focus"
+
             MDTextFieldRound:
                 hint_text: "Email"
                 helper_text: ""
@@ -110,6 +151,7 @@ ScreenManager:
                 normal_color: app.theme_cls.accent_color
                 color_active: 1, 0, 1, 1
                 helper_text_mode: "on_focus"
+
             MDTextFieldRound:
                 id: enterPass
                 hint_text: "Password:"
@@ -122,6 +164,7 @@ ScreenManager:
                 color_active: 1, 0, 1, 1
                 password: True
                 helper_text_mode: "on_focus"
+
             MDTextFieldRound:
                 id: passReEnter
                 hint_text: "Re-enter Password:"
@@ -136,7 +179,6 @@ ScreenManager:
                 color_active: 1, 0, 1, 1
                 password: True
                 
-            
             MDRoundFlatButton:
                 text: "SUBMIT"
                 font_size: 12
