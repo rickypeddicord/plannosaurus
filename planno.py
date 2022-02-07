@@ -7,6 +7,7 @@ from dateutil.relativedelta import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
 
+
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
         self._day1 = day1
@@ -128,11 +129,14 @@ class MainApp(MDApp):
         self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
     
         return WindowManager()
-    
+
     def pick_date(self):
         date_dialog = MDDatePicker() 
+        date_dialog.bind(on_save = self.on_save)
         date_dialog.open()
-        
+
+    def on_save(self, instance, value, date_range):
+        self.root.ids.dateButton.text = str(value)
         
     def login(self):
         loginCode = -1
