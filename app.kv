@@ -63,17 +63,16 @@
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: root.init_load(root)
-           
+            
             MDRoundFlatButton:
+                id: dateButton
 				text: 'Today'
 				pos_hint: {'center_x': .5, 'center_y': .5}
-				on_release: app.pick_date()    
+				on_release: app.pick_date()
             
             Widget:
                 size_hint_y: None
                 height: 8 
-                
-            
 
 
 
