@@ -132,11 +132,14 @@ class MainApp(MDApp):
 
     def pick_date(self):
         date_dialog = MDDatePicker() 
-        date_dialog.bind(on_save = self.on_save)
+        date_dialog.bind(on_save = self.on_save, on_cancel = self.on_cancel)
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
         self.root.ids.dateButton.text = str(value)
+
+    def on_cancel(self, intance, value):
+        self.root.ids.dateButton.text = "Today?"
         
     def login(self):
         loginCode = -1
