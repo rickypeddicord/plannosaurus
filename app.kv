@@ -128,6 +128,7 @@
                 bold: True
 
             MDTextFieldRound:
+				id: firstName
                 hint_text: "First Name"
                 helper_text: ""
                 pos_hint: {"center_x": 0.5, "center_y": 0.9}
@@ -139,6 +140,7 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
+				id: lastName
                 hint_text: "Last Name"
                 helper_text: ""
                 pos_hint: {"center_y": 0.8}
@@ -148,6 +150,7 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
+				id: emailPrompt
                 hint_text: "Email"
                 helper_text: ""
                 pos_hint: {"center_y": 0.7}
@@ -188,5 +191,5 @@
                 text: "SUBMIT"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: screen_manager.current = "reg"
+                on_press: app.register(root)
             
