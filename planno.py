@@ -188,7 +188,7 @@ class MainApp(MDApp):
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        if self.root.ids.user.text == "" or self.root.ids.password.text == "":
+        if self.root.ids.firstName.text == "" or self.root.ids.lastName.text == "":
             self.root.ids.welcome_label.text = "Fields cannot be empty"
             return
         else:
@@ -201,12 +201,12 @@ class MainApp(MDApp):
                 else:
                     c.execute("INSERT INTO users (username, password, firstName, lastName, emailPrompt) VALUES (%s, %s, %s, %s, %s)", (self.root.ids.user.text, self.root.ids.password.text, self.root.ids.firstName.text, self.root.ids.lastName.text, self.root.ids.emailPrompt.text))
                     self.root.ids.welcome_label.text = "Account created successfully"
-                    root.current=login_sc
+                    root.current="login_sc"
                     break
         else:
             c.execute("INSERT INTO users (username, password, firstName, lastName, emailPrompt) VALUES (%s, %s, %s, %s, %s)", (self.root.ids.user.text, self.root.ids.password.text, self.root.ids.firstName.text, self.root.ids.lastName.text, self.root.ids.emailPrompt.text))
             self.root.ids.welcome_label.text = "Account created successfully"
-            root.current=login_sc
+            root.current="login_sc"
         conn.commit()
         conn.close()
 
