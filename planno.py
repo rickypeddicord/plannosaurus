@@ -114,8 +114,9 @@ class MainApp(MDApp):
         c = conn.cursor()
 
         # Create a table
-        c.execute("CREATE TABLE if not exists users(id SERIAL PRIMARY KEY, username VARCHAR(255), password VARCHAR(255))")
-
+        c.execute("CREATE TABLE if not exists users(id SERIAL PRIMARY KEY, username VARCHAR(255), password VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255), emailPrompt VARCHAR(255))")
+        
+        
         conn.commit()
         conn.close()
 
@@ -176,7 +177,7 @@ class MainApp(MDApp):
         self.root.ids.user.text = ""
         self.root.ids.password.text = ""
 
-    def register(self):
+    def register(self, root):
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
             database = "d19re7njihace8",
@@ -198,12 +199,14 @@ class MainApp(MDApp):
                 if record[1] == self.root.ids.user.text:
                     self.root.ids.welcome_label.text = "An account with these credentials already exists"
                 else:
-                    c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (self.root.ids.user.text, self.root.ids.password.text))
+                    c.execute("INSERT INTO users (username, password, firstName, lastName, emailPrompt) VALUES (%s, %s, %s, %s, %s)", (self.root.ids.user.text, self.root.ids.password.text, self.root.ids.firstName.text, self.root.ids.lastName.text, self.root.ids.emailPrompt.text))
                     self.root.ids.welcome_label.text = "Account created successfully"
+                    root.current=login_sc
                     break
         else:
-            c.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (self.root.ids.user.text, self.root.ids.password.text))
+            c.execute("INSERT INTO users (username, password, firstName, lastName, emailPrompt) VALUES (%s, %s, %s, %s, %s)", (self.root.ids.user.text, self.root.ids.password.text, self.root.ids.firstName.text, self.root.ids.lastName.text, self.root.ids.emailPrompt.text))
             self.root.ids.welcome_label.text = "Account created successfully"
+            root.current=login_sc
         conn.commit()
         conn.close()
 
