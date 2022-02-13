@@ -7,8 +7,6 @@ from dateutil.relativedelta import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
 
-#bigtiddys
-
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -91,7 +89,9 @@ class WindowManager(ScreenManager):
         theMonth = date.today().month
         theYear = date.today().year
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        #self.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.ids.currMonth.text = "September"#str(months[theMonth - 1])
+        self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
         + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
     
@@ -139,10 +139,12 @@ class MainApp(MDApp):
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
-        self.root.ids.dateButton.text = str(value)
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        self.root.ids.currMonth.text = str(months[value.month - 1])
+        self.root.ids.currYear.text = str(value.year)
 
-    def on_cancel(self, intance, value):
-        self.root.ids.dateButton.text = "Today?"
+    #def on_cancel(self, intance, value):
+        #self.root.ids.dateButton.text = "Today?"
         
     def login(self):
         loginCode = -1
@@ -230,7 +232,9 @@ class MainApp(MDApp):
         theMonth = day7.month
         theYear = day7.year
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.root.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.root.ids.currMonth.text = str(months[theMonth - 1])
+        self.root.ids.currYear.text = str(theYear)
+        self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
              + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
 
@@ -252,7 +256,9 @@ class MainApp(MDApp):
         theMonth = day7.month
         theYear = day7.year
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.root.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        self.root.ids.currMonth.text = str(months[theMonth - 1])
+        self.root.ids.currYear.text = str(theYear)
+        self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
         + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
         

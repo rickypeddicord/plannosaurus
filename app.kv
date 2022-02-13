@@ -74,41 +74,104 @@
                 size_hint_y: None
                 height: 8 
 
-
-
-
-    Screen:
-        name: "cal"
-        MDLabel:
-            id: days_label
-            text: ""
-            text_size: root.width, root.height
-            halign: 'center'
-            height: self.texture_size[1]
-
-        MDLabel:
-            id: days_label2
-            text: ""
-            pos_hint: {'center_x': .8, 'center_y': .45}
-            height: self.texture_size[1]
-
-        MDRoundFlatButton:
-            text: "<<<"
-            font_size: 12
-            pos_hint: {"center_x": 0.5, "center_y": 0.8}
-            on_press: app.left_cal()
-
-        MDRoundFlatButton:
-            text: ">>>"
-            font_size: 12
-            pos_hint: {"center_x": 0.5, "center_y": 0.9}
-            on_press: app.right_cal()
                  
 
     Screen:
         name: "main_sc"
         MDLabel:
             text: "Main App screen"
+    
+
+    Screen:
+        name: "cal"
+        FloatLayout:
+            MDRoundFlatButton:
+                text: "<<<"
+                font_size: 12
+                pos_hint: {"x": .2, "y": .9}
+                on_press: app.left_cal()
+                
+            MDRoundFlatButton:
+                text: ">>>"
+                font_size: 12
+                pos_hint: {"x": .7, "y": .9}
+                on_press: app.right_cal()
+
+            MDFlatButton:
+                id: currMonth
+                text: str(date.today().month)
+                font_size: 16
+                size_hint: 0.02, 0.05
+                pos_hint: {"x": .38, "y": .80}
+                on_press: app.pick_date()
+
+            MDFlatButton:
+                id: currYear
+                text: str(date.today().year)
+                font_size: 16
+                size_hint: 0.02, 0.05
+                pos_hint: {"x": .49, "y": .80}
+                on_press: app.pick_date()
+            
+            MDFlatButton:
+                text: "Sun"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Mon"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Tue"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Wed"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Thu"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Fri"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDFlatButton:
+                text: "Sat"
+                font_size: 16
+                pos_hint: {"x": .0, "y": .3}
+
+            MDLabel:
+                id: days_label
+                text: ""
+                text_size: root.width, root.height
+                pos_hint: {"x": .0, "y": .3}
+                halign: 'center'
+
+            MDLabel:
+                id: days_label2
+                text: ""
+                pos_hint: {"x": -.03, "y": .25}
+                halign: 'center'
+
+            MDLabel:
+                text: "Item 1"
+                pos_hint: {"x": .48, "y": .1}
+
+            MDLabel:
+                text: "Item 2"
+                pos_hint: {"x": .48, "y": .05}
+
+            MDLabel:
+                text: "Item 3"
+                pos_hint: {"x": .48, "y": .0}
             
     Screen:
         name: "reg"
@@ -128,7 +191,6 @@
                 bold: True
 
             MDTextFieldRound:
-				id: firstName
                 hint_text: "First Name"
                 helper_text: ""
                 pos_hint: {"center_x": 0.5, "center_y": 0.9}
@@ -140,7 +202,6 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
-				id: lastName
                 hint_text: "Last Name"
                 helper_text: ""
                 pos_hint: {"center_y": 0.8}
@@ -150,7 +211,6 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
-				id: emailPrompt
                 hint_text: "Email"
                 helper_text: ""
                 pos_hint: {"center_y": 0.7}
@@ -191,4 +251,5 @@
                 text: "SUBMIT"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: app.register(root)
+                on_press: screen_manager.current = "reg"
+            
