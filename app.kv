@@ -1,5 +1,18 @@
 <WindowManager>:
     id: screen_manager
+	
+	Screen:
+        name: "main_sc"
+		FloatLayout:
+			MDLabel:
+				text: "Main App screen"
+				pos_hint:{'x': .5, 'y': .35}
+				
+			MDRoundFlatButton:
+                id: dateButton
+				text: str(date.today())
+				pos_hint: {'center_x': .5, 'center_y': .5}
+				on_release: app.pick_date()	
 
     Screen:
         name: "login_sc"
@@ -63,13 +76,12 @@
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: root.init_load(root)
-            
-            MDRoundFlatButton:
-                id: dateButton
-				text: 'Today'
-				pos_hint: {'center_x': .5, 'center_y': .5}
-				on_release: app.pick_date()
-            
+                
+           # MDRoundFlatButton:
+				# text: 'Today'
+				# pos_hint: {'center_x': .5, 'center_y': .5}
+				# on_release: app.pick_date()
+			
             Widget:
                 size_hint_y: None
                 height: 8 
@@ -79,6 +91,7 @@
 
     Screen:
         name: "cal"
+		
         MDLabel:
             id: days_label
             text: ""
@@ -103,13 +116,7 @@
             font_size: 12
             pos_hint: {"center_x": 0.5, "center_y": 0.9}
             on_press: app.right_cal()
-                 
-
-    Screen:
-        name: "main_sc"
-        MDLabel:
-            text: "Main App screen"
-            
+     
     Screen:
         name: "reg"
         MDCard:
@@ -128,7 +135,6 @@
                 bold: True
 
             MDTextFieldRound:
-				id: firstName
                 hint_text: "First Name"
                 helper_text: ""
                 pos_hint: {"center_x": 0.5, "center_y": 0.9}
@@ -140,7 +146,6 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
-				id: lastName
                 hint_text: "Last Name"
                 helper_text: ""
                 pos_hint: {"center_y": 0.8}
@@ -150,7 +155,6 @@
                 helper_text_mode: "on_focus"
 
             MDTextFieldRound:
-				id: emailPrompt
                 hint_text: "Email"
                 helper_text: ""
                 pos_hint: {"center_y": 0.7}
@@ -191,4 +195,6 @@
                 text: "SUBMIT"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: app.register(root)
+                on_press: screen_manager.current = "reg"
+				
+            

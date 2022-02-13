@@ -95,6 +95,7 @@ class WindowManager(ScreenManager):
         self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
         + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
     
+    # def date_butt(self, root):
         
 
 class MainApp(MDApp):
