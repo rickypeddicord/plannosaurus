@@ -87,10 +87,8 @@ class WindowManager(ScreenManager):
         seventh_day = sixth_day + relativedelta(days = + 1)
         theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
         theMonth = date.today().month
-        theYear = date.today().year
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        #self.ids.days_label.text = str(months[theMonth - 1]) + "   " + str(theYear) + "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        self.ids.currMonth.text = "September"#str(months[theMonth - 1])
+        self.ids.currMonth.text = str(months[theMonth - 1])
         self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
         + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
@@ -135,16 +133,13 @@ class MainApp(MDApp):
 
     def pick_date(self):
         date_dialog = MDDatePicker() 
-        date_dialog.bind(on_save = self.on_save, on_cancel = self.on_cancel)
+        date_dialog.bind(on_save = self.on_save)
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[value.month - 1])
         self.root.ids.currYear.text = str(value.year)
-
-    #def on_cancel(self, intance, value):
-        #self.root.ids.dateButton.text = "Today?"
         
     def login(self):
         loginCode = -1
