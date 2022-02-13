@@ -64,11 +64,11 @@
                 pos_hint: {"center_x": 0.5}
                 on_press: root.init_load(root)
             
-            MDRoundFlatButton:
-                id: dateButton
-				text: 'Today'
-				pos_hint: {'center_x': .5, 'center_y': .5}
-				on_release: app.pick_date()
+            # MDRoundFlatButton:
+                # id: dateButton
+				# text: 'Today'
+				# pos_hint: {'center_x': .5, 'center_y': .5}
+				# on_release: app.pick_date()
             
             Widget:
                 size_hint_y: None
@@ -78,30 +78,30 @@
 
     Screen:
     	name: "main_sc"
-	FloatLayout:
+        FloatLayout:
 	    MDLabel:
-		text: "TODAY"
-		pos_hint:{'x': .45, 'center_y': .55}
-                size_hint_x: None
+            text: "TODAY"
+            pos_hint:{'x': .45, 'center_y': .55}
+            size_hint_x: None
 				
 	    MDRoundFlatButton:
-                id: dateButton
-		text: str(date.today())
-		pos_hint: {'center_x': .5, 'center_y': .5}
-		on_release: app.pick_date()	
+            id: dateButton
+            text: str(date.today())
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            on_release: app.pick_date()	
             
-            MDTextFieldRound    
-                id:ToDoList
-                hint_text: 'To Do List:'
-                pos_hint: { 'center_x':.5, 'center_y': .4}
-                size_hint_x: None
-                width: 300
+        MDTextFieldRound    
+            id:ToDoList
+            hint_text: 'To Do List:'
+            pos_hint: { 'center_x':.5, 'center_y': .4}
+            size_hint_x: None
+            width: 300
             
-            MDRoundFlatButton:
-                id:ToDoButt
-                text:"Add"
-                pos_hint: {'center_x':.5, 'center_y':.3}
-                on_release:app.todo_press()
+        MDRoundFlatButton:
+            id:ToDoButt
+            text:"Add"
+            pos_hint: {'center_x':.5, 'center_y':.3}
+            on_release:app.todo_press()
     
 
     Screen:
