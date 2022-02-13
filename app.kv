@@ -1,5 +1,34 @@
 <WindowManager>:
     id: screen_manager
+    
+    
+    
+    # Screen:
+    	# name: "main_sc"
+        # FloatLayout:
+	    # MDLabel:
+            # text: "TODAY"
+            # pos_hint:{'x': .45, 'center_y': .55}
+            # size_hint_x: None
+				
+	    # MDRoundFlatButton:
+            # id: dateButton
+            # text: str(date.today())
+            # pos_hint: {'center_x': .5, 'center_y': .5}
+            # on_release: screen_manager.current = "cal"
+            
+        # MDTextFieldRound    
+            # id:ToDoList
+            # hint_text: 'To Do List:'
+            # pos_hint: { 'center_x':.5, 'center_y': .4}
+            # size_hint_x: None
+            # width: 300
+            
+        # MDRoundFlatButton:
+            # id:ToDoButt
+            # text:"Add"
+            # pos_hint: {'center_x':.5, 'center_y':.3}
+            # on_release:app.todo_press()    
 
     Screen:
         name: "login_sc"
@@ -88,7 +117,7 @@
             id: dateButton
             text: str(date.today())
             pos_hint: {'center_x': .5, 'center_y': .5}
-            on_release: app.pick_date()	
+            on_release: screen_manager.current = "cal"	
             
         MDTextFieldRound    
             id:ToDoList
@@ -101,7 +130,7 @@
             id:ToDoButt
             text:"Add"
             pos_hint: {'center_x':.5, 'center_y':.3}
-            on_release:app.todo_press()
+            on_release:app.todo_press()  
     
 
     Screen:
@@ -194,6 +223,12 @@
             MDLabel:
                 text: "Item 3"
                 pos_hint: {"x": .48, "y": .0}
+            
+            MDRoundFlatButton:
+                id: cal_back
+                text: 'Home'
+                pos_hint: {'x': 0, 'y': .90}
+                on_release: screen_manager.current = "main_sc"    
             
     Screen:
         name: "reg"

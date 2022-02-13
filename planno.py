@@ -98,7 +98,7 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     def build(self):
         Builder.load_file("app.kv")
-        self.theme_cls.theme_style = "Light"
+        #self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
 
         # Create database table if it doesn't exist
