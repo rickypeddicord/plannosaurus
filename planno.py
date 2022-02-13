@@ -98,8 +98,8 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     def build(self):
         Builder.load_file("app.kv")
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "BlueGray"
+        self.theme_cls.theme_style = "Light"
+        self.theme_cls.primary_palette = "Green"
 
         # Create database table if it doesn't exist
         conn = psycopg2.connect(
@@ -256,6 +256,8 @@ class MainApp(MDApp):
         self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
         + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
-        
+     
+    def todo_press(self):
+        print(self.root.ids.ToDoList.text)
 
 MainApp().run()
