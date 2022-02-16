@@ -1,7 +1,7 @@
 # Plannosaurus
-**Ricky Peddicord, Hailey Maimone, Kelli Huff, Daniel Hentosz || GROUP 2**
+**Ricky Peddicord, Hailey Maimone, Kelli Huff || GROUP 2**
 
-**ped8697@calu.edu, mai5013@calu.edu, huf2203@calu.edu, hen3883@calu.edu**
+**ped8697@calu.edu, mai5013@calu.edu, huf2203@calu.edu**
 
 
 ### Orginize With Plannosaurus
