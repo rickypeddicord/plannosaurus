@@ -90,8 +90,15 @@ class WindowManager(ScreenManager):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.ids.currMonth.text = str(months[theMonth - 1])
         #self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
-        + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
+        #self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
+        #+ "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
+        self.ids.day1.text = str(theDays.day1.day)
+        self.ids.day2.text = str(theDays.day2.day)
+        self.ids.day3.text = str(theDays.day3.day)
+        self.ids.day4.text = str(theDays.day4.day)
+        self.ids.day5.text = str(theDays.day5.day)
+        self.ids.day6.text = str(theDays.day6.day)
+        self.ids.day7.text = str(theDays.day7.day)
     
         
 
@@ -229,9 +236,16 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
-        self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
-             + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
+        #self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        #self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
+            # + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
+        self.root.ids.day1.text = str(day1.day)
+        self.root.ids.day2.text = str(day2.day)
+        self.root.ids.day3.text = str(day3.day)
+        self.root.ids.day4.text = str(day4.day)
+        self.root.ids.day5.text = str(day5.day)
+        self.root.ids.day6.text = str(day6.day)
+        self.root.ids.day7.text = str(day7.day)
 
     def right_cal(self):
         self.theDays.day1 = self.theDays.day1 + relativedelta(days = + 7)
@@ -253,9 +267,16 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
-        self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
-        + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
+        #self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        #self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
+        #+ "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
+        self.root.ids.day1.text = str(day1.day)
+        self.root.ids.day2.text = str(day2.day)
+        self.root.ids.day3.text = str(day3.day)
+        self.root.ids.day4.text = str(day4.day)
+        self.root.ids.day5.text = str(day5.day)
+        self.root.ids.day6.text = str(day6.day)
+        self.root.ids.day7.text = str(day7.day)
      
     def todo_press(self):
         print(self.root.ids.ToDoList.text)
