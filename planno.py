@@ -89,7 +89,7 @@ class WindowManager(ScreenManager):
         theMonth = date.today().month
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.ids.currMonth.text = str(months[theMonth - 1])
-        self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
+        #self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
         self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
         + "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
     
