@@ -250,6 +250,13 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
+        dayHold = ""
+        for key, val in self.root.ids.items():
+            if "day" in key:
+                if "[" in self.root.ids[key].text:
+                    self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+                    dayHold = self.root.ids[key] # save reference to current day id
+        
         self.root.ids.day1.text = str(day1.day)
         self.root.ids.day2.text = str(day2.day)
         self.root.ids.day3.text = str(day3.day)
@@ -257,6 +264,7 @@ class MainApp(MDApp):
         self.root.ids.day5.text = str(day5.day)
         self.root.ids.day6.text = str(day6.day)
         self.root.ids.day7.text = str(day7.day)
+        dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
 
     def right_cal(self):
         self.theDays.day1 = self.theDays.day1 + relativedelta(days = + 7)
@@ -278,6 +286,12 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
+        dayHold = ""
+        for key, val in self.root.ids.items():
+            if "day" in key:
+                if "[" in self.root.ids[key].text:
+                    self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+                    dayHold = self.root.ids[key] # save reference to current day id
         self.root.ids.day1.text = str(day1.day)
         self.root.ids.day2.text = str(day2.day)
         self.root.ids.day3.text = str(day3.day)
@@ -285,7 +299,8 @@ class MainApp(MDApp):
         self.root.ids.day5.text = str(day5.day)
         self.root.ids.day6.text = str(day6.day)
         self.root.ids.day7.text = str(day7.day)
-
+        dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
+        
     def current_day(self, instance):
         for key, val in self.root.ids.items():
             if "day" in key:
