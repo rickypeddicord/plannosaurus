@@ -136,110 +136,122 @@
     Screen:
         name: "cal"
         FloatLayout:
-            MDRoundFlatButton:
+            MDTextButton:
                 text: "<<<"
                 font_size: 12
                 pos_hint: {"x": .2, "y": .9}
                 on_press: app.left_cal()
                 
-            MDRoundFlatButton:
+            MDTextButton:
                 text: ">>>"
                 font_size: 12
                 pos_hint: {"x": .7, "y": .9}
                 on_press: app.right_cal()
 
-            MDFlatButton:
+            MDTextButton:
                 id: currMonth
                 text: ""
                 font_size: 16
-                size_hint: 0.02, 0.05
-                pos_hint: {"x": .38, "y": .80}
+                pos_hint: {"x": .40, "y": .80}
                 on_press: app.pick_date()
 
-            MDFlatButton:
+            MDTextButton:
                 id: currYear
                 text: str(date.today().year)
                 font_size: 16
-                size_hint: 0.02, 0.05
                 pos_hint: {"x": .49, "y": .80}
                 on_press: app.pick_date()
             
-            MDFlatButton:
+            MDTextButton:
                 text: "Sun"
                 font_size: 16
-                pos_hint: {"x": .304499, "y": .75}
+                pos_hint: {"x": .304502, "y": .75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Mon"
                 font_size: 16
-                pos_hint: {"x": .355, "y": .75}
+                pos_hint: {"x": .358, "y": .75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Tue"
                 font_size: 16
-                pos_hint: {"x": .4045, "y": .75}
+                pos_hint: {"x": .4190, "y": .75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Wed"
                 font_size: 16
-                pos_hint: {"x": .454, "y": 0.75}
+                pos_hint: {"x": .470, "y": 0.75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Thu"
                 font_size: 16
-                pos_hint: {"x": .505, "y": 0.75}
+                pos_hint: {"x": .525, "y": 0.75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Fri"
                 font_size: 16
-                pos_hint: {"x": 0.55, "y": 0.75}
+                pos_hint: {"x": 0.58, "y": 0.75}
 
-            MDFlatButton:
+            MDTextButton:
                 text: "Sat"
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .62, "y": 0.75}
 
-            MDFlatButton:
+            MDTextButton:
                 id: day1
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .304502, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day2
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .358, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day3
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .4190, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day4
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .470, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day5
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .525, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day6
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": 0.58, "y": 0.71}
+                on_press: app.current_day(self)
 
-            MDFlatButton:
+            MDTextButton:
                 id: day7
                 text: ""
+                markup: True
                 font_size: 16
-                pos_hint: {"x": .59, "y": 0.75}
+                pos_hint: {"x": .62, "y": 0.71}
+                on_press: app.current_day(self)
 
             # MDLabel:
             #     id: days_label

@@ -89,10 +89,7 @@ class WindowManager(ScreenManager):
         theMonth = date.today().month
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.ids.currMonth.text = str(months[theMonth - 1])
-        #self.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        #self.ids.days_label2.text = "             " + str(theDays.day1.day) + "     " + str(theDays.day2.day) + "     " + str(theDays.day3.day) + "     " + str(theDays.day4.day) \
-        #+ "     " + str(theDays.day5.day) + "     " + str(theDays.day6.day) + "     " + str(theDays.day7.day)
-        self.ids.day1.text = str(theDays.day1.day)
+        self.ids.day1.text = "[color=#42f58d]"+ str(theDays.day1.day) +"[/color]"
         self.ids.day2.text = str(theDays.day2.day)
         self.ids.day3.text = str(theDays.day3.day)
         self.ids.day4.text = str(theDays.day4.day)
@@ -147,6 +144,23 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[value.month - 1])
         self.root.ids.currYear.text = str(value.year)
+
+        # first_day = value
+        # second_day = first_day + relativedelta(days = + 1)
+        # third_day = second_day + relativedelta(days = + 1)
+        # fourth_day = third_day + relativedelta(days = + 1)
+        # fifth_day = fourth_day + relativedelta(days = + 1)
+        # sixth_day = fifth_day + relativedelta(days = + 1)
+        # seventh_day = sixth_day + relativedelta(days = + 1)
+
+        # self.root.ids.day1.text = str(first_day.day)
+        # self.root.ids.day2.text = str(second_day.day)
+        # self.root.ids.day3.text = str(third_day.day)
+        # self.root.ids.day4.text = str(fourth_day.day)
+        # self.root.ids.day5.text = str(fifth_day.day)
+        # self.root.ids.day6.text = str(sixth_day.day)
+        # self.root.ids.day7.text = str(seventh_day.day)
+
         
     def login(self):
         loginCode = -1
@@ -236,9 +250,6 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
-        #self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        #self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
-            # + "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
         self.root.ids.day1.text = str(day1.day)
         self.root.ids.day2.text = str(day2.day)
         self.root.ids.day3.text = str(day3.day)
@@ -267,9 +278,6 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
-        #self.root.ids.days_label.text = "\nSun   Mon   Tue   Wed   Thu   Fri   Sat"
-        #self.root.ids.days_label2.text = "             " + str(day1.day) + "     " + str(day2.day) + "     " + str(day3.day) + "     " + str(day4.day) \
-        #+ "     " + str(day5.day) + "     " + str(day6.day) + "     " + str(day7.day)
         self.root.ids.day1.text = str(day1.day)
         self.root.ids.day2.text = str(day2.day)
         self.root.ids.day3.text = str(day3.day)
@@ -277,6 +285,15 @@ class MainApp(MDApp):
         self.root.ids.day5.text = str(day5.day)
         self.root.ids.day6.text = str(day6.day)
         self.root.ids.day7.text = str(day7.day)
+
+    def current_day(self, instance):
+        for key, val in self.root.ids.items():
+            if "day" in key:
+                if "[" in self.root.ids[key].text:
+                    self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+        instance.text = "[color=#42f58d]" + instance.text + "[/color]"
+                
+
      
     def todo_press(self):
         print(self.root.ids.ToDoList.text)
