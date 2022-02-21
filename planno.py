@@ -6,7 +6,7 @@ from datetime import *
 from dateutil.relativedelta import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
-
+from kivy.uix.tabbedpanel import TabbedPanel
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -77,7 +77,7 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
-        root.current = "cal"
+        root.current = "main_sc"
         first_day = date.today()
         second_day = first_day + relativedelta(days = + 1)
         third_day = second_day + relativedelta(days = + 1)
