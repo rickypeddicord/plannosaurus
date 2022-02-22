@@ -89,7 +89,7 @@ class WindowManager(ScreenManager):
         sixth_day = fifth_day + relativedelta(days = + 1)
         seventh_day = sixth_day + relativedelta(days = + 1)
 
-        if current_day.weekday() == int(6):
+        if current_day.weekday() == 6:
             first_day = date.today()
             second_day = first_day + relativedelta(days = + 1)
             third_day = second_day + relativedelta(days = + 1)
