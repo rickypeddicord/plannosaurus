@@ -77,6 +77,7 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
+        # fix date issue here
         root.current = "main_sc"
         
         current_day = date.today()
