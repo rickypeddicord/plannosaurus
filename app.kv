@@ -3,6 +3,7 @@
     
     
     
+    
     # Screen:
     	# name: "main_sc"
         # FloatLayout:
@@ -28,10 +29,12 @@
             # id:ToDoButt
             # text:"Add"
             # pos_hint: {'center_x':.5, 'center_y':.3}
-            # on_release:app.todo_press()    
+            # on_release:app.todo_press()   
+				
 
     Screen:
         name: "login_sc"
+        
         MDCard:
             size_hint: None, None
             size: 300,470
@@ -106,152 +109,163 @@
                  
 
     Screen:
-    	name: "main_sc"
-        FloatLayout:
-	    MDLabel:
-            text: "TODAY"
-            pos_hint:{'x': .45, 'center_y': .55}
-            size_hint_x: None
+        name: "main_sc"
+        TabbedPanel:
+            do_default_tab: False
+            tab_pos: 'right_top'
+            
+            
+            
+            TabbedPanelItem:
+                text: "Today"
+                # background_color = (1, 0, 0, .5) #50% translucent red
+                # border = [0, 0, 0, 0]
+
+                FloatLayout:
+                    MDLabel:
+                        text: "TODAY"
+                        pos_hint:{'x': .45, 'center_y': .55}
+                        size_hint_x: None
 				
-	    MDRoundFlatButton:
-            id: dateButton
-            text: str(date.today())
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            on_release: screen_manager.current = "cal"	
+                    MDRoundFlatButton:
+                        id: dateButton
+                        text: str(date.today())
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        on_release: screen_manager.current = "cal"	
             
-        MDTextFieldRound    
-            id:ToDoList
-            hint_text: 'To Do List:'
-            pos_hint: { 'center_x':.5, 'center_y': .4}
-            size_hint_x: None
-            width: 300
+                    MDTextFieldRound    
+                        id:ToDoList
+                        hint_text: 'To Do List:'
+                        pos_hint: { 'center_x':.5, 'center_y': .4}
+                        size_hint_x: None
+                        width: 300
             
-        MDRoundFlatButton:
-            id:ToDoButt
-            text:"Add"
-            pos_hint: {'center_x':.5, 'center_y':.3}
-            on_release:app.todo_press()  
-    
-
-    Screen:
-        name: "cal"
-        FloatLayout:
-            MDTextButton:
-                text: "<<<"
-                font_size: 12
-                pos_hint: {"x": .2, "y": .9}
-                on_press: app.left_cal()
+                    MDRoundFlatButton:
+                        id:ToDoButt
+                        text:"Add"
+                        pos_hint: {'center_x':.5, 'center_y':.3}
+                        on_release:app.todo_press()        
                 
-            MDTextButton:
-                text: ">>>"
-                font_size: 12
-                pos_hint: {"x": .7, "y": .9}
-                on_press: app.right_cal()
+            TabbedPanelItem:
+                text: "shopping list"
+                name: "cal"
+                FloatLayout:
+                    MDTextButton:
+						text: "<<<"
+						font_size: 12
+						pos_hint: {"x": .2, "y": .9}
+						on_press: app.left_cal()
+                
+					MDTextButton:
+						text: ">>>"
+						font_size: 12
+						pos_hint: {"x": .7, "y": .9}
+						on_press: app.right_cal()
 
-            MDTextButton:
-                id: currMonth
-                text: ""
-                font_size: 16
-                pos_hint: {"x": .40, "y": .80}
-                on_press: app.pick_date()
+					MDTextButton:
+						id: currMonth
+						text: ""
+						font_size: 16
+						pos_hint: {"x": .40, "y": .80}
+						on_press: app.pick_date()
 
-            MDTextButton:
-                id: currYear
-                text: str(date.today().year)
-                font_size: 16
-                pos_hint: {"x": .49, "y": .80}
-                on_press: app.pick_date()
+					MDTextButton:
+						id: currYear
+						text: str(date.today().year)
+						font_size: 16
+						pos_hint: {"x": .49, "y": .80}
+						on_press: app.pick_date()
             
-            MDTextButton:
-                text: "Sun"
-                font_size: 16
-                pos_hint: {"x": .304502, "y": .75}
+					MDTextButton:
+						text: "Sun"
+						font_size: 16
+						pos_hint: {"x": .304502, "y": .75}
 
-            MDTextButton:
-                text: "Mon"
-                font_size: 16
-                pos_hint: {"x": .358, "y": .75}
+					MDTextButton:
+						text: "Mon"
+						font_size: 16
+						pos_hint: {"x": .358, "y": .75}
 
-            MDTextButton:
-                text: "Tue"
-                font_size: 16
-                pos_hint: {"x": .4190, "y": .75}
+					MDTextButton:
+						text: "Tue"
+						font_size: 16
+						pos_hint: {"x": .4190, "y": .75}
 
-            MDTextButton:
-                text: "Wed"
-                font_size: 16
-                pos_hint: {"x": .470, "y": 0.75}
+					MDTextButton:
+						text: "Wed"
+						font_size: 16
+						pos_hint: {"x": .470, "y": 0.75}
 
-            MDTextButton:
-                text: "Thu"
-                font_size: 16
-                pos_hint: {"x": .525, "y": 0.75}
+					MDTextButton:
+						text: "Thu"
+						font_size: 16
+						pos_hint: {"x": .525, "y": 0.75}
 
-            MDTextButton:
-                text: "Fri"
-                font_size: 16
-                pos_hint: {"x": 0.58, "y": 0.75}
+					MDTextButton:
+						text: "Fri"
+						font_size: 16
+						pos_hint: {"x": 0.58, "y": 0.75}
 
-            MDTextButton:
-                text: "Sat"
-                font_size: 16
-                pos_hint: {"x": .62, "y": 0.75}
+					MDTextButton:
+						text: "Sat"
+						font_size: 16
+						pos_hint: {"x": .62, "y": 0.75}
 
-            MDTextButton:
-                id: day1
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .304502, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day1
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .304502, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day2
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .358, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day2
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .358, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day3
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .4190, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day3
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .4190, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day4
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .470, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day4
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .470, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day5
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .525, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day5
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .525, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day6
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": 0.58, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day6
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": 0.58, "y": 0.71}
+						on_press: app.current_day(self)
 
-            MDTextButton:
-                id: day7
-                text: ""
-                markup: True
-                font_size: 16
-                pos_hint: {"x": .62, "y": 0.71}
-                on_press: app.current_day(self)
+					MDTextButton:
+						id: day7
+						text: ""
+						markup: True
+						font_size: 16
+						pos_hint: {"x": .62, "y": 0.71}
+						on_press: app.current_day(self)
 
             # MDLabel:
             #     id: days_label
@@ -266,23 +280,20 @@
             #     pos_hint: {"x": -.03, "y": .25}
             #     halign: 'center'
 
-            MDLabel:
-                text: "Item 1"
-                pos_hint: {"x": .48, "y": .1}
+					MDLabel:
+						text: "Item 1"
+						pos_hint: {"x": .48, "y": .1}
 
-            MDLabel:
-                text: "Item 2"
-                pos_hint: {"x": .48, "y": .05}
+					MDLabel:
+						text: "Item 2"
+						pos_hint: {"x": .48, "y": .05}
 
-            MDLabel:
-                text: "Item 3"
-                pos_hint: {"x": .48, "y": .0}
+					MDLabel:
+						text: "Item 3"
+						pos_hint: {"x": .48, "y": .0}      
+
+  
             
-            MDRoundFlatButton:
-                id: cal_back
-                text: 'Home'
-                pos_hint: {'x': 0, 'y': .90}
-                on_release: screen_manager.current = "main_sc"    
             
     Screen:
         name: "reg"
