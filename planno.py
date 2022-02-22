@@ -78,6 +78,7 @@ class StartingDates:
 class WindowManager(ScreenManager):
     def init_load(self, root):
         # fix date issue here
+        # dates are resetting to first of the month for every day after the current...
         root.current = "main_sc"
         
         current_day = date.today()
@@ -103,7 +104,7 @@ class WindowManager(ScreenManager):
             second_day = current_day
             print(date.today() + relativedelta(day = + 1))
             first_day = second_day + relativedelta(days = - 1)
-            third_day = second_day + relativedelta(day = + 1) # should be 22....
+            third_day = second_day + relativedelta(day = + 1) # should be 22.... 
             fourth_day = third_day + relativedelta(day = + 1)
             fifth_day = fourth_day + relativedelta(day = + 1)
             sixth_day = fifth_day + relativedelta(day = + 1)
