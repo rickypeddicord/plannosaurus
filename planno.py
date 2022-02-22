@@ -78,9 +78,12 @@ class StartingDates:
 class WindowManager(ScreenManager):
     def init_load(self, root):
         root.current = "main_sc"
+<<<<<<< HEAD
         
         current_day = date.today()
 
+=======
+>>>>>>> 93e74eb103f1c10a2e382ace2f872ad2970339ca
         first_day = date.today()
         second_day = first_day + relativedelta(days = + 1)
         third_day = second_day + relativedelta(days = + 1)
