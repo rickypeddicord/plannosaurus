@@ -131,7 +131,7 @@
                         id: dateButton
                         text: str(date.today())
                         pos_hint: {'center_x': .5, 'center_y': .5}
-                        on_release: screen_manager.current = "cal"	
+                        on_release: app.pick_date()	
             
                     MDTextFieldRound    
                         id:ToDoList

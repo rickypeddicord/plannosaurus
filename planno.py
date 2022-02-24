@@ -2,8 +2,8 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 import psycopg2
 import psycopg2.extras
+import datetime
 from datetime import *
-from dateutil.relativedelta import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.tabbedpanel import TabbedPanel
@@ -79,149 +79,139 @@ class WindowManager(ScreenManager):
     def init_load(self, root):
         root.current = "main_sc"
         
-        current_day = date.today()
+        curr_day = datetime.today()
 
-        first_day = date.today()
-        second_day = first_day + relativedelta(days = + 1)
-        third_day = second_day + relativedelta(days = + 1)
-        fourth_day = third_day + relativedelta(days = + 1)
-        fifth_day = fourth_day + relativedelta(days = + 1)
-        sixth_day = fifth_day + relativedelta(days = + 1)
-        seventh_day = sixth_day + relativedelta(days = + 1)
+        if curr_day.weekday() == 6:
+            first_day = curr_day
+            second_day = (curr_day + timedelta(days = 1))
+            third_day = (curr_day + timedelta(days = 2))
+            fourth_day = (curr_day + timedelta(days = 3))
+            fifth_day = (curr_day + timedelta(days = 4))
+            sixth_day = (curr_day + timedelta(days = 5))
+            seventh_day = (curr_day + timedelta(days = 6))
 
-        if current_day.weekday() == int(6):
-            first_day = date.today()
-            second_day = first_day + relativedelta(days = + 1)
-            third_day = second_day + relativedelta(days = + 1)
-            fourth_day = third_day + relativedelta(days = + 1)
-            fifth_day = fourth_day + relativedelta(days = + 1)
-            sixth_day = fifth_day + relativedelta(days = + 1)
-            seventh_day = sixth_day + relativedelta(days = + 1)
+        elif curr_day.weekday() == 0:
+            second_day = curr_day
+            first_day = (curr_day - timedelta(days = 1))
+            third_day = (curr_day + timedelta(days = 1))
+            fourth_day = (curr_day + timedelta(days = 2))
+            fifth_day = (curr_day + timedelta(days = 3))
+            sixth_day = (curr_day + timedelta(days = 4))
+            seventh_day = (curr_day + timedelta(days = 5))
 
-        elif current_day.weekday() == 0:
-            second_day = current_day
-            print(date.today() + relativedelta(day = + 1))
-            first_day = second_day + relativedelta(days = - 1)
-            third_day = second_day + relativedelta(day = + 1) # should be 22....
-            fourth_day = third_day + relativedelta(day = + 1)
-            fifth_day = fourth_day + relativedelta(day = + 1)
-            sixth_day = fifth_day + relativedelta(day = + 1)
-            seventh_day = sixth_day + relativedelta(day = + 1)
+        elif curr_day.weekday() == 1:
+            third_day = curr_day
+            second_day = (curr_day - timedelta(days = 1))
+            first_day = (curr_day - timedelta(days = 2))
+            fourth_day = (curr_day + timedelta(days = 1))
+            fifth_day = (curr_day + timedelta(days = 2))
+            sixth_day = (curr_day + timedelta(days = 3))
+            seventh_day = (curr_day + timedelta(days = 4))
 
-        elif current_day.weekday() == 1:
-            third_day = date.today()
-            second_day = third_day + relativedelta(day = - 1)
-            first_day = second_day + relativedelta(day = - 1)
-            fourth_day = third_day + relativedelta(day = + 1)
-            fifth_day = fourth_day + relativedelta(day = + 1)
-            sixth_day = fifth_day + relativedelta(day = + 1)
-            seventh_day = sixth_day + relativedelta(day = + 1)
+        elif curr_day.weekday() == 2:
+            fourth_day = curr_day
+            third_day = (curr_day - timedelta(days = 1))
+            second_day = (curr_day - timedelta(days = 2))
+            first_day = (curr_day - timedelta(days = 3))
+            fifth_day = (curr_day + timedelta(days = 1))
+            sixth_day = (curr_day + timedelta(days = 2))
+            seventh_day = (curr_day + timedelta(days = 3))
 
-        elif current_day.weekday() == 2:
-            fourth_day = date.today()
-            third_day = fourth_day + relativedelta(day = - 1)
-            second_day = third_day + relativedelta(day = - 1)
-            first_day = second_day + relativedelta(day = - 1)
-            fifth_day = fourth_day + relativedelta(day = + 1)
-            sixth_day = fifth_day + relativedelta(day = + 1)
-            seventh_day = sixth_day + relativedelta(day = + 1)
+        elif curr_day.weekday() == 3:
+            fifth_day = curr_day
+            fourth_day = (curr_day - timedelta(days = 1))
+            third_day = (curr_day - timedelta(days = 2))
+            second_day = (curr_day - timedelta(days = 3))
+            first_day = (curr_day - timedelta(days = 4))
+            sixth_day = (curr_day + timedelta(days = 1))
+            seventh_day = (curr_day + timedelta(days = 2))
 
-        elif current_day.weekday() == 3:
-            fifth_day = date.today()
-            fourth_day = fifth_day + relativedelta(day = - 1)
-            third_day = fourth_day + relativedelta(day = - 1)
-            second_day = third_day + relativedelta(day = - 1)
-            first_day = second_day + relativedelta(day = - 1)
-            sixth_day = fifth_day + relativedelta(day = + 1)
-            seventh_day = sixth_day + relativedelta(day = + 1)
-
-        elif current_day.weekday() == 4:
-            sixth_day = date.today()
-            fifth_day = sixth_day + relativedelta(day = - 1)
-            fourth_day = fifth_day + relativedelta(day = - 1)
-            third_day = fourth_day + relativedelta(day = - 1)
-            second_day = third_day + relativedelta(day = - 1)
-            first_day = second_day + relativedelta(day = - 1)
-            seventh_day = sixth_day + relativedelta(day = + 1)
+        elif curr_day.weekday() == 4:
+            sixth_day = curr_day
+            fifth_day = (curr_day - timedelta(days = 1))
+            fourth_day = (curr_day - timedelta(days = 2))
+            third_day = (curr_day - timedelta(days = 3))
+            second_day = (curr_day - timedelta(days = 4))
+            first_day = (curr_day - timedelta(days = 5))
+            seventh_day = (curr_day + timedelta(days = 1))
 
         else:
-            seventh_day = date.today()
-            sixth_day = seventh_day + relativedelta(day = - 1)
-            fifth_day = sixth_day + relativedelta(day = - 1)
-            fourth_day = fifth_day + relativedelta(day = - 1)
-            third_day = fourth_day + relativedelta(day = - 1)
-            second_day = third_day + relativedelta(day = - 1)
-            first_day = second_day + relativedelta(day = - 1)
+            seventh_day = curr_day
+            sixth_day = (curr_day - timedelta(days = 1))
+            fifth_day = (curr_day - timedelta(days = 2))
+            fourth_day = (curr_day - timedelta(days = 3))
+            third_day = (curr_day - timedelta(days = 4))
+            second_day = (curr_day - timedelta(days = 5))
+            first_day = (curr_day - timedelta(days = 6))
 
         theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
-        theMonth = date.today().month
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.ids.currMonth.text = str(months[theMonth - 1])
+        self.ids.currMonth.text = str(months[date.today().month - 1])
 
         # highlight the current day
 
-        if first_day == date.today():
-            self.ids.day1.text = "[color=#42f58d]"+ str(theDays.day1.day) +"[/color]"
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = str(theDays.day7.day)
+        if first_day == datetime.today():
+            self.ids.day1.text = "[color=#42f58d]"+ theDays.day1.strftime("%d") +"[/color]"
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
-        elif second_day == date.today():
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = "[color=#42f58d]"+ str(theDays.day2.day) +"[/color]"
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = str(theDays.day7.day)
+        elif second_day == datetime.today():
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = "[color=#42f58d]"+ theDays.day2.strftime("%d") +"[/color]"
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
-        elif third_day == date.today():
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = "[color=#42f58d]"+ str(theDays.day3.day) +"[/color]"
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = str(theDays.day7.day)
+        elif third_day == datetime.today():
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = "[color=#42f58d]"+ theDays.day3.strftime("%d") +"[/color]"
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
-        elif fourth_day == date.today():
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = "[color=#42f58d]"+ str(theDays.day4.day) +"[/color]"
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = str(theDays.day7.day)
+        elif fourth_day == datetime.today():
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = "[color=#42f58d]"+ theDays.day4.strftime("%d") +"[/color]"
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
-        elif fifth_day == date.today():
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = "[color=#42f58d]"+ str(theDays.day5.day) +"[/color]"
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = str(theDays.day7.day)
+        elif fifth_day == datetime.today():
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = "[color=#42f58d]"+ theDays.day5.strftime("%d") +"[/color]"
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
-        elif sixth_day == date.today():
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = "[color=#42f58d]"+ str(theDays.day6.day) +"[/color]"
-            self.ids.day7.text = str(theDays.day7.day)
+        elif sixth_day == datetime.today():
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = "[color=#42f58d]"+ theDays.day6.strftime("%d") +"[/color]"
+            self.ids.day7.text = theDays.day7.strftime("%d")
 
         else:
-            self.ids.day1.text = str(theDays.day1.day)
-            self.ids.day2.text = str(theDays.day2.day)
-            self.ids.day3.text = str(theDays.day3.day)
-            self.ids.day4.text = str(theDays.day4.day)
-            self.ids.day5.text = str(theDays.day5.day)
-            self.ids.day6.text = str(theDays.day6.day)
-            self.ids.day7.text = "[color=#42f58d]"+ str(theDays.day7.day) +"[/color]"
+            self.ids.day1.text = theDays.day1.strftime("%d")
+            self.ids.day2.text = theDays.day2.strftime("%d")
+            self.ids.day3.text = theDays.day3.strftime("%d")
+            self.ids.day4.text = theDays.day4.strftime("%d")
+            self.ids.day5.text = theDays.day5.strftime("%d")
+            self.ids.day6.text = theDays.day6.strftime("%d")
+            self.ids.day7.text = "[color=#42f58d]"+ theDays.day7.strftime("%d") +"[/color]"
     
         
 
@@ -250,16 +240,79 @@ class MainApp(MDApp):
         conn.commit()
         conn.close()
 
-        first_day = date.today()
-        second_day = first_day + relativedelta(days = + 1)
-        third_day = second_day + relativedelta(days = + 1)
-        fourth_day = third_day + relativedelta(days = + 1)
-        fifth_day = fourth_day + relativedelta(days = + 1)
-        sixth_day = fifth_day + relativedelta(days = + 1)
-        seventh_day = sixth_day + relativedelta(days = + 1)
-        self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
+        self.gen_cal()
+
+        
     
         return WindowManager()
+
+    def gen_cal(self):
+        curr_day = datetime.today()
+
+        if curr_day.weekday() == 6:
+            first_day = curr_day
+            second_day = (curr_day + timedelta(days = 1))
+            third_day = (curr_day + timedelta(days = 2))
+            fourth_day = (curr_day + timedelta(days = 3))
+            fifth_day = (curr_day + timedelta(days = 4))
+            sixth_day = (curr_day + timedelta(days = 5))
+            seventh_day = (curr_day + timedelta(days = 6))
+
+        elif curr_day.weekday() == 0:
+            second_day = curr_day
+            first_day = (curr_day - timedelta(days = 1))
+            third_day = (curr_day + timedelta(days = 1))
+            fourth_day = (curr_day + timedelta(days = 2))
+            fifth_day = (curr_day + timedelta(days = 3))
+            sixth_day = (curr_day + timedelta(days = 4))
+            seventh_day = (curr_day + timedelta(days = 5))
+
+        elif curr_day.weekday() == 1:
+            third_day = curr_day
+            second_day = (curr_day - timedelta(days = 1))
+            first_day = (curr_day - timedelta(days = 2))
+            fourth_day = (curr_day + timedelta(days = 1))
+            fifth_day = (curr_day + timedelta(days = 2))
+            sixth_day = (curr_day + timedelta(days = 3))
+            seventh_day = (curr_day + timedelta(days = 4))
+
+        elif curr_day.weekday() == 2:
+            fourth_day = curr_day
+            third_day = (curr_day - timedelta(days = 1))
+            second_day = (curr_day - timedelta(days = 2))
+            first_day = (curr_day - timedelta(days = 3))
+            fifth_day = (curr_day + timedelta(days = 1))
+            sixth_day = (curr_day + timedelta(days = 2))
+            seventh_day = (curr_day + timedelta(days = 3))
+
+        elif curr_day.weekday() == 3:
+            fifth_day = curr_day
+            fourth_day = (curr_day - timedelta(days = 1))
+            third_day = (curr_day - timedelta(days = 2))
+            second_day = (curr_day - timedelta(days = 3))
+            first_day = (curr_day - timedelta(days = 4))
+            sixth_day = (curr_day + timedelta(days = 1))
+            seventh_day = (curr_day + timedelta(days = 2))
+
+        elif curr_day.weekday() == 4:
+            sixth_day = curr_day
+            fifth_day = (curr_day - timedelta(days = 1))
+            fourth_day = (curr_day - timedelta(days = 2))
+            third_day = (curr_day - timedelta(days = 3))
+            second_day = (curr_day - timedelta(days = 4))
+            first_day = (curr_day - timedelta(days = 5))
+            seventh_day = (curr_day + timedelta(days = 1))
+
+        else:
+            seventh_day = curr_day
+            sixth_day = (curr_day - timedelta(days = 1))
+            fifth_day = (curr_day - timedelta(days = 2))
+            fourth_day = (curr_day - timedelta(days = 3))
+            third_day = (curr_day - timedelta(days = 4))
+            second_day = (curr_day - timedelta(days = 5))
+            first_day = (curr_day - timedelta(days = 6))
+
+        self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
 
     def pick_date(self):
         date_dialog = MDDatePicker() 
@@ -341,13 +394,14 @@ class MainApp(MDApp):
         conn.close()
 
     def left_cal(self):
-        self.theDays.day1 = self.theDays.day1 + relativedelta(days = - 7)
-        self.theDays.day2 = self.theDays.day2 + relativedelta(days = - 7)
-        self.theDays.day3 = self.theDays.day3 + relativedelta(days = - 7)
-        self.theDays.day4 = self.theDays.day4 + relativedelta(days = - 7)
-        self.theDays.day5 = self.theDays.day5 + relativedelta(days = - 7)
-        self.theDays.day6 = self.theDays.day6 + relativedelta(days = - 7)
-        self.theDays.day7 = self.theDays.day7 + relativedelta(days = - 7)
+        self.theDays.day1 = (self.theDays.day1 - timedelta(days = 7))
+        self.theDays.day2 = (self.theDays.day2 - timedelta(days = 7))
+        self.theDays.day3 = (self.theDays.day3 - timedelta(days = 7))
+        self.theDays.day4 = (self.theDays.day4 - timedelta(days = 7))
+        self.theDays.day5 = (self.theDays.day5 - timedelta(days = 7))
+        self.theDays.day6 = (self.theDays.day6 - timedelta(days = 7))
+        self.theDays.day7 = (self.theDays.day7 - timedelta(days = 7))
+
         day1 = self.theDays.day1
         day2 = self.theDays.day2
         day3 = self.theDays.day3
@@ -355,8 +409,13 @@ class MainApp(MDApp):
         day5 = self.theDays.day5
         day6 = self.theDays.day6
         day7 = self.theDays.day7
-        theMonth = day7.month
-        theYear = day7.year
+        
+        if day7.strftime("%m") != "10":  
+            theMonth = int(day7.strftime("%m").strip("0"))
+        else:
+            theMonth = int(day7.strftime("%m"))
+        
+        theYear = int(day7.strftime("%y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
@@ -367,23 +426,24 @@ class MainApp(MDApp):
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
                     dayHold = self.root.ids[key] # save reference to current day id
         
-        self.root.ids.day1.text = str(day1.day)
-        self.root.ids.day2.text = str(day2.day)
-        self.root.ids.day3.text = str(day3.day)
-        self.root.ids.day4.text = str(day4.day)
-        self.root.ids.day5.text = str(day5.day)
-        self.root.ids.day6.text = str(day6.day)
-        self.root.ids.day7.text = str(day7.day)
+        self.root.ids.day1.text = day1.strftime("%d")
+        self.root.ids.day2.text = day2.strftime("%d")
+        self.root.ids.day3.text = day3.strftime("%d")
+        self.root.ids.day4.text = day4.strftime("%d")
+        self.root.ids.day5.text = day5.strftime("%d")
+        self.root.ids.day6.text = day6.strftime("%d")
+        self.root.ids.day7.text = day7.strftime("%d")
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
 
     def right_cal(self):
-        self.theDays.day1 = self.theDays.day1 + relativedelta(days = + 7)
-        self.theDays.day2 = self.theDays.day2 + relativedelta(days = + 7)
-        self.theDays.day3 = self.theDays.day3 + relativedelta(days = + 7)
-        self.theDays.day4 = self.theDays.day4 + relativedelta(days = + 7)
-        self.theDays.day5 = self.theDays.day5 + relativedelta(days = + 7)
-        self.theDays.day6 = self.theDays.day6 + relativedelta(days = + 7)
-        self.theDays.day7 = self.theDays.day7 + relativedelta(days = + 7)
+        self.theDays.day1 = (self.theDays.day1 + timedelta(days = 7))
+        self.theDays.day2 = (self.theDays.day2 + timedelta(days = 7))
+        self.theDays.day3 = (self.theDays.day3 + timedelta(days = 7))
+        self.theDays.day4 = (self.theDays.day4 + timedelta(days = 7))
+        self.theDays.day5 = (self.theDays.day5 + timedelta(days = 7))
+        self.theDays.day6 = (self.theDays.day6 + timedelta(days = 7))
+        self.theDays.day7 = (self.theDays.day7 + timedelta(days = 7))
+
         day1 = self.theDays.day1
         day2 = self.theDays.day2
         day3 = self.theDays.day3
@@ -391,32 +451,32 @@ class MainApp(MDApp):
         day5 = self.theDays.day5
         day6 = self.theDays.day6
         day7 = self.theDays.day7
-        theMonth = day7.month
-        theYear = day7.year
+        
+        if day7.strftime("%m") != "10":  
+            theMonth = int(day7.strftime("%m").strip("0"))
+        else:
+            theMonth = int(day7.strftime("%m"))
+        
+        theYear = int(day7.strftime("%y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
+
         dayHold = ""
         for key, val in self.root.ids.items():
             if "day" in key:
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
                     dayHold = self.root.ids[key] # save reference to current day id
-        self.root.ids.day1.text = str(day1.day)
-        self.root.ids.day2.text = str(day2.day)
-        self.root.ids.day3.text = str(day3.day)
-        self.root.ids.day4.text = str(day4.day)
-        self.root.ids.day5.text = str(day5.day)
-        self.root.ids.day6.text = str(day6.day)
-        self.root.ids.day7.text = str(day7.day)
-        dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
         
-    def current_day(self, instance):
-        for key, val in self.root.ids.items():
-            if "day" in key:
-                if "[" in self.root.ids[key].text:
-                    self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
-        instance.text = "[color=#42f58d]" + instance.text + "[/color]"
+        self.root.ids.day1.text = day1.strftime("%d")
+        self.root.ids.day2.text = day2.strftime("%d")
+        self.root.ids.day3.text = day3.strftime("%d")
+        self.root.ids.day4.text = day4.strftime("%d")
+        self.root.ids.day5.text = day5.strftime("%d")
+        self.root.ids.day6.text = day6.strftime("%d")
+        self.root.ids.day7.text = day7.strftime("%d")
+        dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
                 
 
      
