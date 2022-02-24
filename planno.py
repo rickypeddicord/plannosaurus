@@ -77,6 +77,8 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
+        # fix date issue here
+        # dates are resetting to first of the month for every day after the current...
         root.current = "main_sc"
         
         curr_day = datetime.today()
