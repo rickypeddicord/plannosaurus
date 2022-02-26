@@ -7,6 +7,7 @@ from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.tabbedpanel import TabbedPanel
+from kivymd.uix.label import MDLabel
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -215,7 +216,14 @@ class WindowManager(ScreenManager):
             self.ids.day6.text = theDays.day6.strftime("%d")
             self.ids.day7.text = "[color=#42f58d]"+ theDays.day7.strftime("%d") +"[/color]"
     
-        
+    def todo_press(self, root):
+        print(self.ids.ToDoList.text)
+        label1 = MDLabel(
+            text = self.ids.ToDoList.text,
+            pos_hint = {'center_x': self.ids.ToDoButt.pos_hint['center_x'] + 0.45, 
+            'center_y': self.ids.ToDoButt.pos_hint['center_y'] - 0.15}
+            )
+        self.ids.float.add_widget(label1)  
 
 class MainApp(MDApp):
     def build(self):
@@ -480,9 +488,24 @@ class MainApp(MDApp):
         self.root.ids.day7.text = day7.strftime("%d")
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
                 
-
+    def current_day(self, instance):
+        for key, val in self.root.ids.items():
+            if "day" in key:
+                if "[" in self.root.ids[key].text:
+                    self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+        instance.text = "[color=#42f58d]" + instance.text + "[/color]"
      
-    def todo_press(self):
+    """ def todo_press(self, root):
         print(self.root.ids.ToDoList.text)
+        label1 = MDLabel(
+            text = self.root.ids.ToDoList.text,
+            pos_hint = {'center_x': self.root.ids.ToDoButt.pos_hint['center_x'] + 0.5, 
+            'center_y': self.root.ids.ToDoButt.pos_hint['center_y'] - 0.45}
+            )
+        root.add_widget(label1)
+        print(self.root.ids.ToDoButt.pos_hint['center_x']) """
+        
+
+
 
 MainApp().run()
