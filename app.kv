@@ -113,25 +113,25 @@
         TabbedPanel:
             do_default_tab: False
             tab_pos: 'right_top'
-            
-            
-            
+			background_color: [0, 0, 0, 0]
+
             TabbedPanelItem:
                 text: "Today"
-                # background_color = (1, 0, 0, .5) #50% translucent red
-                # border = [0, 0, 0, 0]
-
+                #background_color: [66,245,141,0]
+				#text_color_normal: [1,1,1,1]
                 FloatLayout:
                     id: float
+					
                     MDLabel:
                         text: "TODAY"
-                        pos_hint:{'x': .45, 'center_y': .55}
+                        
+                        pos_hint:{'center_x': .35, 'center_y': .95}
                         size_hint_x: None
 				
-                    MDRoundFlatButton:
+                    MDTextButton:
                         id: dateButton
                         text: str(date.today())
-                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        pos_hint: {'center_x': .45, 'center_y': .95}
                         on_release: app.pick_date()	
             
                     MDTextFieldRound    

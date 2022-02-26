@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
+from kivymd.uix.list import OneLineListItem
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -218,7 +219,7 @@ class WindowManager(ScreenManager):
     
     def todo_press(self, root):
         print(self.ids.ToDoList.text)
-        label1 = MDLabel(
+        label1 = OneLineListItem(
             text = self.ids.ToDoList.text,
             pos_hint = {'center_x': self.ids.ToDoButt.pos_hint['center_x'] + 0.45, 
             'center_y': self.ids.ToDoButt.pos_hint['center_y'] - 0.15}
@@ -228,9 +229,9 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     def build(self):
         Builder.load_file("app.kv")
-        #self.theme_cls.theme_style = "Light"
+        self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
-
+        
         # Create database table if it doesn't exist
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
