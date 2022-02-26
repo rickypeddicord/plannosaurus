@@ -267,11 +267,11 @@
 						font_size: 16
 						pos_hint: {"x": .62, "y": 0.71}
 						on_press: app.current_day(self)
-				MDFloatingActionButton:
-					id: addTask
-					pos_hint: {"top":.16, "right":.97}
-					icon: 'plus'
-					on_release: screen_manager.current = "DailyPage"
+					MDFloatingActionButton:
+						id: addTask
+						pos_hint: {"top":.16, "right":.97}
+						icon: 'plus'
+						on_release: screen_manager.current = "DailyPage"
 
             # MDLabel:
             #     id: days_label
@@ -382,7 +382,7 @@
                 on_press: screen_manager.current = "reg"
 		
 	Screen:
-        	name: "DailyPage"
+        name: "DailyPage"
 		MDLabel:
 			text: "Add your events here"
 			pos_hint: {"center_x": 0.6, "center_y": 0.5}
@@ -407,4 +407,4 @@
 			id: adder
 			pos_hint: {"top":.16, "right":.97}
 			icon: 'content-save'
-			on_release: app.taskFun_press()
+			on_release: #app.taskFun_press()

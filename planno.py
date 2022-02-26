@@ -495,18 +495,8 @@ class MainApp(MDApp):
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
-     
-    """ def todo_press(self, root):
-        print(self.root.ids.ToDoList.text)
-        label1 = MDLabel(
-            text = self.root.ids.ToDoList.text,
-            pos_hint = {'center_x': self.root.ids.ToDoButt.pos_hint['center_x'] + 0.5, 
-            'center_y': self.root.ids.ToDoButt.pos_hint['center_y'] - 0.45}
-            )
-        root.add_widget(label1)
-        print(self.root.ids.ToDoButt.pos_hint['center_x']) """
-        
+    
     def taskFun_press(self):
-
+        pass
 
 MainApp().run()
