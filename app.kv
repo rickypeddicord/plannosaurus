@@ -122,6 +122,7 @@
                 # border = [0, 0, 0, 0]
 
                 FloatLayout:
+                    id: float
                     MDLabel:
                         text: "TODAY"
                         pos_hint:{'x': .45, 'center_y': .55}
@@ -144,7 +145,7 @@
                         id:ToDoButt
                         text:"Add"
                         pos_hint: {'center_x':.5, 'center_y':.3}
-                        on_release:app.todo_press()        
+                        on_release: root.todo_press(root)        
                 
             TabbedPanelItem:
                 text: "shopping list"
