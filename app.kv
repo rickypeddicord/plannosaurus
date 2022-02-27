@@ -196,8 +196,9 @@
 					MDTextButton:
 						id: currMonth
 						text: ""
+						text_size: root.width, None
 						font_size: 16
-						pos_hint: {"x": .40, "y": .80}
+						pos_hint: {"x": .38, "y": .80}
 						on_press: app.pick_date()
 
 					MDTextButton:
@@ -502,7 +503,7 @@
 			icon: 'content-save'
 			on_release: 
 				screen_manager.current="main_sc"
-				app.taskFun_press(contentEvent)
+				#app.taskFun_press(contentEvent)
 		
 		MDFloatingActionButton:
 			id: adder
@@ -510,7 +511,7 @@
 			icon: 'calendar-check'
 			on_release: 
 				screen_manager.current="main_sc"
-				app.taskFun_press(contentTodo)
+				#app.taskFun_press(contentTodo)
 		
 		MDRoundFlatButton:
             text: "Back"
