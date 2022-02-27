@@ -117,17 +117,13 @@
 		#		pos: 170, 50
 		#		size: 400, 500
 			
-		MDFloatingActionButton:
-			id: addTodo
-			pos_hint: {"top":.2, "right":.7}
-			icon: 'plus'
-			on_release: screen_manager.current = "AddToDo"
 		
 		
         TabbedPanel:
             do_default_tab: False
             tab_pos: 'right_top'
 			background_color: [0, 0, 0, 0]
+			
 			
 
             TabbedPanelItem:
@@ -150,6 +146,13 @@
                         text: str(date.today())
                         pos_hint: {'center_x': .6, 'center_y': .95}
                         on_release: app.pick_date()	
+						
+					
+					MDFloatingActionButton:
+						id: addTodo
+						pos_hint: {"top":.2, "right":.7}
+						icon: 'plus'
+						on_release: screen_manager.current = "AddToDo"
             
            #         MDTextFieldRound    
             #            id:ToDoList
@@ -298,36 +301,7 @@
 						font_size: 16
 						pos_hint: {"x": .62, "y": 0.71}
 						on_press: app.current_day(self)
-					MDFloatingActionButton:
-						id: addTask
-						pos_hint: {"top":.16, "right":.97}
-						icon: 'plus'
-						on_release: screen_manager.current = "DailyPage"
-
-            # MDLabel:
-            #     id: days_label
-            #     text: ""
-            #     text_size: root.width, root.height
-            #     pos_hint: {"x": .0, "y": .3}
-            #     halign: 'center'
-
-            # MDLabel:
-            #     id: days_label2
-            #     text: ""
-            #     pos_hint: {"x": -.03, "y": .25}
-            #     halign: 'center'
-
-				#	MDLabel:
-				#		text: "Item 1"
-				#		pos_hint: {"x": .48, "y": .1}
-
-				#	MDLabel:
-				#		text: "Item 2"
-				#		pos_hint: {"x": .48, "y": .05}
-
-				#	MDLabel:
-				#		text: "Item 3"
-				#		pos_hint: {"x": .48, "y": .0}      
+   
 
   
             
@@ -412,41 +386,6 @@
                 pos_hint: {"center_x": 0.5}
                 on_press: screen_manager.current = "reg"
 		
-	Screen:
-        name: "DailyPage"
-		MDLabel:
-			text: "Add your events here"
-			pos_hint: {"center_x": 0.6, "center_y": 0.5}
-		
-		ScrollView:
-			id: scroll
-			size_hint: 1, .92
-			pos_hint: {"top": 0.92}
-			
-			
-			MDTextField:
-				id: contentEvent
-				multiline: True
-				on_text: app.contentEvent = self.text
-				hint_text: "Today's Events"
-				size_hint: (.95, 1)
-				font_size: '15'
-				pos_hint: {'center_x': .5, 'y': .77}				
-				helper_text_mode: "on_focus"
-				mode: "fill"
-		MDRoundFlatButton:
-            text: "Back"
-            font_size: 12
-            pos_hint: {"center_x": 0.5}
-            on_press: screen_manager.current = "main_sc"
-		MDFloatingActionButton:
-			id: adder
-			pos_hint: {"top":.16, "right":.97}
-			icon: 'content-save'
-			on_release: 
-				screen_manager.current="main_sc"
-				
-				app.taskFun_press(contentEvent)
 
 	Screen:
         name: "AddToDo"
