@@ -221,8 +221,7 @@ class WindowManager(ScreenManager):
         print(self.ids.ToDoList.text)
         label1 = OneLineListItem(
             text = self.ids.ToDoList.text,
-            pos_hint = {'center_x': self.ids.ToDoButt.pos_hint['center_x'] + 0.45, 
-            'center_y': self.ids.ToDoButt.pos_hint['center_y'] - 0.15}
+            pos_hint = {'center_x': 0.52, 'center_y':0.42}
             )
         self.ids.float.add_widget(label1)  
 
