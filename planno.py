@@ -79,8 +79,6 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
-        # fix date issue here
-        # dates are resetting to first of the month for every day after the current...
         root.current = "main_sc"
         
         curr_day = datetime.today()
@@ -221,7 +219,8 @@ class WindowManager(ScreenManager):
         print(self.ids.ToDoList.text)
         label1 = OneLineListItem(
             text = self.ids.ToDoList.text,
-            pos_hint = {'center_x': 0.52, 'center_y':0.42}
+            pos_hint = {'center_x': self.ids.ToDoButt.pos_hint['center_x'] + 0.45, 
+            'center_y': self.ids.ToDoButt.pos_hint['center_y'] - 0.15}
             )
         self.ids.float.add_widget(label1)  
 
@@ -250,14 +249,14 @@ class MainApp(MDApp):
         conn.commit()
         conn.close()
 
-        self.gen_cal()
+        self.gen_cal(date.today())
 
         
     
         return WindowManager()
 
-    def gen_cal(self):
-        curr_day = datetime.today()
+    def gen_cal(self, date):
+        curr_day = date
 
         if curr_day.weekday() == 6:
             first_day = curr_day
@@ -323,6 +322,7 @@ class MainApp(MDApp):
             first_day = (curr_day - timedelta(days = 6))
 
         self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
+        
 
     def pick_date(self):
         date_dialog = MDDatePicker() 
@@ -333,6 +333,72 @@ class MainApp(MDApp):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[value.month - 1])
         self.root.ids.currYear.text = str(value.year)
+        self.gen_cal(value)
+
+        
+        if self.theDays.day1 == value:
+            self.root.ids.day1.text = "[color=#42f58d]"+ self.theDays.day1.strftime("%d") +"[/color]"
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        elif self.theDays.day2 == value:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = "[color=#42f58d]"+ self.theDays.day2.strftime("%d") +"[/color]"
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        elif self.theDays.day3 == value:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = "[color=#42f58d]"+ self.theDays.day3.strftime("%d") +"[/color]"
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        elif self.theDays.day4 == value:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = "[color=#42f58d]"+ self.theDays.day4.strftime("%d") +"[/color]"
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        elif self.theDays.day5 == value:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = "[color=#42f58d]"+ self.theDays.day5.strftime("%d") +"[/color]"
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        elif self.theDays.day6 == value:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = "[color=#42f58d]"+ self.theDays.day6.strftime("%d") +"[/color]"
+            self.root.ids.day7.text = self.theDays.day7.strftime("%d")
+
+        else:
+            self.root.ids.day1.text = self.theDays.day1.strftime("%d")
+            self.root.ids.day2.text = self.theDays.day2.strftime("%d")
+            self.root.ids.day3.text = self.theDays.day3.strftime("%d")
+            self.root.ids.day4.text = self.theDays.day4.strftime("%d")
+            self.root.ids.day5.text = self.theDays.day5.strftime("%d")
+            self.root.ids.day6.text = self.theDays.day6.strftime("%d")
+            self.root.ids.day7.text = "[color=#42f58d]"+ self.theDays.day7.strftime("%d") +"[/color]"
+        
 
         
     def login(self):
@@ -425,7 +491,7 @@ class MainApp(MDApp):
         else:
             theMonth = int(day7.strftime("%m"))
         
-        theYear = int(day7.strftime("%y"))
+        theYear = int(day7.strftime("%Y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
@@ -467,7 +533,7 @@ class MainApp(MDApp):
         else:
             theMonth = int(day7.strftime("%m"))
         
-        theYear = int(day7.strftime("%y"))
+        theYear = int(day7.strftime("%Y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         self.root.ids.currMonth.text = str(months[theMonth - 1])
         self.root.ids.currYear.text = str(theYear)
@@ -500,4 +566,3 @@ class MainApp(MDApp):
 		
 
 MainApp().run()
-
