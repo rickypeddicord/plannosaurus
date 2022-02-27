@@ -496,7 +496,9 @@ class MainApp(MDApp):
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
     
-    def taskFun_press(self):
-        pass
+    def taskFun_press(self, contentEvent):
+        print(self.contentEvent)
+		
 
 MainApp().run()
+
