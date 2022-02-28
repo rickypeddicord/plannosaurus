@@ -229,9 +229,15 @@ class WindowManager(ScreenManager):
     def event_add(self, root):
         global events
         if self.ids.contentEvent.text:
+            if  not '\n' in self.ids.contentEvent.text:
+                self.ids.contentEvent.text += '\n'
             events.append(self.ids.contentEvent.text)
             for e in range(len(events)):
-                self.ids.contentEventMain.text = events[e]
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.contentEvent.text = ''
         
 
 class MainApp(MDApp):
