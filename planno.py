@@ -11,6 +11,7 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 
 events = []
+todos = []
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -436,6 +437,19 @@ class WindowManager(ScreenManager):
                 elif not events[e] in self.ids.contentEventMain.text:
                     self.ids.contentEventMain.text += events[e]
         self.ids.ninePM.text = ''
+		
+    def event_addToDo(self, root):
+        global todos
+        if self.ids.toDoEntries.text.strip():
+            if  not '\n' in self.ids.toDoEntries.text:
+                self.ids.toDoEntries.text += '\n'
+            todos.append(self.ids.toDoEntries.text)
+            for e in range(len(todos)):
+                if len(todos) == 1:
+                    self.ids.contentTODOMain.text = todos[e]
+                elif not todos[e] in self.ids.contentTODOMain.text:
+                    self.ids.contentTODOMain.text += todos[e]
+        self.ids.toDoEntries.text = ''
 
 class MainApp(MDApp):
     def build(self):
