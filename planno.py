@@ -10,6 +10,8 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 
+events = []
+
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
         self._day1 = day1
@@ -223,6 +225,14 @@ class WindowManager(ScreenManager):
             'center_y': self.ids.ToDoButt.pos_hint['center_y'] - 0.15}
             )
         self.ids.float.add_widget(label1)  
+
+    def event_add(self, root):
+        global events
+        events.append(self.ids.contentEvent.text)
+        for e in range(len(events)):
+            self.ids.contentEventMain.text = events[e]
+            print(events[e])
+        
 
 class MainApp(MDApp):
     def build(self):
