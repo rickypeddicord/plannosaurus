@@ -231,7 +231,6 @@ class WindowManager(ScreenManager):
         events.append(self.ids.contentEvent.text)
         for e in range(len(events)):
             self.ids.contentEventMain.text = events[e]
-            print(events[e])
         
 
 class MainApp(MDApp):
