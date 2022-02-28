@@ -228,7 +228,7 @@ class WindowManager(ScreenManager):
 
     def event_add(self, root):
         global events
-        if self.ids.contentEvent.text:
+        if self.ids.contentEvent.text.strip():
             if  not '\n' in self.ids.contentEvent.text:
                 self.ids.contentEvent.text += '\n'
             events.append(self.ids.contentEvent.text)
