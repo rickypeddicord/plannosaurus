@@ -230,7 +230,7 @@ class WindowManager(ScreenManager):
         global events
         if self.ids.contentEvent.text.strip():
             if  not '\n' in self.ids.contentEvent.text:
-                self.ids.contentEvent.text += '\n'
+                self.ids.contentEvent.text += ' - 6 AM\n'
             events.append(self.ids.contentEvent.text)
             for e in range(len(events)):
                 if len(events) == 1:
@@ -238,7 +238,204 @@ class WindowManager(ScreenManager):
                 elif not events[e] in self.ids.contentEventMain.text:
                     self.ids.contentEventMain.text += events[e]
         self.ids.contentEvent.text = ''
-        
+
+
+    def event_addsevenAM(self, root):
+        global events
+        if self.ids.sevenAM.text.strip():
+            if  not '\n' in self.ids.sevenAM.text:
+                self.ids.sevenAM.text += ' - 7 AM\n'
+            events.append(self.ids.sevenAM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.sevenAM.text = ''
+
+    def event_addeightAM(self, root):
+        global events
+        if self.ids.eightAM.text.strip():
+            if  not '\n' in self.ids.eightAM.text:
+                self.ids.eightAM.text += ' - 8 AM\n'
+            events.append(self.ids.eightAM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.eightAM.text = ''
+		
+    def event_addnineAM(self, root):
+        global events
+        if self.ids.nineAM.text.strip():
+            if  not '\n' in self.ids.nineAM.text:
+                self.ids.nineAM.text += ' - 9 AM\n'
+            events.append(self.ids.nineAM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.nineAM.text = ''
+
+    def event_addtenAM(self, root):
+        global events
+        if self.ids.tenAM.text.strip():
+            if  not '\n' in self.ids.tenAM.text:
+                self.ids.tenAM.text += ' - 10 AM\n'
+            events.append(self.ids.tenAM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.tenAM.text = ''
+
+    def event_addelevenAM(self, root):
+        global events
+        if self.ids.elevenAM.text.strip():
+            if  not '\n' in self.ids.elevenAM.text:
+                self.ids.elevenAM.text += ' - 11 AM\n'
+            events.append(self.ids.elevenAM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.elevenAM.text = ''
+
+    def event_addNoon(self, root):
+        global events
+        if self.ids.noon.text.strip():
+            if  not '\n' in self.ids.noon.text:
+                self.ids.noon.text += ' - 12 PM\n'
+            events.append(self.ids.noon.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.noon.text = ''
+
+    def event_addonePM(self, root):
+        global events
+        if self.ids.onePM.text.strip():
+            if  not '\n' in self.ids.onePM.text:
+                self.ids.onePM.text += ' - 12 PM\n'
+            events.append(self.ids.onePM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.onePM.text = ''
+
+###########
+    def event_addtwoPM(self, root):
+        global events
+        if self.ids.twoPM.text.strip():
+            if  not '\n' in self.ids.twoPM.text:
+                self.ids.twoPM.text += ' - 2 PM\n'
+            events.append(self.ids.twoPM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.twoPM.text = ''
+
+
+    def event_addthreePM(self, root):
+        global events
+        if self.ids.threePM.text.strip():
+            if  not '\n' in self.ids.threePM.text:
+                self.ids.threePM.text += ' - 3 PM\n'
+            events.append(self.ids.threePM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.threePM.text = ''
+
+    def event_addfourPM(self, root):
+        global events
+        if self.ids.fourPM.text.strip():
+            if  not '\n' in self.ids.fourPM.text:
+                self.ids.fourPM.text += ' - 4 PM\n'
+            events.append(self.ids.fourPM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.fourPM.text = ''
+		
+    def event_addfivePM(self, root):
+        global events
+        if self.ids.fivePM.text.strip():
+            if  not '\n' in self.ids.fivePM.text:
+                self.ids.fivePM.text += ' - 5 PM\n'
+            events.append(self.ids.fivePM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.fivePM.text = ''
+
+    def event_addsixPM(self, root):
+        global events
+        if self.ids.sixPM.text.strip():
+            if  not '\n' in self.ids.sixPM.text:
+                self.ids.sixPM.text += ' - 6 PM\n'
+            events.append(self.ids.sixPM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.sixPM.text = ''
+
+    def event_addsevenPM(self, root):
+        global events
+        if self.ids.sevenPM.text.strip():
+            if  not '\n' in self.ids.sevenPM.text:
+                self.ids.sevenPM.text += ' - 7 PM\n'
+            events.append(self.ids.sevenPM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.sevenPM.text = ''
+
+    def event_addeightPM(self, root):
+        global events
+        if self.ids.eightPM.text.strip():
+            if  not '\n' in self.ids.eightPM.text:
+                self.ids.eightPM.text += ' - 8 PM\n'
+            events.append(self.ids.eightPM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.eightPM.text = ''
+
+    def event_addninePM(self, root):
+        global events
+        if self.ids.ninePM.text.strip():
+            if  not '\n' in self.ids.ninePM.text:
+                self.ids.ninePM.text += ' - 9 PM\n'
+            events.append(self.ids.ninePM.text)
+            for e in range(len(events)):
+                if len(events) == 1:
+                    self.ids.contentEventMain.text = events[e]
+                elif not events[e] in self.ids.contentEventMain.text:
+                    self.ids.contentEventMain.text += events[e]
+        self.ids.ninePM.text = ''
 
 class MainApp(MDApp):
     def build(self):
@@ -268,7 +465,7 @@ class MainApp(MDApp):
         self.gen_cal(date.today())
 
         
-    
+
         return WindowManager()
 
     def gen_cal(self, date):
@@ -578,6 +775,17 @@ class MainApp(MDApp):
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
     
     def taskFun_press(self, contentEvent):
+		#int timeArray[24] = {0}
+		#for i in range 24:
+		#	if i = 0:
+		#		i=i+12
+		#		self.add_widget(Label(text=i))
+		#	elif i > 12:
+		#		i=i-12
+		#		self.add_widget(Label(text=i))
+		#	else:
+		#		self.add_widget(Label(text=i))
+		#timeArray[time] = contentEvent
         print(self.contentEvent)
 		
 
