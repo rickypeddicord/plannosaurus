@@ -228,9 +228,10 @@ class WindowManager(ScreenManager):
 
     def event_add(self, root):
         global events
-        events.append(self.ids.contentEvent.text)
-        for e in range(len(events)):
-            self.ids.contentEventMain.text = events[e]
+        if self.ids.contentEvent.text:
+            events.append(self.ids.contentEvent.text)
+            for e in range(len(events)):
+                self.ids.contentEventMain.text = events[e]
         
 
 class MainApp(MDApp):
