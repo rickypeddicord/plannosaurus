@@ -895,3 +895,39 @@
             font_size: 12
             pos_hint: {"center_x": 0.5, "center_y": 0.04}
             on_press: screen_manager.current = "main_sc"
+			
+			
+	Screen:
+        name: "AddToDo2"
+		MDLabel:
+			text: "Add to To-Do List:"
+			pos_hint: {"center_x": 0.52, "center_y": .97}
+
+		MDTextField:
+			id: toDoEntries
+			multiline: True
+			on_text: app.toDoEntries = self.text
+			color_mode: 'custom'
+			#line_color_focus: .8, 0, 0, 1
+			line_color_focus: 0, 0, 0, 1
+			current_hint_text_color: 0, 0, 0, 1
+			size_hint: (.8, .5)
+			font_size: '15'
+			pos_hint: {'x': .05, 'y': .4}				
+			#helper_text_mode: "on_focus"
+			mode: "fill"
+			fill_color: 0,.5,.65,.5
+		MDRoundFlatButton:
+            text: "Back"
+            font_size: 12
+            pos_hint: {"center_x": 0.5, "center_y": 0.04}
+            on_press: screen_manager.current = "main_sc"
+		MDFloatingActionButton:
+			id: toDoListItem
+			pos_hint: {"top":.94, "right":1}
+			icon: 'check'
+			on_release: 
+				root.event_addToDo(root)
+				screen_manager.current="main_sc"
+				#app.taskFun_press(contentEvent)
+			
