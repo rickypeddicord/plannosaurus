@@ -807,6 +807,6 @@ class MainApp(MDApp):
 		#		self.add_widget(Label(text=i))
 		#timeArray[time] = contentEvent
         print(self.contentEvent)
-		
+
 
 MainApp().run()
