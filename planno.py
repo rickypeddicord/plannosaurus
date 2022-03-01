@@ -9,9 +9,13 @@ from kivymd.uix.picker import MDDatePicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
+from kivy.clock import Clock
+from kivy.storage.jsonstore import JsonStore
 
 events = []
 todos = []
+
+store = JsonStore('account.json')
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -501,6 +505,17 @@ class MainApp(MDApp):
         
 
         return WindowManager()
+
+    def on_start(self):
+        Clock.schedule_once(self.set_screen, 0)
+
+    def set_screen(self, dt):
+        global store
+
+        if store.exists('account'):
+            self.root.init_load(self.root)
+        else:
+            self.root.current = "login_sc"
 
     def gen_cal(self, date):
         curr_day = date
