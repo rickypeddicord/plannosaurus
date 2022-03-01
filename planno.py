@@ -9,9 +9,13 @@ from kivymd.uix.picker import MDDatePicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
+from kivy.clock import Clock
+from kivy.storage.jsonstore import JsonStore
 
 events = []
 todos = []
+
+store = JsonStore('account.json')
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -482,9 +486,18 @@ class MainApp(MDApp):
 
         self.gen_cal(date.today())
 
-        
-
         return WindowManager()
+
+    def on_start(self):
+        Clock.schedule_once(self.set_screen, 0)
+
+    def set_screen(self, dt):
+        global store
+
+        if store.exists('account'):
+            self.root.current = "main_sc"
+        else:
+            self.root.current = "login_sc"
 
     def gen_cal(self, date):
         curr_day = date
@@ -633,6 +646,7 @@ class MainApp(MDApp):
 
         
     def login(self):
+        global store
         loginCode = -1
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -653,6 +667,7 @@ class MainApp(MDApp):
             if records[1] == self.root.ids.user.text and records[2] == self.root.ids.password.text:
                 self.root.ids.welcome_label.text = "Logged in successfully"
                 loginCode = 1
+                store.put('account', email=self.root.ids.user.text, password=self.root.ids.password.text)
             else:
                 self.root.ids.welcome_label.text = "User doesn't exist or incorrect password entered"
                 loginCode = -1
@@ -807,6 +822,5 @@ class MainApp(MDApp):
 		#		self.add_widget(Label(text=i))
 		#timeArray[time] = contentEvent
         print(self.contentEvent)
-		
 
 MainApp().run()
