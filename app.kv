@@ -78,7 +78,7 @@
                 text: "LOGIN"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: screen_manager.current = "main_sc" if app.login() == 1 else "login_sc"
+                on_press: screen_manager.current = root.init_load(root) if app.login() == 1 else "login_sc"
 
             MDRoundFlatButton:
                 text: "CLEAR"
