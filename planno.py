@@ -823,4 +823,5 @@ class MainApp(MDApp):
 		#timeArray[time] = contentEvent
         print(self.contentEvent)
 
+
 MainApp().run()
