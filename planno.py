@@ -495,6 +495,11 @@ class MainApp(MDApp):
 
         # Create events table
         c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
+        # save reference to userid via select
+        # create dateid from currently selected date
+        # messagebody will contain event information
+        # eventid needed for editing or deleting an event?
+        # maybe second table needed for todos?
         
         
         conn.commit()
