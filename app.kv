@@ -371,6 +371,11 @@
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: app.register()
+            MDRoundFlatButton:
+                text: "BACK"
+                font_size: 12
+                pos_hint: {"center_x": 0.5}
+                on_press: screen_manager.current = "login_sc"
 		
 ###################################
 #### SCREEN TO ADD TIME EVENTS ####
