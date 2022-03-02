@@ -1,5 +1,13 @@
 <WindowManager>:
     id: screen_manager
+
+
+########################
+#### INITIAL SCREEN ####
+########################
+
+    Screen:
+        name: "filler"
     
 ######################
 #### LOGIN SCREEN ####
@@ -50,7 +58,7 @@
                 text: "LOGIN"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: screen_manager.current = "main_sc" if app.login() == 1 else "login_sc"
+                on_press: screen_manager.current = root.init_load(root) if app.login() == 1 else "login_sc"
 
             MDRoundFlatButton:
                 text: "CLEAR"
@@ -64,13 +72,6 @@
                 pos_hint: {"center_x": 0.5}
                 on_press: screen_manager.current = "reg"
 
-            MDRoundFlatButton:
-                text: "Calendar"
-                font_size: 12
-                pos_hint: {"center_x": 0.5}
-                on_press: root.init_load(root)
-
-            
             Widget:
                 size_hint_y: None
                 height: 8 
@@ -260,132 +261,6 @@
                         id: listSwiper
                         MDSwiperItem:
                             id: listItem
-			TabbedPanelItem:
-                text: "Calendar"
-                name: "cal"
-                FloatLayout:
-					
-                    MDTextButton:
-						text: "<<<"
-						font_size: 12
-						pos_hint: {"x": .2, "y": .9}
-						on_press: app.left_cal()
-                
-					MDTextButton:
-						text: ">>>"
-						font_size: 12
-						pos_hint: {"x": .7, "y": .9}
-						on_press: app.right_cal()
-
-					MDTextButton:
-						id: currMonth
-						text: ""
-						font_size: 16
-						pos_hint: {"x": .40, "y": .80}
-						on_press: app.pick_date()
-
-					MDTextButton:
-						id: currYear
-						text: str(date.today().year)
-						font_size: 16
-						pos_hint: {"x": .49, "y": .80}
-						on_press: app.pick_date()
-            
-		#			MDTextButton:
-		#				text: "Sun"
-		#				font_size: 16
-		#				pos_hint: {"x": .304502, "y": .75}
-
-		#			MDTextButton:
-		#				text: "Mon"
-		#				font_size: 16
-		#				pos_hint: {"x": .358, "y": .75}
-
-		#			MDTextButton:
-		#				text: "Tue"
-		#				font_size: 16
-		#				pos_hint: {"x": .4190, "y": .75}
-#
-#					MDTextButton:
-#						text: "Wed"
-#						font_size: 16
-#						pos_hint: {"x": .470, "y": 0.75}
-#
-#					MDTextButton:
-#						text: "Thu"
-#						font_size: 16
-#						pos_hint: {"x": .525, "y": 0.75}
-
-#					MDTextButton:
-#						text: "Fri"
-#						font_size: 16
-#						pos_hint: {"x": 0.58, "y": 0.75}
-
-#					MDTextButton:
-#						text: "Sat"
-#						font_size: 16
-#						pos_hint: {"x": .62, "y": 0.75}
-
-#					MDTextButton:
-#						id: day1
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .304502, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day2
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .358, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day3
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .4190, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day4
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .470, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day5
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .525, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day6
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": 0.58, "y": 0.71}
-#						on_press: app.current_day(self)
-
-#					MDTextButton:
-#						id: day7
-#						text: ""
-#						markup: True
-#						font_size: 16
-#						pos_hint: {"x": .62, "y": 0.71}
-#						on_press: app.current_day(self)
-					MDFloatingActionButton:
-						id: addTask
-						pos_hint: {"top":.16, "right":.97}
-						icon: 'plus'
-						on_release: screen_manager.current = "AddToDo"
 ##############
 ## LIST TAB ##
 ##############
@@ -947,4 +822,3 @@
 			on_release: 
 				root.event_addToDo(root)
 				screen_manager.current="main_sc"
-		
