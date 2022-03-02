@@ -90,9 +90,10 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
-        root.current = "main_sc"
         
         curr_day = datetime.today()
+        dateID = datetime.today().strftime("%m%d%Y")
+        print(dateID)
 
         if curr_day.weekday() == 6:
             first_day = curr_day
@@ -225,6 +226,7 @@ class WindowManager(ScreenManager):
             self.ids.day5.text = theDays.day5.strftime("%d")
             self.ids.day6.text = theDays.day6.strftime("%d")
             self.ids.day7.text = "[color=#42f58d]"+ theDays.day7.strftime("%d") +"[/color]"
+        return "main_sc"
     
     def todo_press(self, root):
         print(self.ids.ToDoList.text)
@@ -703,6 +705,7 @@ class MainApp(MDApp):
             if records[1] == self.root.ids.user.text and records[2] == self.root.ids.password.text:
                 self.root.ids.welcome_label.text = "Logged in successfully"
                 loginCode = 1
+                store.put('account', email=self.root.ids.user.text, password=self.root.ids.password.text)
             else:
                 self.root.ids.welcome_label.text = "User doesn't exist or incorrect password entered"
                 loginCode = -1
