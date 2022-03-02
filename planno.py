@@ -534,6 +534,7 @@ class MainApp(MDApp):
         global store
 
         if store.exists('account'):
+            self.root.current = "main_sc"
             self.root.init_load(self.root)
         else:
             self.root.current = "login_sc"
