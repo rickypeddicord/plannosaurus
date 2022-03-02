@@ -1,39 +1,11 @@
 <WindowManager>:
     id: screen_manager
     
-    
-    
-    
-    # Screen:
-    	# name: "main_sc"
-        # FloatLayout:
-	    # MDLabel:
-            # text: "TODAY"
-            # pos_hint:{'x': .45, 'center_y': .55}
-            # size_hint_x: None
-				
-	    # MDRoundFlatButton:
-            # id: dateButton
-            # text: str(date.today())
-            # pos_hint: {'center_x': .5, 'center_y': .5}
-            # on_release: screen_manager.current = "cal"
-            
-        # MDTextFieldRound    
-            # id:ToDoList
-            # hint_text: 'To Do List:'
-            # pos_hint: { 'center_x':.5, 'center_y': .4}
-            # size_hint_x: None
-            # width: 300
-            
-        # MDRoundFlatButton:
-            # id:ToDoButt
-            # text:"Add"
-            # pos_hint: {'center_x':.5, 'center_y':.3}
-            # on_release:app.todo_press()   
+######################
+#### LOGIN SCREEN ####
+######################
 
-    Screen:
-        name: "filler_sc"
-
+		
     Screen:
         name: "login_sc"
         
@@ -78,7 +50,7 @@
                 text: "LOGIN"
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
-                on_press: screen_manager.current = root.init_load(root) if app.login() == 1 else "login_sc"
+                on_press: screen_manager.current = "main_sc" if app.login() == 1 else "login_sc"
 
             MDRoundFlatButton:
                 text: "CLEAR"
@@ -97,36 +69,29 @@
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: root.init_load(root)
-            
-            # MDRoundFlatButton:
-                # id: dateButton
-				# text: 'Today'
-				# pos_hint: {'center_x': .5, 'center_y': .5}
-				# on_release: app.pick_date()
+
             
             Widget:
                 size_hint_y: None
                 height: 8 
 
                  
+################################
+##### OVERVIEW MAIN SCREEN #####
+################################
 
     Screen:
         name: "main_sc"
-		#canvas: 
-		#	Color:
-		#		rgba: (.3,1,.8,1)
-		#	RoundedRectangle:
-		#		pos: 170, 50
-		#		size: 400, 500
-			
-		
-		
+
         TabbedPanel:
             do_default_tab: False
             tab_pos: 'right_top'
 			background_color: [0, 0, 0, 0]
 			
 			
+##################################
+##### TAB FOR OVERVIEW/TODAY #####
+##################################
 
             TabbedPanelItem:
                 text: "Today"
@@ -267,8 +232,9 @@
                     MDFloatingActionButton:
 						id: addTask
 						pos_hint: {"top":.5, "right":.97}
-						icon: 'plus'
+						icon: 'pencil'
 						on_release: screen_manager.current = "AddToDo"
+					
 					MDTextField:
                         id: contentTODOMain
                         multiline: True
@@ -287,17 +253,14 @@
 					MDFloatingActionButton:
 						id: addToDo
 						pos_hint: {"top":.15, "right":.97}
-						icon: 'plus'
+						icon: 'pencil'
 						on_release: screen_manager.current = "AddToDo2"
                     MDSwiper:
                         height: 40
                         id: listSwiper
                         MDSwiperItem:
                             id: listItem
-                            
-           
-               
-            TabbedPanelItem:
+			TabbedPanelItem:
                 text: "Calendar"
                 name: "cal"
                 FloatLayout:
@@ -423,6 +386,9 @@
 						pos_hint: {"top":.16, "right":.97}
 						icon: 'plus'
 						on_release: screen_manager.current = "AddToDo"
+##############
+## LIST TAB ##
+##############
    
 
             TabbedPanelItem:
@@ -443,7 +409,10 @@
                         pos_hint: {'center_x':.65, 'center_y':.95}
                         on_release: root.todo_press(root)  
                         # size_hint: None    
-            
+
+###########################
+### REGISTRATION SCREEN ###  
+###########################       
             
     Screen:
         name: "reg"
@@ -528,40 +497,16 @@
                 pos_hint: {"center_x": 0.5}
                 on_press: app.register()
 		
+###################################
+#### SCREEN TO ADD TIME EVENTS ####
+###################################
 
 	Screen:
         name: "AddToDo"
 		MDLabel:
 			text: "Today's Events:"
 			pos_hint: {"center_x": 0.52, "center_y": .97}
-	#	MDLabel:
-	#		text: "To-Do List:"
-	#		pos_hint: {"center_x": 0.52, "center_y": 0.42}
-	#	ScrollView:
-	#		id: scroll
-	#		size_hint: 1, .92
-	#		pos_hint: {"top": 0.92}
-			
-			
-#		MDTextField:
-#			id: contentEvent
-#			multiline: True
-#			on_text: app.contentEvent = self.text
-#			hint_text: "Today's Events"
-#			color_mode: 'custom'
-#			helper_text_mode: "on_focus"
-#			mode: "fill"
-#			fill_color: .5,1,.5,0.8
-#			#line_color_focus: .8, 0, 0, 1
-#			line_color_focus: 0, 0, 0, 1
-#			current_hint_text_color: 0, 0, 0, 1
-#			size_hint: (.95, .48)
-#			font_size: '15'
-#			pos_hint: {'center_x': .5, 'y': .45}				
-		#ScrollView:
-	#		id: scroll
-			#size_hint: 1, .92
-	#		pos_hint: {"top": 0.92}
+
 		MDTextField:
 			id: contentEvent
 			multiline: True
@@ -574,7 +519,6 @@
 			size_hint: (.5, .1)
 			font_size: '15'
 			pos_hint: {'x': 0, 'y': .84}				
-		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.2,.5
 		MDTextField:
@@ -826,6 +770,7 @@
 			on_release: 
 				root.event_add(root)
 				screen_manager.current="main_sc"
+			#	root.postArray(root)
 				#app.taskFun_press(contentEvent)
                 
 		MDFloatingActionButton:
@@ -965,6 +910,9 @@
             pos_hint: {"center_x": 0.5, "center_y": 0.04}
             on_press: screen_manager.current = "main_sc"
 
+###################################
+##### ADD TO TO DO LIST SCREEN#####
+###################################
 
     Screen:
         name: "AddToDo2"
@@ -993,9 +941,10 @@
             on_press: screen_manager.current = "main_sc"
 		MDFloatingActionButton:
 			id: toDoListItem
-			pos_hint: {"top":.94, "right":1}
+			pos_hint: {"top":.5, "right":.85}
 			icon: 'check'
+	#		md_bg_color: .3, 0, .3, 1
 			on_release: 
 				root.event_addToDo(root)
 				screen_manager.current="main_sc"
-				#app.taskFun_press(contentEvent)
+		
