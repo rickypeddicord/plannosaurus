@@ -10,11 +10,15 @@ from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 from kivy.uix.checkbox import CheckBox
+from kivy.clock import Clock
+from kivy.storage.jsonstore import JsonStore
 
 
 
 events = []
 todos = []
+
+store = JsonStore('account.json')
 
 
 class StartingDates:
@@ -155,7 +159,7 @@ class WindowManager(ScreenManager):
 
         theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.ids.currMonth.text = str(months[date.today().month - 1])
+        #self.ids.currMonth.text = str(months[date.today().month - 1])
 
         # highlight the current day
 
@@ -515,6 +519,17 @@ class MainApp(MDApp):
 
         return WindowManager()
 
+    def on_start(self):
+        Clock.schedule_once(self.set_screen, 0)
+
+    def set_screen(self, dt):
+        global store
+
+        if store.exists('account'):
+            self.root.init_load(self.root)
+        else:
+            self.root.current = "login_sc"
+
     def gen_cal(self, date):
         curr_day = date
 
@@ -591,8 +606,8 @@ class MainApp(MDApp):
 
     def on_save(self, instance, value, date_range):
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.root.ids.currMonth.text = str(months[value.month - 1])
-        self.root.ids.currYear.text = str(value.year)
+        #self.root.ids.currMonth.text = str(months[value.month - 1])
+        #self.root.ids.currYear.text = str(value.year)
         self.gen_cal(value)
 
         
@@ -755,8 +770,8 @@ class MainApp(MDApp):
         
         theYear = int(day7.strftime("%Y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.root.ids.currMonth.text = str(months[theMonth - 1])
-        self.root.ids.currYear.text = str(theYear)
+        #self.root.ids.currMonth.text = str(months[theMonth - 1])
+        #self.root.ids.currYear.text = str(theYear)
         dayHold = ""
         for key, val in self.root.ids.items():
             if "day" in key:
@@ -797,8 +812,8 @@ class MainApp(MDApp):
         
         theYear = int(day7.strftime("%Y"))
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.root.ids.currMonth.text = str(months[theMonth - 1])
-        self.root.ids.currYear.text = str(theYear)
+        #self.root.ids.currMonth.text = str(months[theMonth - 1])
+        #self.root.ids.currYear.text = str(theYear)
 
         dayHold = ""
         for key, val in self.root.ids.items():
