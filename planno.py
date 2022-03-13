@@ -22,6 +22,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 events= []
 todos = []
 userid = -1
+dateID = datetime.today().strftime("%m%d%Y")
 
 store = JsonStore('account.json')
 
@@ -97,8 +98,6 @@ class WindowManager(ScreenManager):
     def init_load(self, root):
         
         curr_day = datetime.today()
-        dateID = datetime.today().strftime("%m%d%Y")
-        print(dateID)
 
         if curr_day.weekday() == 6:
             first_day = curr_day
@@ -241,9 +240,12 @@ class WindowManager(ScreenManager):
     def event_add(self, root, time):
         global events
         global userid
+        global dateID
 
         timesArr = ["6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM"]
+        militaryArr = ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
         index = timesArr.index(time)
+        timeObj = datetime.strptime(militaryArr[index], '%H:%M').strftime("%H:%M")
 
         if index == 0:
             messageText = self.ids.contentEvent.text
@@ -290,18 +292,35 @@ class WindowManager(ScreenManager):
         # Create a cursor
         c = conn.cursor()
 
-        dateID = datetime.today().strftime("%m%d%Y") #temp value for now
         if store.exists('account'):
             userid = store.get('account')['userid']
         
-        c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, time + " - " + messageText, userid))
+        c.execute("INSERT INTO events(dateID, timestamp, time, messageBody, userID) VALUES (%s, %s, %s, %s, %s)", (dateID, timeObj, time, time + " - " + messageText, userid))
         conn.commit()
         conn.close()
+
+        self.ids.contentEvent.text = ''
+        self.ids.sevenAM.text = ''
+        self.ids.eightAM.text = ''
+        self.ids.nineAM.text = ''
+        self.ids.tenAM.text = ''
+        self.ids.elevenAM.text = ''
+        self.ids.noon.text = ''
+        self.ids.onePM.text = ''
+        self.ids.twoPM.text = ''
+        self.ids.threePM.text = ''
+        self.ids.fourPM.text = ''
+        self.ids.fivePM.text = ''
+        self.ids.sixPM.text = ''
+        self.ids.sevenPM.text = ''
+        self.ids.eightPM.text = ''
+        self.ids.ninePM.text = ''
 
 
     def postEvents(self, root):
         global userid
         global events
+        global dateID
 
         if store.exists('account'):
             userid = store.get('account')['userid']
@@ -317,20 +336,19 @@ class WindowManager(ScreenManager):
         )
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM events WHERE userID = %s"
-        c.execute(query, (userid,))
+        query = "SELECT * FROM events WHERE userID = %s AND dateID = %s"
+        c.execute(query, (userid, dateID,))
         records = c.fetchall()
+        records.sort(key = lambda date: datetime.strptime(date[2], "%H:%M"))
 
         # query = "DELETE FROM events"
         # c.execute(query)
 
-        # sort by some timedate value?
-        # fix back button not populating table data
         
         self.ids['eventContainer'].clear_widgets()
         if records:
             for items in records:
-                self.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[3] + '[/b]'))
+                self.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
 
         conn.commit()
         conn.close()
@@ -359,7 +377,7 @@ class MainApp(MDApp):
         c.execute("CREATE TABLE if not exists users(userID SERIAL PRIMARY KEY, email VARCHAR(255), password VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255))")
 
         # Create events table
-        c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
+        c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
 
         # save reference to userid via select
         # create dateid from currently selected date
@@ -465,9 +483,12 @@ class MainApp(MDApp):
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
+        global dateID
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         #self.root.ids.currMonth.text = str(months[value.month - 1])
         #self.root.ids.currYear.text = str(value.year)
+        #datetime.today().strftime("%m%d%Y")
+        dateID = value.strftime("%m%d%Y")
         self.gen_cal(value)
 
         
@@ -597,12 +618,12 @@ class MainApp(MDApp):
                 else:
                     c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
                     self.root.ids.welcome_label.text = "Account created successfully"
-                    store.put('account', userid=records[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
+                    store.put('account', userid=record[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
                     break
         else:
             c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
             self.root.ids.welcome_label.text = "Account created successfully"
-            store.put('account', userid=records[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
+            store.put('account', userid=1, email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
 
         conn.commit()
         conn.close()
@@ -610,6 +631,8 @@ class MainApp(MDApp):
         self.root.current = "login_sc"
 
     def left_cal(self):
+        global dateID
+        newDate = ''
         self.theDays.day1 = (self.theDays.day1 - timedelta(days = 7))
         self.theDays.day2 = (self.theDays.day2 - timedelta(days = 7))
         self.theDays.day3 = (self.theDays.day3 - timedelta(days = 7))
@@ -626,12 +649,12 @@ class MainApp(MDApp):
         day6 = self.theDays.day6
         day7 = self.theDays.day7
         
-        if day7.strftime("%m") != "10":  
-            theMonth = int(day7.strftime("%m").strip("0"))
-        else:
-            theMonth = int(day7.strftime("%m"))
+        #if day7.strftime("%m") != "10":  
+            #theMonth = int(day7.strftime("%m").strip("0"))
+        #else:
+        theMonth = day7.strftime("%m")
         
-        theYear = int(day7.strftime("%Y"))
+        theYear = day7.strftime("%Y")
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         #self.root.ids.currMonth.text = str(months[theMonth - 1])
         #self.root.ids.currYear.text = str(theYear)
@@ -649,9 +672,16 @@ class MainApp(MDApp):
         self.root.ids.day5.text = day5.strftime("%d")
         self.root.ids.day6.text = day6.strftime("%d")
         self.root.ids.day7.text = day7.strftime("%d")
+
+        newDate = theMonth + dayHold.text + theYear
+        dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
+
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
+        self.root.postEvents(self.root)
 
     def right_cal(self):
+        global dateID
+
         self.theDays.day1 = (self.theDays.day1 + timedelta(days = 7))
         self.theDays.day2 = (self.theDays.day2 + timedelta(days = 7))
         self.theDays.day3 = (self.theDays.day3 + timedelta(days = 7))
@@ -668,12 +698,12 @@ class MainApp(MDApp):
         day6 = self.theDays.day6
         day7 = self.theDays.day7
         
-        if day7.strftime("%m") != "10":  
-            theMonth = int(day7.strftime("%m").strip("0"))
-        else:
-            theMonth = int(day7.strftime("%m"))
-        
-        theYear = int(day7.strftime("%Y"))
+        #if day7.strftime("%m") != "10":  
+            #theMonth = int(day7.strftime("%m").strip("0"))
+        #else:
+            #theMonth = int(day7.strftime("%m"))
+        theMonth = day7.strftime("%m")
+        theYear = day7.strftime("%Y")
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         #self.root.ids.currMonth.text = str(months[theMonth - 1])
         #self.root.ids.currYear.text = str(theYear)
@@ -692,14 +722,28 @@ class MainApp(MDApp):
         self.root.ids.day5.text = day5.strftime("%d")
         self.root.ids.day6.text = day6.strftime("%d")
         self.root.ids.day7.text = day7.strftime("%d")
+
+        newDate = theMonth + dayHold.text + theYear
+        dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
+
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
+        self.root.postEvents(self.root)
                 
     def current_day(self, instance):
+        global dateID
+        newDate = ''
         for key, val in self.root.ids.items():
             if "day" in key:
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+        newDate = list(dateID)
+        newDate[2] = instance.text[0]
+        newDate[3] = instance.text[1]
+        newDate = ''.join(newDate)
+        dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
+        self.root.postEvents(self.root)
+
     
     
     def show_todolist_dialog(self):
@@ -750,7 +794,13 @@ class EventItemWithCheckbox(TwoLineAvatarIconListItem):
 
     def delete_event(self, the_event_item):
         global userid
-        deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+        deleteItem = ''
+
+        if the_event_item.text[0:3] == '[b]':
+            deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+        else:
+            deleteItem = the_event_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
+        
 
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
