@@ -97,6 +97,8 @@ class WindowManager(ScreenManager):
     def init_load(self, root):
         
         curr_day = datetime.today()
+        dateID = datetime.today().strftime("%m%d%Y")
+        print(dateID)
 
         if curr_day.weekday() == 6:
             first_day = curr_day
@@ -233,6 +235,8 @@ class WindowManager(ScreenManager):
 
 
 
+
+
     def event_add(self, root):
         global events
         global userid
@@ -303,6 +307,28 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
 
+    def postEvents(self, root):
+        global events
+      #  i = 0
+
+		
+        for i in range(len(events)):
+            if events[i] != '0' and events[i] != 0:
+                if i > 12:
+                    AP = 'PM'
+                    time = i-12
+                elif i == 12:
+                    AP = 'PM'
+                    time = i
+                else:
+                    AP = 'AM'
+                    time = i
+                if len(events) == 1 and events[i] != '0' and events[i] != '':
+                    self.ids.contentEventMain.text =  events[i]
+                elif not str(events[i]) in self.ids.contentEventMain.text and events[i] != '0' and events[i] != '':
+                    self.ids.contentEventMain.text +=  str(events[i])
+
+#str(time) + ' ' + AP + ' - ' + ### was in the above print statements but kept getting error of str cant concatenate to int
     def event_addeightAM(self, root):
         global events
         index = 8
@@ -355,7 +381,6 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.onePM.text:
                 self.ids.onePM.text += '\n'
             events.insert(index, '1 PM - ' + self.ids.onePM.text)
-
 
     def event_addtwoPM(self, root):
         global events
@@ -834,6 +859,7 @@ class MainApp(MDApp):
         print(task.text, task_date)
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text=task_date))
         task.text = ''
+
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
