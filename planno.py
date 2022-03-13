@@ -19,7 +19,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 
 
 
-events= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+events= []
 todos = []
 userid = -1
 
@@ -231,6 +231,7 @@ class WindowManager(ScreenManager):
             self.ids.day5.text = theDays.day5.strftime("%d")
             self.ids.day6.text = theDays.day6.strftime("%d")
             self.ids.day7.text = "[color=#42f58d]"+ theDays.day7.strftime("%d") +"[/color]"
+
         return "main_sc"
 
 
@@ -243,7 +244,6 @@ class WindowManager(ScreenManager):
 
         timesArr = ["6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM"]
         index = timesArr.index(time)
-        print(index)
 
         if index == 0:
             messageText = self.ids.contentEvent.text
@@ -291,28 +291,21 @@ class WindowManager(ScreenManager):
         c = conn.cursor()
 
         dateID = datetime.today().strftime("%m%d%Y") #temp value for now
-        userid = store.get('account')['userid']
+        if store.exists('account'):
+            userid = store.get('account')['userid']
         
         c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, messageText, userid))
         conn.commit()
         conn.close()
 
 
-
-
-    def event_addsevenAM(self, root):
-        global events
-        index = 7
-        if self.ids.sevenAM.text.strip():
-            if  not '\n' in self.ids.sevenAM.text:
-                self.ids.sevenAM.text += '\n'
-            events.insert(index, '7 AM - ' + self.ids.sevenAM.text)
-
     def postEvents(self, root):
         global userid
         global events
 
-        userid = store.get('account')['userid']
+        if store.exists('account'):
+            userid = store.get('account')['userid']
+
         self.ids.contentEventMain.text = '' # reset textfield to be blank
 
         conn = psycopg2.connect(
@@ -327,168 +320,17 @@ class WindowManager(ScreenManager):
         query = "SELECT * FROM events WHERE userID = %s"
         c.execute(query, (userid,))
         records = c.fetchall()
-        print(records)
 
-        #query = "DELETE FROM events"
-        #c.execute(query)
+        # query = "DELETE FROM events"
+        # c.execute(query)
         
-
+        self.ids['eventContainer'].clear_widgets()
         if records:
             for items in records:
-                self.ids.contentEventMain.text += items[2] + " - " + items[3] + "\n"
+                self.ids['eventContainer'].add_widget(ListItemWithCheckbox(text= '[b]' + items[2] +  ' - ' + items[3] + '[/b]'))
 
         conn.commit()
         conn.close()
-
-    def event_addeightAM(self, root):
-        global events
-        index = 8
-        if self.ids.eightAM.text.strip():
-            if  not '\n' in self.ids.eightAM.text:
-                self.ids.eightAM.text += '\n'
-            events.insert(index, '8 AM - ' + self.ids.eightAM.text)
-		
-    def event_addnineAM(self, root):
-        global events
-        index = 9
-        if self.ids.nineAM.text.strip():
-            if  not '\n' in self.ids.nineAM.text:
-                self.ids.nineAM.text += '\n'
-            events.insert(index, '9 AM - ' + self.ids.nineAM.text)
-
-    def event_addtenAM(self, root):
-        global events
-        index = 10
-        if self.ids.tenAM.text.strip():
-            if  not '\n' in self.ids.tenAM.text:
-                self.ids.tenAM.text += '\n'
-            events.insert(index, '10 AM - ' + self.ids.tenAM.text)
-
-    def event_addelevenAM(self, root):
-        global events
-        index = 11
-        if self.ids.elevenAM.text.strip():
-            if  not '\n' in self.ids.elevenAM.text:
-                self.ids.elevenAM.text += '\n'
-            events.insert(index,'11 AM - ' +  self.ids.elevenAM.text)
-
-    def event_addNoon(self, root):
-        global events
-        index = 12
-        if self.ids.noon.text.strip():
-            if  not '\n' in self.ids.noon.text:
-                self.ids.noon.text += ' - 12 PM\n'
-            events.insert(index, '12 PM - ' +  self.ids.noon.text)
-
-    def event_addonePM(self, root):
-        global events
-        index = 13
-		
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.onePM.text.strip():
-            if  not '\n' in self.ids.onePM.text:
-                self.ids.onePM.text += '\n'
-            events.insert(index, '1 PM - ' + self.ids.onePM.text)
-
-    def event_addtwoPM(self, root):
-        global events
-        index = 14
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.twoPM.text.strip():
-            if  not '\n' in self.ids.twoPM.text:
-                self.ids.twoPM.text += '\n'
-            events.insert(index,'2 PM - ' +  self.ids.twoPM.text)
-
-
-    def event_addthreePM(self, root):
-        global events
-        index = 15
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.threePM.text.strip():
-            if  not '\n' in self.ids.threePM.text:
-                self.ids.threePM.text += '\n'
-            events.insert(index, '3 PM - ' +  self.ids.threePM.text)
-
-    def event_addfourPM(self, root):
-        global events
-        index = 16
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.fourPM.text.strip():
-            if  not '\n' in self.ids.fourPM.text:
-                self.ids.fourPM.text += '\n'
-            events.insert(index, '4 PM - ' +  self.ids.fourPM.text)
-		
-    def event_addfivePM(self, root):
-        global events
-        index = 17
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.fivePM.text.strip():
-            if  not '\n' in self.ids.fivePM.text:
-                self.ids.fivePM.text += '\n'
-            events.insert(index,'5 PM - ' +  self.ids.fivePM.text)
-
-    def event_addsixPM(self, root):
-        global events
-        index = 18
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.sixPM.text.strip():
-            if  not '\n' in self.ids.sixPM.text:
-                self.ids.sixPM.text += '\n'
-            events.insert(index, '6 PM - ' + self.ids.sixPM.text)
-
-    def event_addsevenPM(self, root):
-        global events
-        index = 19
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.sevenPM.text.strip():
-            if  not '\n' in self.ids.sevenPM.text:
-                self.ids.sevenPM.text += '\n'
-            events.insert(index, '7 PM - ' +  self.ids.sevenPM.text)
-
-    def event_addeightPM(self, root):
-        global events
-        index = 20
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.eightPM.text.strip():
-            if  not '\n' in self.ids.eightPM.text:
-                self.ids.eightPM.text += '\n'
-            events.insert(index, '8 PM - ' + self.ids.eightPM.text)
-
-    def event_addninePM(self, root):
-        global events
-        index = 21
-        if index>12:
-            time=index-12
-        else:
-            time = index
-        if self.ids.ninePM.text.strip():
-            if  not '\n' in self.ids.ninePM.text:
-                self.ids.ninePM.text += '\n'
-            events.insert(index, '9 AM - ' +  self.ids.ninePM.text)
 
 
 class MainApp(MDApp):
@@ -540,6 +382,7 @@ class MainApp(MDApp):
 
         if store.exists('account'):
             self.root.init_load(self.root)
+            self.root.postEvents(self.root)
             self.root.current = "main_sc"
         else:
             self.root.current = "login_sc"
@@ -704,14 +547,13 @@ class MainApp(MDApp):
         query = "SELECT * FROM users WHERE email = %s"
         c.execute(query, (self.root.ids.user.text,))
         records = c.fetchone()
-        print(records)
         
 
         if records:
             if records[1] == self.root.ids.user.text and records[2] == self.root.ids.password.text:
                 self.root.ids.welcome_label.text = "Logged in successfully"
                 loginCode = 1
-                store.put('account', email=self.root.ids.user.text, password=self.root.ids.password.text)
+                store.put('account', userid=records[0], email=self.root.ids.user.text, password=self.root.ids.password.text)
             else:
                 self.root.ids.welcome_label.text = "User doesn't exist or incorrect password entered"
                 loginCode = -1
@@ -752,10 +594,13 @@ class MainApp(MDApp):
                 else:
                     c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
                     self.root.ids.welcome_label.text = "Account created successfully"
+                    store.put('account', userid=records[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
                     break
         else:
             c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
             self.root.ids.welcome_label.text = "Account created successfully"
+            store.put('account', userid=records[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
+
         conn.commit()
         conn.close()
         # redirect

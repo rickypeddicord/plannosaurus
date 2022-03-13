@@ -59,6 +59,7 @@
                 font_size: 12
                 pos_hint: {"center_x": 0.5}
                 on_press: screen_manager.current = root.init_load(root) if app.login() == 1 else "login_sc"
+				on_release: root.postEvents(root)
 
             MDRoundFlatButton:
                 text: "CLEAR"
@@ -214,11 +215,19 @@
                         text: "OVERVIEW"
 						font_size: 30
                         pos_hint: {"x": .37, "center_y": .87}
+					MDLabel:
+						text: "Events:"
+						font_size: 20
+						pos_hint: {"x": .04, "center_y": .8}
+					MDLabel:
+						text: "To-Do:"
+						font_size: 20
+						pos_hint: {"x": .04, "center_y": .32}
                     MDTextField:
                         id: contentEventMain
                         multiline: True
                         on_text: app.contentEvent = self.text
-                        hint_text: "Events:"
+                        #hint_text: "Events:"
                         color_mode: 'custom'
                         helper_text_mode: "on_focus"
                         mode: "fill"
@@ -239,7 +248,7 @@
 					MDTextField:
                         id: contentTODOMain
                         multiline: True
-                        hint_text: "To-Do:"
+                        #hint_text: "To-Do:"
                         color_mode: 'custom'
                         helper_text_mode: "on_focus"
                         mode: "fill"
@@ -262,6 +271,11 @@
 						size_hint: .5, .2
 						MDList:
 							id: container
+					ScrollView:
+						pos_hint: {'center_y': .6, 'center_x': .27}
+						size_hint: .5, .4
+						MDList:
+							id: eventContainer
 					MDSwiper:
                         height: 40
                         id: listSwiper
