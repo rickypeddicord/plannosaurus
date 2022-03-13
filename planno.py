@@ -294,7 +294,7 @@ class WindowManager(ScreenManager):
         if store.exists('account'):
             userid = store.get('account')['userid']
         
-        c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, messageText, userid))
+        c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, time + " - " + messageText, userid))
         conn.commit()
         conn.close()
 
@@ -323,11 +323,14 @@ class WindowManager(ScreenManager):
 
         # query = "DELETE FROM events"
         # c.execute(query)
+
+        # sort by some timedate value?
+        # fix back button not populating table data
         
         self.ids['eventContainer'].clear_widgets()
         if records:
             for items in records:
-                self.ids['eventContainer'].add_widget(ListItemWithCheckbox(text= '[b]' + items[2] +  ' - ' + items[3] + '[/b]'))
+                self.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[3] + '[/b]'))
 
         conn.commit()
         conn.close()
@@ -712,7 +715,6 @@ class MainApp(MDApp):
         self.task_list_dialog.dismiss()
     
     def add_todo(self, task, task_date):
-        print(task.text, task_date)
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text=task_date))
         task.text = ''
 
@@ -733,6 +735,42 @@ class DialogContent(MDBoxLayout):
         date = value.strftime('%A %d %B %Y')
         self.ids.date_text.text = str(date)
 
+class EventItemWithCheckbox(TwoLineAvatarIconListItem):
+
+    def __init__(self, pk=None, **kwargs):
+        super().__init__(**kwargs)
+        self.pk = pk
+
+
+    def markEvent(self, check, the_event_item):
+        if check.active == True:
+            the_event_item.text = '[s]'+the_event_item.text+'[/s]'
+        else:
+            the_event_item.text = the_event_item.text.split('[s]')[1].split('[/s]')[0]
+
+    def delete_event(self, the_event_item):
+        global userid
+        deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
+        
+        self.parent.remove_widget(the_event_item)
+
+# below class for Todos
 class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
 
@@ -742,7 +780,6 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
 
     def mark(self, check, the_list_item):
-        orig_item = the_list_item.text
         if check.active == True:
             the_list_item.text = '[s]'+the_list_item.text+'[/s]'
         else:

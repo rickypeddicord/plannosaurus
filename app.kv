@@ -811,7 +811,10 @@
             text: "Back"
             font_size: 12
             pos_hint: {"center_x": 0.2, "center_y": 0.04}
-            on_press: screen_manager.current = "main_sc"
+            on_press: 
+				root.postEvents(root)
+				screen_manager.current = "main_sc"
+
 		MDRoundFlatButton:
             text: "Submit"
             font_size: 12
@@ -892,7 +895,7 @@
 		orientation: 'horizontal'
 		
 		MDRaisedButton:
-			text: 'save'
+			text: 'SAVE'
 			on_release: (app.add_todo(task_text, date_text.text), app.close_todolist_dialog())
 		
 		MDFlatButton:
@@ -900,18 +903,38 @@
 			on_release: app.close_todolist_dialog()
 			
 
+<EventItemWithCheckbox>:
+    id: the_event_item
+    markup: True
+
+    LeftCheckbox:
+        id: check2
+		theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
+        on_release: 
+            root.markEvent(check2, the_event_item)
+
+    IconRightWidget:
+        icon: 'trash-can-outline'
+        theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
+        on_release:
+            root.delete_event(the_event_item)
+
 <ListItemWithCheckbox>:
     id: the_list_item
     markup: True
 
     LeftCheckbox:
         id: check
+		theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
         on_release: 
             root.mark(check, the_list_item)
 
     IconRightWidget:
         icon: 'trash-can-outline'
         theme_text_color: "Custom"
-        text_color: 1, 0, 0, 1
+        text_color: 0, 0, 1, 1
         on_release:
             root.delete_item(the_list_item)
