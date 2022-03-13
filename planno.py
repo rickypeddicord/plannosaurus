@@ -298,6 +298,23 @@ class WindowManager(ScreenManager):
         c.execute("INSERT INTO events(dateID, timestamp, time, messageBody, userID) VALUES (%s, %s, %s, %s, %s)", (dateID, timeObj, time, time + " - " + messageText, userid))
         conn.commit()
         conn.close()
+        
+        self.ids.contentEvent.text = ''
+        self.ids.sevenAM.text = ''
+        self.ids.eightAM.text = ''
+        self.ids.nineAM.text = ''
+        self.ids.tenAM.text = ''
+        self.ids.elevenAM.text = ''
+        self.ids.noon.text = ''
+        self.ids.onePM.text = ''
+        self.ids.twoPM.text = ''
+        self.ids.threePM.text = ''
+        self.ids.fourPM.text = ''
+        self.ids.fivePM.text = ''
+        self.ids.sixPM.text = ''
+        self.ids.sevenPM.text = ''
+        self.ids.eightPM.text = ''
+        self.ids.ninePM.text = ''
 
         self.ids.contentEvent.text = ''
         self.ids.sevenAM.text = ''
