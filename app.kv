@@ -651,11 +651,11 @@
 	
 				
 		MDFloatingActionButton:
-			id: adder
+			id: add6AM
 			pos_hint: {"top":.94, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_add(root)
+				root.event_add(root, "6 AM")
 			#	root.postEvents(root)
 			#	screen_manager.current="main_sc"
 			#	root.postArray(root)
@@ -666,7 +666,7 @@
 			pos_hint: {"top":.83, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addsevenAM(root)
+				root.event_add(root, "7 AM")
 				#root.postEvents(root)
 				#screen_manager.current="main_sc"
 		
@@ -675,7 +675,7 @@
 			pos_hint: {"top":.72, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addeightAM(root)
+				root.event_add(root, "8 AM")
 				#screen_manager.current="main_sc"
 		
 		MDFloatingActionButton:
@@ -683,7 +683,7 @@
 			pos_hint: {"top":.61, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addnineAM(root)
+				root.event_add(root, "9 AM")
 				#screen_manager.current="main_sc"
 				
 		MDFloatingActionButton:
@@ -691,7 +691,7 @@
 			pos_hint: {"top":.50, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addtenAM(root)
+				root.event_add(root, "10 AM")
 				#screen_manager.current="main_sc"
 				
 		MDFloatingActionButton:
@@ -699,7 +699,7 @@
 			pos_hint: {"top":.39, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addelevenAM(root)
+				root.event_add(root, "11 AM")
 				#screen_manager.current="main_sc"
 
 		MDFloatingActionButton:
@@ -707,7 +707,7 @@
 			pos_hint: {"top":.28, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addNoon(root)
+				root.event_add(root, "12 PM")
 				#screen_manager.current="main_sc"
 		
 		MDFloatingActionButton:
@@ -715,7 +715,7 @@
 			pos_hint: {"top":.17, "right":.5}
 			icon: 'check'
 			on_release: 
-				root.event_addonePM(root)
+				root.event_add(root, "1 PM")
 				#screen_manager.current="main_sc"
 
 		MDFloatingActionButton:
@@ -723,7 +723,7 @@
 			pos_hint: {"top":.94, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addtwoPM(root)
+				root.event_add(root, "2 PM")
 				#screen_manager.current="main_sc"
 				#app.taskFun_press(contentEvent)
                 
@@ -732,7 +732,7 @@
 			pos_hint: {"top":.83, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addthreePM(root)
+				root.event_add(root, "3 PM")
 				#screen_manager.current="main_sc"
 		
 		MDFloatingActionButton:
@@ -740,7 +740,7 @@
 			pos_hint: {"top":.72, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addfourPM(root)
+				root.event_add(root, "4 PM")
 				#screen_manager.current="main_sc"
 		
 		MDFloatingActionButton:
@@ -748,7 +748,7 @@
 			pos_hint: {"top":.61, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addfivePM(root)
+				root.event_add(root, "5 PM")
 				#screen_manager.current="main_sc"
 				
 		MDFloatingActionButton:
@@ -756,7 +756,7 @@
 			pos_hint: {"top":.50, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addsixPM(root)
+				root.event_add(root, "6 PM")
 				#screen_manager.current="main_sc"
 				
 		MDFloatingActionButton:
@@ -764,7 +764,7 @@
 			pos_hint: {"top":.39, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addsevenPM(root)
+				root.event_add(root, "7 PM")
 				#screen_manager.current="main_sc"
 
 		MDFloatingActionButton:
@@ -772,7 +772,7 @@
 			pos_hint: {"top":.28, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addeightPM(root)
+				root.event_add(root, "8 PM")
 				#screen_manager.current="main_sc"
 		
 		MDFloatingActionButton:
@@ -780,7 +780,7 @@
 			pos_hint: {"top":.17, "right":1}
 			icon: 'check'
 			on_release: 
-				root.event_addninePM(root)
+				root.event_add(root, "9 PM")
 				#screen_manager.current="main_sc"
 		
 	#	MDFloatingActionButton:

@@ -237,9 +237,47 @@ class WindowManager(ScreenManager):
 
 
 
-    def event_add(self, root):
+    def event_add(self, root, time):
         global events
         global userid
+
+        timesArr = ["6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM"]
+        index = timesArr.index(time)
+        print(index)
+
+        if index == 0:
+            messageText = self.ids.contentEvent.text
+        elif index == 1:
+            messageText = self.ids.sevenAM.text
+        elif index == 2:
+            messageText = self.ids.eightAM.text
+        elif index == 3:
+            messageText = self.ids.nineAM.text
+        elif index == 4:
+            messageText = self.ids.tenAM.text
+        elif index == 5:
+            messageText = self.ids.elevenAM.text
+        elif index == 6:
+            messageText = self.ids.noon.text
+        elif index == 7:
+            messageText = self.ids.onePM.text
+        elif index == 8:
+            messageText = self.ids.twoPM.text
+        elif index == 9:
+            messageText = self.ids.threePM.text
+        elif index == 10:
+            messageText = self.ids.fourPM.text
+        elif index == 11:
+            messageText = self.ids.fivePM.text
+        elif index == 12:
+            messageText = self.ids.sixPM.text
+        elif index == 13:
+            messageText = self.ids.sevenPM.text
+        elif index == 14:
+            messageText = self.ids.eightPM.text
+        elif index == 15:
+            messageText = self.ids.ninePM.text
+        
 
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -254,16 +292,10 @@ class WindowManager(ScreenManager):
 
         dateID = datetime.today().strftime("%m%d%Y") #temp value for now
         userid = store.get('account')['userid']
-        time = "6 AM"
-        c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, self.ids.contentEvent.text, userid))
+        
+        c.execute("INSERT INTO events(dateID, time, messageBody, userID) VALUES (%s, %s, %s, %s)", (dateID, time, messageText, userid))
         conn.commit()
         conn.close()
-        index=6
-		
-        if self.ids.contentEvent.text.strip():
-            if  not '\n' in self.ids.contentEvent.text:
-                self.ids.contentEvent.text += '\n'
-            events.insert(index, '6 AM - ' + self.ids.contentEvent.text)
 
 
 
@@ -279,8 +311,8 @@ class WindowManager(ScreenManager):
     def postEvents(self, root):
         global userid
         global events
-        global userid
 
+        userid = store.get('account')['userid']
         self.ids.contentEventMain.text = '' # reset textfield to be blank
 
         conn = psycopg2.connect(
@@ -295,6 +327,7 @@ class WindowManager(ScreenManager):
         query = "SELECT * FROM events WHERE userID = %s"
         c.execute(query, (userid,))
         records = c.fetchall()
+        print(records)
 
         #query = "DELETE FROM events"
         #c.execute(query)
@@ -307,28 +340,6 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
 
-    def postEvents(self, root):
-        global events
-      #  i = 0
-
-		
-        for i in range(len(events)):
-            if events[i] != '0' and events[i] != 0:
-                if i > 12:
-                    AP = 'PM'
-                    time = i-12
-                elif i == 12:
-                    AP = 'PM'
-                    time = i
-                else:
-                    AP = 'AM'
-                    time = i
-                if len(events) == 1 and events[i] != '0' and events[i] != '':
-                    self.ids.contentEventMain.text =  events[i]
-                elif not str(events[i]) in self.ids.contentEventMain.text and events[i] != '0' and events[i] != '':
-                    self.ids.contentEventMain.text +=  str(events[i])
-
-#str(time) + ' ' + AP + ' - ' + ### was in the above print statements but kept getting error of str cant concatenate to int
     def event_addeightAM(self, root):
         global events
         index = 8
