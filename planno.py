@@ -19,7 +19,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 
 
 
-events= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+events= []
 todos = []
 userid = -1
 
@@ -264,6 +264,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.contentEvent.text:
                 self.ids.contentEvent.text += '\n'
             events.insert(index, '6 AM - ' + self.ids.contentEvent.text)
+        self.ids.contentEvent.text = ''
 
 
 
@@ -275,6 +276,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.sevenAM.text:
                 self.ids.sevenAM.text += '\n'
             events.insert(index, '7 AM - ' + self.ids.sevenAM.text)
+        self.ids.sevenAM.text = ''
 
     def postEvents(self, root):
         global userid
@@ -310,40 +312,52 @@ class WindowManager(ScreenManager):
     def postEvents(self, root):
         global events
       #  i = 0
-
-		
+        rem = 0
+        for rem in range(len(events)):
+            self.ids['eventContainer'].clear_widgets()
         for i in range(len(events)):
-            if events[i] != '0' and events[i] != 0:
-                if i > 12:
-                    AP = 'PM'
-                    time = i-12
-                elif i == 12:
-                    AP = 'PM'
-                    time = i
-                else:
-                    AP = 'AM'
-                    time = i
-                if len(events) == 1 and events[i] != '0' and events[i] != '':
-                    self.ids.contentEventMain.text =  events[i]
-                elif not str(events[i]) in self.ids.contentEventMain.text and events[i] != '0' and events[i] != '':
-                    self.ids.contentEventMain.text +=  str(events[i])
+            self.ids['eventContainer'].add_widget(ListItemWithCheckbox(text='[b]'+str(events[i])+'[/b]'))
+        
+#        for i in range(len(events)):
+ #           if events[i] != '0' and events[i] != 0:
+  #              if i > 12:
+   #                 AP = 'PM'
+    #                time = i-12
+     #           elif i == 12:
+      #              AP = 'PM'
+       #             time = i
+        #        else:
+         #           AP = 'AM'
+          #          time = i
+           #     if len(events) == 1 and events[i] != '0' and events[i] != '':
+            #        self.ids['eventContainer'].add_widget(ListItemWithCheckbox(text='[b]'+events[i]+'[/b]'))
+             #       #self.ids.contentEventMain.text =  events[i]
+              #  elif not str(events[i]) in self.ids.contentEventMain.text and events[i] != '0' and events[i] != '':
+#                    self.ids['eventContainer'].add_widget(ListItemWithCheckbox(text='[b]'+events[i]+'[/b]'))
+ #                   #self.ids.contentEventMain.text +=  str(events[i])
 
-#str(time) + ' ' + AP + ' - ' + ### was in the above print statements but kept getting error of str cant concatenate to int
+
     def event_addeightAM(self, root):
         global events
         index = 8
+        
+ 
         if self.ids.eightAM.text.strip():
             if  not '\n' in self.ids.eightAM.text:
                 self.ids.eightAM.text += '\n'
             events.insert(index, '8 AM - ' + self.ids.eightAM.text)
-		
+        self.ids.eightAM.text = ''
+
+
     def event_addnineAM(self, root):
         global events
         index = 9
+
         if self.ids.nineAM.text.strip():
             if  not '\n' in self.ids.nineAM.text:
                 self.ids.nineAM.text += '\n'
             events.insert(index, '9 AM - ' + self.ids.nineAM.text)
+        self.ids.nineAM.text = ''
 
     def event_addtenAM(self, root):
         global events
@@ -352,6 +366,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.tenAM.text:
                 self.ids.tenAM.text += '\n'
             events.insert(index, '10 AM - ' + self.ids.tenAM.text)
+        self.ids.tenAM.text = ''
 
     def event_addelevenAM(self, root):
         global events
@@ -360,14 +375,16 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.elevenAM.text:
                 self.ids.elevenAM.text += '\n'
             events.insert(index,'11 AM - ' +  self.ids.elevenAM.text)
+        self.ids.elevenAM.text = ''
 
     def event_addNoon(self, root):
         global events
         index = 12
         if self.ids.noon.text.strip():
             if  not '\n' in self.ids.noon.text:
-                self.ids.noon.text += ' - 12 PM\n'
+                self.ids.noon.text += '\n'
             events.insert(index, '12 PM - ' +  self.ids.noon.text)
+        self.ids.noon.text = ''
 
     def event_addonePM(self, root):
         global events
@@ -381,6 +398,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.onePM.text:
                 self.ids.onePM.text += '\n'
             events.insert(index, '1 PM - ' + self.ids.onePM.text)
+        self.ids.onePM.text = ''
 
     def event_addtwoPM(self, root):
         global events
@@ -393,6 +411,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.twoPM.text:
                 self.ids.twoPM.text += '\n'
             events.insert(index,'2 PM - ' +  self.ids.twoPM.text)
+        self.ids.twoPM.text = ''
 
 
     def event_addthreePM(self, root):
@@ -406,6 +425,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.threePM.text:
                 self.ids.threePM.text += '\n'
             events.insert(index, '3 PM - ' +  self.ids.threePM.text)
+        self.ids.threePM.text = ''
 
     def event_addfourPM(self, root):
         global events
@@ -418,6 +438,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.fourPM.text:
                 self.ids.fourPM.text += '\n'
             events.insert(index, '4 PM - ' +  self.ids.fourPM.text)
+        self.ids.fourPM.text = ''
 		
     def event_addfivePM(self, root):
         global events
@@ -430,6 +451,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.fivePM.text:
                 self.ids.fivePM.text += '\n'
             events.insert(index,'5 PM - ' +  self.ids.fivePM.text)
+        self.ids.fivePM.text = ''
 
     def event_addsixPM(self, root):
         global events
@@ -442,6 +464,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.sixPM.text:
                 self.ids.sixPM.text += '\n'
             events.insert(index, '6 PM - ' + self.ids.sixPM.text)
+        self.ids.sixPM.text = ''
 
     def event_addsevenPM(self, root):
         global events
@@ -454,6 +477,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.sevenPM.text:
                 self.ids.sevenPM.text += '\n'
             events.insert(index, '7 PM - ' +  self.ids.sevenPM.text)
+        self.ids.sevenPM.text = ''
 
     def event_addeightPM(self, root):
         global events
@@ -466,6 +490,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.eightPM.text:
                 self.ids.eightPM.text += '\n'
             events.insert(index, '8 PM - ' + self.ids.eightPM.text)
+        self.ids.eightPM.text = ''
 
     def event_addninePM(self, root):
         global events
@@ -478,6 +503,7 @@ class WindowManager(ScreenManager):
             if  not '\n' in self.ids.ninePM.text:
                 self.ids.ninePM.text += '\n'
             events.insert(index, '9 AM - ' +  self.ids.ninePM.text)
+        self.ids.ninePM.text = ''
 
 
 class MainApp(MDApp):
