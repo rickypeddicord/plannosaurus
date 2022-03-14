@@ -12,7 +12,7 @@ from kivymd.uix.list import OneLineListItem
 from kivy.uix.checkbox import CheckBox
 from kivy.clock import Clock
 from kivy.storage.jsonstore import JsonStore
-from kivymd.uix.list import TwoLineAvatarIconListItem, ILeftBodyTouch
+from kivymd.uix.list import TwoLineAvatarIconListItem, OneLineAvatarIconListItem, ILeftBodyTouch
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import MDBoxLayout
@@ -776,7 +776,7 @@ class MainApp(MDApp):
         self.task_list_dialog.dismiss()
     
     def add_todo(self, task, task_date):
-        self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text=task_date))
+        self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
         task.text = ''
 
 class DialogContent(MDBoxLayout):
@@ -796,7 +796,7 @@ class DialogContent(MDBoxLayout):
         date = value.strftime('%A %d %B %Y')
         self.ids.date_text.text = str(date)
 
-class EventItemWithCheckbox(TwoLineAvatarIconListItem):
+class EventItemWithCheckbox(OneLineAvatarIconListItem):
 
     def __init__(self, pk=None, **kwargs):
         super().__init__(**kwargs)
