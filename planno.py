@@ -623,7 +623,15 @@ class MainApp(MDApp):
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         if self.root.ids.firstName.text == "" or self.root.ids.lastName.text == "":
-            self.root.ids.welcome_label.text = "Fields cannot be empty"
+            self.root.ids.regLabel.text = "Fields cannot be empty"
+            return
+        elif self.root.ids.enterPass.text != self.root.ids.passReEnter.text:
+            self.root.ids.enterPass.text = ''
+            self.root.ids.passReEnter.text = ''
+            self.root.ids.regLabel.text = 'Passwords must match.'
+            return
+        elif self.root.ids.enterPass.text == "" or self.root.ids.passReEnter.text == "":
+            self.root.ids.regLabel.text = "Password fields required."
             return
         else:
             c.execute("SELECT * FROM users")
@@ -646,6 +654,8 @@ class MainApp(MDApp):
         conn.close()
         # redirect
         self.root.current = "login_sc"
+    
+   
 
     def left_cal(self):
         global dateID
