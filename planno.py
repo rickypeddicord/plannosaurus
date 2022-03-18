@@ -5,7 +5,7 @@ import psycopg2.extras
 import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
-from kivymd.uix.picker import MDDatePicker
+from kivymd.uix.picker import MDDatePicker, MDThemePicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
@@ -15,6 +15,7 @@ from kivy.storage.jsonstore import JsonStore
 from kivymd.uix.list import TwoLineAvatarIconListItem, OneLineAvatarIconListItem, ILeftBodyTouch
 from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.dialog import MDDialog
+from kivy.utils import get_color_from_hex
 from kivymd.uix.boxlayout import MDBoxLayout
 
 
@@ -234,7 +235,8 @@ class WindowManager(ScreenManager):
         return "main_sc"
 
 
-
+    #def customizeColor(self, root):
+        
 
 
     def event_add(self, root, time):
@@ -315,23 +317,42 @@ class WindowManager(ScreenManager):
         self.ids.sevenPM.text = ''
         self.ids.eightPM.text = ''
         self.ids.ninePM.text = ''
+        
+    #    if time == "6 AM":
+    #        self.ids.contentEvent.disabled = True
+            #self.ids.contentEvent.fill_color = (1, 0, 0, .5)
+    #    elif time == "7 AM":
+    #        self.ids.sevenAM.disabled = True
+    #    elif time == "8 AM":
+    #        self.ids.eightAM.disabled = True
+    #    elif time == "9 AM":
+    #        self.ids.nineAM.disabled = True
+    #    elif time == "10 AM":
+    #        self.ids.tenAM.disabled = True
+    #    elif time == "11 AM":
+    #        self.ids.elevenAM.disabled = True
+    #    elif time == "12 PM":
+    #        self.ids.noon.disabled = True
+    #    elif time == "1 PM":
+    #        self.ids.onePM.disabled = True
+    #    elif time == "2 PM":
+    #        self.ids.twoPM.disabled = True
+    #    elif time == "3 PM":
+    #        self.ids.threePM.disabled = True
+    #    elif time == "4 PM":
+    #        self.ids.fourPM.disabled = True
+    #    elif time == "5 PM":
+    #        self.ids.fivePM.disabled = True
+    #    elif time == "6 PM":
+    #        self.ids.sixPM.disabled = True
+    #    elif time == "7 PM":
+    #        self.ids.sevenPM.disabled = True
+    #    elif time == "8 PM":
+    #        self.ids.eightPM.disabled = True
+    #    elif time == "9 PM":
+    #        self.ids.ninePM.disabled = True
 
-        self.ids.contentEvent.text = ''
-        self.ids.sevenAM.text = ''
-        self.ids.eightAM.text = ''
-        self.ids.nineAM.text = ''
-        self.ids.tenAM.text = ''
-        self.ids.elevenAM.text = ''
-        self.ids.noon.text = ''
-        self.ids.onePM.text = ''
-        self.ids.twoPM.text = ''
-        self.ids.threePM.text = ''
-        self.ids.fourPM.text = ''
-        self.ids.fivePM.text = ''
-        self.ids.sixPM.text = ''
-        self.ids.sevenPM.text = ''
-        self.ids.eightPM.text = ''
-        self.ids.ninePM.text = ''
+
 
 
     def postEvents(self, root):
@@ -369,10 +390,52 @@ class WindowManager(ScreenManager):
 
         conn.commit()
         conn.close()
+    
+    def delete_eventFromAdd(self, root, time, the_event_item):
+        global userid
+        deleteItem = ''
+        
+        if the_event_item.text[0:3] == '[b]':
+            deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+        else:
+            deleteItem = the_event_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
+        
+        if records:
+            for items in records:
+                self.parent.remove_widget(the_event_item)
+                
+        
+        
+        
+        #self.parent.remove_widget(the_event_item)
+        if time == "6 AM":
+            self.ids.contentEvent.disabled = False
+            self.ids.contentEvent.text = ''
+        elif time == "7 AM":
+            self.ids.sevenAM.disabled = False
+            self.ids.sevenAM.text = ''
+    
 
 
 class MainApp(MDApp):
     task_list_dialog = None
+    customize_dialog = None
     def build(self):
         Builder.load_file("app.kv")
         self.theme_cls.theme_style = "Light"
@@ -396,11 +459,8 @@ class MainApp(MDApp):
         # Create events table
         c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
 
-        # save reference to userid via select
-        # create dateid from currently selected date
-        # messgagebody will contain event information
-        # eventid needed for editing or deleting an event?
-        # probably separate table needed for todos
+        c.execute("CREATE TABLE if not exists todos(todoID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), todoItem VARCHAR(255), userID int REFERENCES users)")
+
         
         
         conn.commit()
@@ -421,6 +481,7 @@ class MainApp(MDApp):
         if store.exists('account'):
             self.root.init_load(self.root)
             self.root.postEvents(self.root)
+            self.postTodo()
             self.root.current = "main_sc"
         else:
             self.root.current = "login_sc"
@@ -498,6 +559,9 @@ class MainApp(MDApp):
         date_dialog = MDDatePicker() 
         date_dialog.bind(on_save = self.on_save)
         date_dialog.open()
+    
+  #  def pickSticker(self):
+        
 
     def on_save(self, instance, value, date_range):
         global dateID
@@ -771,7 +835,26 @@ class MainApp(MDApp):
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
 
+    def show_customize_dialog(self):
+        if not self.customize_dialog:
+            self.customize_dialog=MDDialog(
+                title="Customize",
+                type="custom",
+                content_cls=CustomizeDialog(),
+            )
+        self.customize_dialog.open()
     
+    def show_theme_picker(self):
+        theme_dialog = MDThemePicker()
+        theme_dialog.open()
+        
+    
+    def customizeColor(self, root):
+        
+        self.root.ids.contentEventMain.fill_color = .5, 0, 0, .5
+    
+    def close_customize_dialog(self):
+        self.customize_dialog.dismiss()
     
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
@@ -786,8 +869,75 @@ class MainApp(MDApp):
         self.task_list_dialog.dismiss()
     
     def add_todo(self, task, task_date):
+        global userid
+        global dateID
+        global todos
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        
+        if store.exists('account'):
+            userid = store.get('account')['userid']
+            
+        todoMessage = task.text
+        
+        c.execute("INSERT INTO todos(dateID, timestamp, todoItem, userID) VALUES (%s, %s, %s, %s)", (dateID, task_date, todoMessage, userid))
+        
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
-        task.text = ''
+
+       
+        conn.commit()
+        conn.close()
+
+
+    def postTodo(self):
+        global userid
+        global todos
+        global dateID
+
+        if store.exists('account'):
+            userid = store.get('account')['userid']
+
+        #self.root.ids.contentTODOMain.text = '' # reset textfield to be blank
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
+        c.execute(query, (userid, dateID,))
+        records = c.fetchall()
+        print(records)
+        
+      #  self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
+        self.root.ids['container'].clear_widgets()
+        if records:
+            for items in records:
+                self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
+        
+        
+        conn.commit()
+        
+        conn.close()
+        #task.text = ''
+
+class CustomizeDialog(MDBoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+       # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
 
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
@@ -805,7 +955,12 @@ class DialogContent(MDBoxLayout):
 
         date = value.strftime('%A %d %B %Y')
         self.ids.date_text.text = str(date)
-
+#class StickerClass():
+ #   icon = StringProperty()
+    
+  #  def pickSticker(self):
+   #     pass
+        
 class EventItemWithCheckbox(OneLineAvatarIconListItem):
 
     def __init__(self, pk=None, **kwargs):
@@ -822,7 +977,7 @@ class EventItemWithCheckbox(OneLineAvatarIconListItem):
     def delete_event(self, the_event_item):
         global userid
         deleteItem = ''
-
+        
         if the_event_item.text[0:3] == '[b]':
             deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
         else:
@@ -863,6 +1018,30 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
             the_list_item.text = the_list_item.text.split('[s]')[1].split('[/s]')[0]
 
     def delete_item(self, the_list_item):
+        global userid
+        deleteItem = ''
+
+        if the_list_item.text[0:3] == '[b]':
+            deleteItem = the_list_item.text.split('[b]')[1].split('[/b]')[0]
+        else:
+            deleteItem = the_list_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
+        
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "DELETE FROM todos WHERE userid = %s AND todoItem = %s"
+        c.execute(query, (userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
         self.parent.remove_widget(the_list_item)
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
