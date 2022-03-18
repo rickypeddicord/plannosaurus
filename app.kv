@@ -112,6 +112,11 @@
 						font_size: 12
 						pos_hint: {"x": .85, "y": .95}
 						on_press: app.right_cal()
+				    MDFlatButton:
+						text: "Add Sticker"
+						font_size: 12
+						pos_hint: {"x": .05, "y": .85}
+						on_press: app.pickSticker()
 
 
 					MDIconButton:
@@ -281,6 +286,15 @@
                         id: listSwiper
                         MDSwiperItem:
                             id: listItem
+					
+					MDFlatButton:
+						id: customizeButton
+						text: 'Customize'
+						font_size: 12
+						pos_hint: {"x": .85, "y": .85}
+						on_release: app.show_theme_picker()
+						
+						
 ##############
 ## LIST TAB ##
 ##############
@@ -321,6 +335,7 @@
             orientation: 'vertical'
             
             MDLabel:
+				id: regLabel
                 text: "REGISTRATION:"
                 pos_hint: {"center_x": 0.6, "center_y": 0.2}
                 font_size: 30
@@ -411,8 +426,8 @@
 		MDTextField:
 			id: contentEvent
 			multiline: True
-			on_text: app.contentEvent = self.text
-			hint_text: "6AM"
+			#on_text: self.fill_color = (1, 0, 0, 0.5)
+			#hint_text: "6AM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -422,10 +437,17 @@
 			pos_hint: {'x': 0, 'y': .84}				
 			mode: "fill"
 			fill_color: 0,.5,.2,.5
+			disabled: False
+		MDLabel:
+			id: 6AMLabel
+			text: '6 AM'
+			pos_hint: {"x": .01, "center_y": .93}
+			font_size: 15
+			
 		MDTextField:
 			id: sevenAM
 			multiline: True
-			hint_text: "7AM"
+			#hint_text: "7AM"
 			on_text: app.sevenAM = self.text
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
@@ -437,11 +459,17 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.35,.5
+			disabled: False
+		MDLabel:
+			id: 7AMLabel
+			text: '7 AM'
+			pos_hint: {"x": .01, "center_y": .82}
+			font_size: 15
 		MDTextField:
 			id: eightAM
 			multiline: True
 			on_text: app.eightAM = self.text
-			hint_text: "8AM"
+			#hint_text: "8AM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -452,11 +480,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.4,.5
+		MDLabel:
+			id: 8AMLabel
+			text: '8 AM'
+			pos_hint: {"x": .01, "center_y": .71}
+			font_size: 15	
 		MDTextField:
 			id: nineAM
 			multiline: True
 			on_text: app.nineAM = self.text
-			hint_text: "9AM"
+			#hint_text: "9AM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -467,11 +500,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.45,.5
+		MDLabel:
+			id: 9AMLabel
+			text: '9 AM'
+			pos_hint: {"x": .01, "center_y": .60}
+			font_size: 15
 		MDTextField:
 			id: tenAM
 			multiline: True
 			on_text: app.tenAM = self.text
-			hint_text: "10AM"
+			#hint_text: "10AM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -482,11 +520,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.5,.5
+		MDLabel:
+			id: 10AMLabel
+			text: '10 AM'
+			pos_hint: {"x": .01, "center_y": .49}
+			font_size: 15
 		MDTextField:
 			id: elevenAM
 			multiline: True
 			on_text: app.elevenAM = self.text
-			hint_text: "11AM"
+			#hint_text: "11AM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -497,11 +540,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.55,.5
+		MDLabel:
+			id: 11AMLabel
+			text: '11 AM'
+			pos_hint: {"x": .01, "center_y": .38}
+			font_size: 15
 		MDTextField:
 			id: noon
 			multiline: True
 			on_text: app.noon = self.text
-			hint_text: "12PM"
+			#hint_text: "12PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -512,11 +560,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.6,.5
+		MDLabel:
+			id: noonLabel
+			text: '12 PM'
+			pos_hint: {"x": .01, "center_y": .27}
+			font_size: 15
 		MDTextField:
 			id: onePM
 			multiline: True
 			on_text: app.onePM = self.text
-			hint_text: "1PM"
+			#hint_text: "1PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -527,11 +580,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.65,.5
+		MDLabel:
+			id: 1PMLabel
+			text: '1 PM'
+			pos_hint: {"x": .01, "center_y": .16}
+			font_size: 15
 		MDTextField:
 			id: twoPM
 			multiline: True
 			on_text: app.twoPM = self.text
-			hint_text: "2PM"
+			#hint_text: "2PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -542,11 +600,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.2,.5
+		MDLabel:
+			id: 2PMLabel
+			text: '2 PM'
+			pos_hint: {"x": .51, "center_y": .93}
+			font_size: 15
 		MDTextField:
 			id: threePM
 			multiline: True
 			on_text: app.threePM = self.text
-			hint_text: "3PM"
+			#hint_text: "3PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -557,11 +620,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.35,.5
+		MDLabel:
+			id: 3PMLabel
+			text: '3 PM'
+			pos_hint: {"x": .51, "center_y": .82}
+			font_size: 15
 		MDTextField:
 			id: fourPM
 			multiline: True
 			on_text: app.fourPM = self.text
-			hint_text: "4PM"
+			#hint_text: "4PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -572,11 +640,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.4,.5
+		MDLabel:
+			id: 4PMLabel
+			text: '4 PM'
+			pos_hint: {"x": .51, "center_y": .71}
+			font_size: 15
 		MDTextField:
 			id: fivePM
 			multiline: True
 			on_text: app.fivePM = self.text
-			hint_text: "5PM"
+		#	hint_text: "5PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -587,11 +660,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.45,.5
+		MDLabel:
+			id: 5PMLabel
+			text: '5 PM'
+			pos_hint: {"x": .51, "center_y": .60}
+			font_size: 15
 		MDTextField:
 			id: sixPM
 			multiline: True
 			on_text: app.sixPM = self.text
-			hint_text: "6PM"
+			#hint_text: "6PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -602,11 +680,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.5,.5
+		MDLabel:
+			id: 6PMLabel
+			text: '6 PM'
+			pos_hint: {"x": .51, "center_y": .49}
+			font_size: 15
 		MDTextField:
 			id: sevenPM
 			multiline: True
 			on_text: app.sevenPM = self.text
-			hint_text: "7PM"
+			#hint_text: "7PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -617,11 +700,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.55,.5
+		MDLabel:
+			id: 7PMLabel
+			text: '7 PM'
+			pos_hint: {"x": .51, "center_y": .38}
+			font_size: 15
 		MDTextField:
 			id: eightPM
 			multiline: True
 			on_text: app.eightPM = self.text
-			hint_text: "8PM"
+			#hint_text: "8PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -632,11 +720,16 @@
 		#	helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.6,.5
+		MDLabel:
+			id: 8PMLabel
+			text: '8 PM'
+			pos_hint: {"x": .51, "center_y": .27}
+			font_size: 15
 		MDTextField:
 			id: ninePM
 			multiline: True
 			on_text: app.ninePM = self.text
-			hint_text: "9PM"
+			#hint_text: "9PM"
 			color_mode: 'custom'
 			#line_color_focus: .8, 0, 0, 1
 			line_color_focus: 0, 0, 0, 1
@@ -647,6 +740,11 @@
 			#helper_text_mode: "on_focus"
 			mode: "fill"
 			fill_color: 0,.5,.65,.5
+		MDLabel:
+			id: 9PMLabel
+			text: '9 PM'
+			pos_hint: {"x": .51, "center_y": .16}
+			font_size: 15
 	#	MDTextField:
 	#		id: contentTodo
 	#		multiline: True
@@ -663,6 +761,7 @@
 	#		mode: "fill"
 	#		fill_color: .5, 1, .8, 0.8
 	
+	
 				
 		MDFloatingActionButton:
 			id: add6AM
@@ -670,10 +769,11 @@
 			icon: 'check'
 			on_release: 
 				root.event_add(root, "6 AM")
-			#	root.postEvents(root)
-			#	screen_manager.current="main_sc"
-			#	root.postArray(root)
-				#app.taskFun_press(contentEvent)
+	#	MDFloatingActionButton:
+	#		id: delete6AM
+	#		pos_hint: {"top":.94, "right":.45}
+	#		icon: 'trash-can-outline'
+	#		on_release: root.delete_eventFromAdd(root, "6 AM", contentEvent)
                 
 		MDFloatingActionButton:
 			id: add7AM
@@ -683,6 +783,11 @@
 				root.event_add(root, "7 AM")
 				#root.postEvents(root)
 				#screen_manager.current="main_sc"
+	#	MDFloatingActionButton:
+	#		id: delete7AM
+	#		pos_hint: {"top":.83, "right":.45}
+	#		icon: 'trash-can-outline'
+	#		on_release: root.delete_eventFromAdd(root, "7 AM", sevenAM)
 		
 		MDFloatingActionButton:
 			id: add8AM
@@ -896,11 +1001,33 @@
 		
 		MDRaisedButton:
 			text: 'SAVE'
-			on_release: (app.add_todo(task_text, date_text.text), app.close_todolist_dialog())
+			on_release: (app.add_todo(task_text, date_text.text), app.postTodo(), app.close_todolist_dialog())
 		
 		MDFlatButton:
 			text: 'CANCEL'
 			on_release: app.close_todolist_dialog()
+
+<CustomizeDialog>
+	orientation: "vertical"
+	spacing: "10dp"
+	size_hint: None, None
+	height: "130dp"
+	
+	FloatLayout:
+		MDRoundFlatButton:
+			text: 'PINK'
+			theme_text_color: "Custom"
+			md_bg_color: .5, 0, 0, .5
+			text_color: 1, 0, 0, .5
+			line_color: 1, 0, 0, .5
+			pos_hint: {'x': .5, 'y': .5}
+			#on_press: app.customizeButton(root)
+			
+	BoxLayout:
+		orientation: 'horizontal'
+		MDFlatButton:
+			text: 'CLOSE'
+			on_release: app.close_customize_dialog()
 			
 
 <EventItemWithCheckbox>:
@@ -920,6 +1047,8 @@
         text_color: 0, 0, 1, 1
         on_release:
             root.delete_event(the_event_item)
+			
+
 
 <ListItemWithCheckbox>:
     id: the_list_item
