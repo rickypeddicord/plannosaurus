@@ -101,6 +101,18 @@
 				#text_color_normal: [1,1,1,1]
                 FloatLayout:
                     id: float
+					#RootWidget:
+					#	rect_color: .5,1,.5,.6
+					#	canvas:
+					#		Color:
+					#			rgba: self.rect_color
+					#		RoundedRectangle:
+					#			pos: 20, 230
+					#			size: root.center_x+320, root.height-320
+							
+
+						
+
 					MDTextButton:
 						text: "<<<"
 						font_size: 12
@@ -113,10 +125,10 @@
 						pos_hint: {"x": .85, "y": .95}
 						on_press: app.right_cal()
 				    MDFlatButton:
-						text: "Add Sticker"
+						text: "Change Colors"
 						font_size: 12
 						pos_hint: {"x": .05, "y": .85}
-						on_press: app.pickSticker()
+						on_press: screen_manager.current = "changeBoxColors"
 
 
 					MDIconButton:
@@ -289,7 +301,7 @@
 					
 					MDFlatButton:
 						id: customizeButton
-						text: 'Customize'
+						text: 'Themes & Buttons'
 						font_size: 12
 						pos_hint: {"x": .85, "y": .85}
 						on_release: app.show_theme_picker()
@@ -927,6 +939,43 @@
             on_press: 
 				root.postEvents(root)
 				screen_manager.current = "main_sc"
+#########################
+## CHANGE COLOR SCREEN ##
+#########################
+
+	Screen:
+		name: "changeBoxColors"
+		
+		FloatLayout:
+			MDRoundFlatButton
+				text: 'PINK'
+				theme_text_color: "Custom"
+				md_bg_color: .5, 0, 0, .5
+				text_color: 1, 0, 0, .5
+				line_color: 1, 0, 0, .5
+				pos_hint: {'x': .5, 'y': .5}
+				on_press: app.colorChangerPink(root)
+			MDRoundFlatButton
+				text: 'CITRUS'
+				theme_text_color: "Custom"
+				md_bg_color: 1, 1, 0, .5
+				text_color: 1, 1, 0, 1
+				line_color: 1, 1, 0, 1
+				pos_hint: {'x': .5, 'y': .7}
+				on_press: app.colorChangerCitrus(root)	
+			MDRoundFlatButton
+				text: 'OG'
+				theme_text_color: "Custom"
+				md_bg_color: 0, 1, 0, 1
+				text_color: 0, 1, 0, 1
+				line_color: 0, 1, 0, 1
+				pos_hint: {'x': .5, 'y': .9}
+				on_press: app.colorChangerOG(root)
+			MDRoundFlatButton:
+				text: 'BACK'
+				pos_hint: {'x': .5, 'y': .2}
+				on_press: screen_manager.current="main_sc"
+		
 
 ###################################
 ##### ADD TO TO DO LIST SCREEN#####
@@ -1021,7 +1070,7 @@
 			text_color: 1, 0, 0, .5
 			line_color: 1, 0, 0, .5
 			pos_hint: {'x': .5, 'y': .5}
-			#on_press: app.customizeButton(root)
+			on_press: colorChanger(root)
 			
 	BoxLayout:
 		orientation: 'horizontal'
