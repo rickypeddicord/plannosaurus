@@ -17,7 +17,9 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.dialog import MDDialog
 from kivy.utils import get_color_from_hex
 from kivymd.uix.boxlayout import MDBoxLayout
-
+from kivy.graphics import Rectangle
+from kivy.graphics import Color
+from kivy.uix.boxlayout import BoxLayout
 
 
 events= []
@@ -239,6 +241,7 @@ class WindowManager(ScreenManager):
         
 
 
+
     def event_add(self, root, time):
         global events
         global userid
@@ -363,7 +366,7 @@ class WindowManager(ScreenManager):
         if store.exists('account'):
             userid = store.get('account')['userid']
 
-        self.ids.contentEventMain.text = '' # reset textfield to be blank
+     #   self.ids.contentEventMain.text = '' # reset textfield to be blank
 
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -834,7 +837,40 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
+    def changeIt(self, rect_color):
+        self.rect_color=1,0,0,1
+        return
+        
+    def colorChangerPink(self, root):
+        self.root.ids.contentEventMain.fill_color = [1, 0, .1, .5]
+        self.root.ids.contentEventMain._set_fill_color([1, 0, .1, .5])
+        
+        self.root.ids.contentTODOMain.fill_color = [.8, 0, .5, .5]
+        self.root.ids.contentTODOMain._set_fill_color([.8, 0, .5, .5])
+        
+        self.root.ids.addToDo.md_bg_color = [1, 0, 0, .8]
+        self.root.ids.addTask.md_bg_color = [1, 0, 0, .8]
+        
+    def colorChangerCitrus(self, root):
+        self.root.ids.contentEventMain.fill_color = [1, 1, 0, .5]
+        self.root.ids.contentEventMain._set_fill_color([1, 1, 0, .5])
+        
+        self.root.ids.contentTODOMain.fill_color = [1, .5, 0, .5]
+        self.root.ids.contentTODOMain._set_fill_color([1, .5, 0, .5])
+        
+        self.root.ids.addToDo.md_bg_color = [1, .5, 0, .8]
+        self.root.ids.addTask.md_bg_color = [1, .5, 0, .8]
 
+    def colorChangerOG(self, root):
+        self.root.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
+        self.root.ids.contentEventMain._set_fill_color([.5,1,.5,0.6])
+        
+        self.root.ids.contentTODOMain.fill_color = [.5,.5,.8,0.6]
+        self.root.ids.contentTODOMain._set_fill_color([.5,.5,.8,0.6])
+        
+        self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
+        self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
+        
     def show_customize_dialog(self):
         if not self.customize_dialog:
             self.customize_dialog=MDDialog(
@@ -843,6 +879,7 @@ class MainApp(MDApp):
                 content_cls=CustomizeDialog(),
             )
         self.customize_dialog.open()
+    
     
     def show_theme_picker(self):
         theme_dialog = MDThemePicker()
@@ -1043,6 +1080,13 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
         conn.commit()
         conn.close()
         self.parent.remove_widget(the_list_item)
+
+#class RootWidget(BoxLayout):
+ #   def __init__(self, **kwargs):
+  #      super().__init__(**kwargs)
+   # def colorChanger(self):
+    #    rect_color=(1, 0, 0, 1)
+
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
     """creates checkbox for task"""
