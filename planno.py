@@ -53,13 +53,13 @@ citrusIMG2 = Image(
     )
     
 origIMG1 = Image(
-    source = 'images/dino2-removebg-preview.png',
+    source = 'images/dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/dinog-removebg-preview.png',
+    source = 'images/blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
