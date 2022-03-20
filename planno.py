@@ -6,7 +6,6 @@ import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker
-from colorpicker import MDColorPicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
@@ -30,37 +29,37 @@ userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
 img_1 = Image(
-    source = 'basicwitch-removebg-preview.png',
+    source = 'images/basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'crystals-removebg-preview.png',
+    source = 'images/crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'orangeflow-removebg-preview.png',
+    source = 'images/orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'yellowflow-removebg-preview.png',
+    source = 'images/yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'dino2-removebg-preview.png',
+    source = 'images/dino2-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'dinog-removebg-preview.png',
+    source = 'images/dinog-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
