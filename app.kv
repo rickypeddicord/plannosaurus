@@ -130,7 +130,7 @@
 						font_size: 12
 						pos_hint: {"x": .85, "y": .95}
 						on_press: app.right_cal()
-				    MDFlatButton:
+				    MDTextButton:
 						text: "Change Colors"
 						font_size: 12
 						pos_hint: {"x": .05, "y": .85}
@@ -267,6 +267,7 @@
 						pos_hint: {"top":.5, "right":.76}
 						icon: 'pencil'
 						on_release: screen_manager.current = "AddToDo"
+
 					
 					MDTextField:
                         id: contentTODOMain
@@ -288,7 +289,7 @@
 						pos_hint: {"top":.15, "right":1}
 						icon: 'pencil'
 						on_release: app.show_todolist_dialog()
-							#screen_manager.current = "AddToDo2"
+
 					ScrollView:
 						pos_hint: {'center_y': .21, 'x': .32}
 						size_hint: .6, .25
@@ -305,7 +306,7 @@
                         MDSwiperItem:
                             id: listItem
 					
-					MDFlatButton:
+					MDTextButton:
 						id: customizeButton
 						text: 'Themes & Buttons'
 						font_size: 12

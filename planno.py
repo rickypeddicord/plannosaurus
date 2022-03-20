@@ -6,6 +6,7 @@ import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker
+from colorpicker import MDColorPicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
@@ -43,27 +44,27 @@ img_2 = Image(
 citrusIMG1 = Image(
     source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
-    size_hint = [.35, .35]
+    size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
     source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
-    size_hint = [.35, .35]
+    size_hint = [.32, .32]
+    )
+    
+origIMG1 = Image(
+    source = 'dino2-removebg-preview.png',
+    pos_hint = {"x": .71, "y": .45},
+    size_hint = [.32, .32]
     )
 
+origIMG2 = Image(
+    source = 'dinog-removebg-preview.png',
+    pos_hint = {"x": 0, "y": .05},
+    size_hint = [.32, .32]
+    )
 store = JsonStore('account.json')
-#image = """
-#Image:
- #           source: 'basicwitch-removebg-preview.png'
-  #          pos_hint: {"x": .71, "y": .45}
-   #         size_hint: .35, .35
-#"""
-
-#Image:
-#            source: 'crystals-removebg-preview.png'
-#            pos_hint: {"x": 0, "y": .05}
- #           size_hint: .35, .35
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -271,10 +272,6 @@ class WindowManager(ScreenManager):
         return "main_sc"
 
 
-    #def customizeColor(self, root):
-        
-
-
 
     def event_add(self, root, time):
         global events
@@ -354,47 +351,23 @@ class WindowManager(ScreenManager):
         self.ids.sevenPM.text = ''
         self.ids.eightPM.text = ''
         self.ids.ninePM.text = ''
-        
-    #    if time == "6 AM":
-    #        self.ids.contentEvent.disabled = True
-            #self.ids.contentEvent.fill_color = (1, 0, 0, .5)
-    #    elif time == "7 AM":
-    #        self.ids.sevenAM.disabled = True
-    #    elif time == "8 AM":
-    #        self.ids.eightAM.disabled = True
-    #    elif time == "9 AM":
-    #        self.ids.nineAM.disabled = True
-    #    elif time == "10 AM":
-    #        self.ids.tenAM.disabled = True
-    #    elif time == "11 AM":
-    #        self.ids.elevenAM.disabled = True
-    #    elif time == "12 PM":
-    #        self.ids.noon.disabled = True
-    #    elif time == "1 PM":
-    #        self.ids.onePM.disabled = True
-    #    elif time == "2 PM":
-    #        self.ids.twoPM.disabled = True
-    #    elif time == "3 PM":
-    #        self.ids.threePM.disabled = True
-    #    elif time == "4 PM":
-    #        self.ids.fourPM.disabled = True
-    #    elif time == "5 PM":
-    #        self.ids.fivePM.disabled = True
-    #    elif time == "6 PM":
-    #        self.ids.sixPM.disabled = True
-    #    elif time == "7 PM":
-    #        self.ids.sevenPM.disabled = True
-    #    elif time == "8 PM":
-    #        self.ids.eightPM.disabled = True
-    #    elif time == "9 PM":
-    #        self.ids.ninePM.disabled = True
 
 
     def overview_images(self, root, image1, image2):
-        if self.ids.float.children:
-            for child in self.ids.float.children:
-                if child.size_hint == [.35, .35]:
-                    self.ids.float.remove_widget(child)
+        global img_1
+        global img_2
+        global citrusIMG1
+        global citrusIMG2
+        global origIMG1
+        global origIMG2
+        
+        self.ids.float.remove_widget(img_1)
+        self.ids.float.remove_widget(img_2)
+        self.ids.float.remove_widget(citrusIMG1)
+        self.ids.float.remove_widget(citrusIMG2)
+        self.ids.float.remove_widget(origIMG1)
+        self.ids.float.remove_widget(origIMG2)
+        
         self.ids.float.add_widget(image1)
         self.ids.float.add_widget(image2)
 
@@ -402,6 +375,8 @@ class WindowManager(ScreenManager):
         global userid
         global events
         global dateID
+        global origIMG1
+        global origIMG2
 
         if store.exists('account'):
             userid = store.get('account')['userid']
@@ -434,6 +409,8 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
         
+        self.overview_images(root, origIMG1, origIMG2)
+        
     
     def delete_eventFromAdd(self, root, time, the_event_item):
         global userid
@@ -460,9 +437,9 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
         
-        if records:
-            for items in records:
-                self.parent.remove_widget(the_event_item)
+        # if records:
+        #     for items in records:
+        #         self.parent.remove_widget(the_event_item)
                 
         
         
@@ -527,6 +504,7 @@ class MainApp(MDApp):
             self.root.current = "main_sc"
         else:
             self.root.current = "login_sc"
+
 
     def gen_cal(self, date):
         curr_day = date
@@ -596,24 +574,23 @@ class MainApp(MDApp):
 
         self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
 
-        
-
     def pick_date(self):
-        date_dialog = MDDatePicker() 
+        global dateID
+        init_date = datetime.strptime(dateID, "%m%d%Y")
+        init_day = init_date.strftime("%#d")
+        init_month = init_date.strftime("%#m")
+        init_year = init_date.strftime("%Y")
+        date_dialog = MDDatePicker(year=int(init_year), month=int(init_month), day=int(init_day))
         date_dialog.bind(on_save = self.on_save)
         date_dialog.open()
-    
-  #  def pickSticker(self):
         
 
     def on_save(self, instance, value, date_range):
         global dateID
-        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        #self.root.ids.currMonth.text = str(months[value.month - 1])
-        #self.root.ids.currYear.text = str(value.year)
-        #datetime.today().strftime("%m%d%Y")
         dateID = value.strftime("%m%d%Y")
         self.gen_cal(value)
+        self.root.postEvents(self.root)
+        self.postTodo()
 
         
         if self.theDays.day1 == value:
@@ -766,7 +743,7 @@ class MainApp(MDApp):
 
     def left_cal(self):
         global dateID
-        newDate = ''
+        newDate = ""
         self.theDays.day1 = (self.theDays.day1 - timedelta(days = 7))
         self.theDays.day2 = (self.theDays.day2 - timedelta(days = 7))
         self.theDays.day3 = (self.theDays.day3 - timedelta(days = 7))
@@ -783,21 +760,44 @@ class MainApp(MDApp):
         day6 = self.theDays.day6
         day7 = self.theDays.day7
         
-        #if day7.strftime("%m") != "10":  
-            #theMonth = int(day7.strftime("%m").strip("0"))
-        #else:
-        theMonth = day7.strftime("%m")
-        
-        theYear = day7.strftime("%Y")
-        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        #self.root.ids.currMonth.text = str(months[theMonth - 1])
-        #self.root.ids.currYear.text = str(theYear)
         dayHold = ""
+        currMonth = ""
+        currYear = ""
         for key, val in self.root.ids.items():
             if "day" in key:
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
                     dayHold = self.root.ids[key] # save reference to current day id
+        
+        if dayHold.text == self.root.ids.day1.text:
+            currMonth = day1.strftime("%#m")
+            currYear = day1.strftime("%Y")
+            currDay = day1.strftime("%#d")
+        elif dayHold.text == self.root.ids.day2.text:
+            currMonth = day2.strftime("%#m")
+            currYear = day2.strftime("%Y")
+            currDay = day2.strftime("%#d")
+        elif dayHold.text == self.root.ids.day3.text:
+            currMonth = day3.strftime("%#m")
+            currYear = day3.strftime("%Y")
+            currDay = day3.strftime("%#d")
+        elif dayHold.text == self.root.ids.day4.text:
+            currMonth = day4.strftime("%#m")
+            currYear = day4.strftime("%Y")
+            currDay = day4.strftime("%#d")
+        elif dayHold.text == self.root.ids.day5.text:
+            currMonth = day5.strftime("%#m")
+            currYear = day5.strftime("%Y")
+            currDay = day5.strftime("%#d")
+        elif dayHold.text == self.root.ids.day6.text:
+            currMonth = day6.strftime("%#m")
+            currYear = day6.strftime("%Y")
+            currDay = day6.strftime("%#d")
+        else:
+            currMonth = day7.strftime("%#m")
+            currYear = day7.strftime("%Y")
+            currDay = day7.strftime("%#d")
+
         
         self.root.ids.day1.text = day1.strftime("%d")
         self.root.ids.day2.text = day2.strftime("%d")
@@ -807,7 +807,8 @@ class MainApp(MDApp):
         self.root.ids.day6.text = day6.strftime("%d")
         self.root.ids.day7.text = day7.strftime("%d")
 
-        newDate = theMonth + dayHold.text + theYear
+        newDate = currMonth + currDay + currYear
+        
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
@@ -831,16 +832,6 @@ class MainApp(MDApp):
         day5 = self.theDays.day5
         day6 = self.theDays.day6
         day7 = self.theDays.day7
-        
-        #if day7.strftime("%m") != "10":  
-            #theMonth = int(day7.strftime("%m").strip("0"))
-        #else:
-            #theMonth = int(day7.strftime("%m"))
-        theMonth = day7.strftime("%m")
-        theYear = day7.strftime("%Y")
-        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        #self.root.ids.currMonth.text = str(months[theMonth - 1])
-        #self.root.ids.currYear.text = str(theYear)
 
         dayHold = ""
         for key, val in self.root.ids.items():
@@ -848,6 +839,35 @@ class MainApp(MDApp):
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
                     dayHold = self.root.ids[key] # save reference to current day id
+
+        if dayHold.text == self.root.ids.day1.text:
+            currMonth = day1.strftime("%#m")
+            currYear = day1.strftime("%Y")
+            currDay = day1.strftime("%#d")
+        elif dayHold.text == self.root.ids.day2.text:
+            currMonth = day2.strftime("%#m")
+            currYear = day2.strftime("%Y")
+            currDay = day2.strftime("%#d")
+        elif dayHold.text == self.root.ids.day3.text:
+            currMonth = day3.strftime("%#m")
+            currYear = day3.strftime("%Y")
+            currDay = day3.strftime("%#d")
+        elif dayHold.text == self.root.ids.day4.text:
+            currMonth = day4.strftime("%#m")
+            currYear = day4.strftime("%Y")
+            currDay = day4.strftime("%#d")
+        elif dayHold.text == self.root.ids.day5.text:
+            currMonth = day5.strftime("%#m")
+            currYear = day5.strftime("%Y")
+            currDay = day5.strftime("%#d")
+        elif dayHold.text == self.root.ids.day6.text:
+            currMonth = day6.strftime("%#m")
+            currYear = day6.strftime("%Y")
+            currDay = day6.strftime("%#d")
+        else:
+            currMonth = day7.strftime("%#m")
+            currYear = day7.strftime("%Y")
+            currDay = day7.strftime("%#d")
         
         self.root.ids.day1.text = day1.strftime("%d")
         self.root.ids.day2.text = day2.strftime("%d")
@@ -857,7 +877,7 @@ class MainApp(MDApp):
         self.root.ids.day6.text = day6.strftime("%d")
         self.root.ids.day7.text = day7.strftime("%d")
 
-        newDate = theMonth + dayHold.text + theYear
+        newDate = currMonth + currDay + currYear
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
@@ -877,6 +897,7 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
+
     def changeIt(self, rect_color):
         self.rect_color=1,0,0,1
         return
@@ -927,6 +948,10 @@ class MainApp(MDApp):
         
         self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
         self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
+        global origIMG1
+        global origIMG2
+        self.root.overview_images(root, origIMG1, origIMG2)
+        
         
     def show_customize_dialog(self):
         if not self.customize_dialog:
@@ -957,6 +982,7 @@ class MainApp(MDApp):
                 type="custom",
                 content_cls=DialogContent(),
             )
+        self.task_list_dialog.content_cls.update_date()
         self.task_list_dialog.open()
     
     def close_todolist_dialog(self):
@@ -1037,12 +1063,25 @@ class CustomizeDialog(MDBoxLayout):
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
+        global dateID
+        formatedDate = datetime.strptime(dateID, "%m%d%Y")
+        self.ids.date_text.text = str(formatedDate.strftime("%A %d %B %Y"))
+        
+
+    def update_date(self):
+        global dateID
+        formatedDate = datetime.strptime(dateID, "%m%d%Y")
+        self.ids.date_text.text = str(formatedDate.strftime("%A %d %B %Y"))
 
 
     def show_date_picker(self):
-        date_dialog = MDDatePicker()
-        date_dialog.bind(on_save=self.on_save)
+        global dateID
+        init_date = datetime.strptime(dateID, "%m%d%Y")
+        init_day = init_date.strftime("%#d")
+        init_month = init_date.strftime("%#m")
+        init_year = init_date.strftime("%Y")
+        date_dialog = MDDatePicker(year=int(init_year), month=int(init_month), day=int(init_day))
+        date_dialog.bind(on_save = self.on_save)
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
