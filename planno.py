@@ -5,7 +5,7 @@ import psycopg2.extras
 import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
-from kivymd.uix.picker import MDDatePicker, MDThemePicker
+from kivymd.uix.picker import MDDatePicker, MDThemePicker, MDColorPicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
@@ -17,7 +17,9 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.dialog import MDDialog
 from kivy.utils import get_color_from_hex
 from kivymd.uix.boxlayout import MDBoxLayout
-
+from kivy.graphics import Rectangle
+from kivy.graphics import Color
+from kivy.properties import ColorProperty
 
 
 events= []
@@ -237,7 +239,10 @@ class WindowManager(ScreenManager):
 
     #def customizeColor(self, root):
         
-
+    def customizeColor(self, root):
+        self.ids.contentTODOMain.fill_color = [.5,1,.5,0.6]
+        self.ids.contentTODOMain._set_fill_color([.5,1,.5,0.6])
+    
 
     def event_add(self, root, time):
         global events
@@ -363,7 +368,7 @@ class WindowManager(ScreenManager):
         if store.exists('account'):
             userid = store.get('account')['userid']
 
-        self.ids.contentEventMain.text = '' # reset textfield to be blank
+     #   self.ids.contentEventMain.text = '' # reset textfield to be blank
 
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -835,6 +840,10 @@ class MainApp(MDApp):
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
 
+    def changeIt(self, rect_color):
+        self.rect_color=1,0,0,1
+        return
+        
     def show_customize_dialog(self):
         if not self.customize_dialog:
             self.customize_dialog=MDDialog(
@@ -844,14 +853,18 @@ class MainApp(MDApp):
             )
         self.customize_dialog.open()
     
-    def show_theme_picker(self):
-        theme_dialog = MDThemePicker()
-        theme_dialog.open()
+    # def show_theme_picker(self):
+    #     theme_dialog = MDThemePicker()
+    #     theme_dialog.open()
+
+    def open_color_picker(self):
+        color_picker = MDColorPicker(size_hint=(0.45, 0.85))
+        color_picker.open()
+        color_picker.bind(
+            on_select_color = self.on_select_color,
+            on_release = self.get_selected_color,
+        )
         
-    
-    def customizeColor(self, root):
-        
-        self.root.ids.contentEventMain.fill_color = .5, 0, 0, .5
     
     def close_customize_dialog(self):
         self.customize_dialog.dismiss()
