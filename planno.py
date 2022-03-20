@@ -5,7 +5,7 @@ import psycopg2.extras
 import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
-from kivymd.uix.picker import MDDatePicker, MDThemePicker, MDColorPicker
+from kivymd.uix.picker import MDDatePicker, MDThemePicker
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
@@ -19,7 +19,8 @@ from kivy.utils import get_color_from_hex
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
-from kivy.properties import ColorProperty
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import AsyncImage, Image
 
 
 events= []
@@ -27,8 +28,42 @@ todos = []
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
-store = JsonStore('account.json')
+img_1 = Image(
+    source = 'basicwitch-removebg-preview.png',
+    pos_hint = {"x": .71, "y": .45},
+    size_hint = [.35, .35]
+    )
 
+img_2 = Image(
+    source = 'crystals-removebg-preview.png',
+    pos_hint = {"x": 0, "y": .05},
+    size_hint = [.35, .35]
+    )
+    
+citrusIMG1 = Image(
+    source = 'orangeflow-removebg-preview.png',
+    pos_hint = {"x": .71, "y": .45},
+    size_hint = [.35, .35]
+    )
+
+citrusIMG2 = Image(
+    source = 'yellowflow-removebg-preview.png',
+    pos_hint = {"x": 0, "y": .05},
+    size_hint = [.35, .35]
+    )
+
+store = JsonStore('account.json')
+#image = """
+#Image:
+ #           source: 'basicwitch-removebg-preview.png'
+  #          pos_hint: {"x": .71, "y": .45}
+   #         size_hint: .35, .35
+#"""
+
+#Image:
+#            source: 'crystals-removebg-preview.png'
+#            pos_hint: {"x": 0, "y": .05}
+ #           size_hint: .35, .35
 
 class StartingDates:
     def __init__(self, day1, day2, day3, day4, day5, day6, day7):
@@ -99,7 +134,6 @@ class StartingDates:
 
 class WindowManager(ScreenManager):
     def init_load(self, root):
-        
         curr_day = datetime.today()
 
         if curr_day.weekday() == 6:
@@ -239,10 +273,8 @@ class WindowManager(ScreenManager):
 
     #def customizeColor(self, root):
         
-    def customizeColor(self, root):
-        self.ids.contentTODOMain.fill_color = [.5,1,.5,0.6]
-        self.ids.contentTODOMain._set_fill_color([.5,1,.5,0.6])
-    
+
+
 
     def event_add(self, root, time):
         global events
@@ -358,7 +390,13 @@ class WindowManager(ScreenManager):
     #        self.ids.ninePM.disabled = True
 
 
-
+    def overview_images(self, root, image1, image2):
+        if self.ids.float.children:
+            for child in self.ids.float.children:
+                if child.size_hint == [.35, .35]:
+                    self.ids.float.remove_widget(child)
+        self.ids.float.add_widget(image1)
+        self.ids.float.add_widget(image2)
 
     def postEvents(self, root):
         global userid
@@ -395,6 +433,7 @@ class WindowManager(ScreenManager):
 
         conn.commit()
         conn.close()
+        
     
     def delete_eventFromAdd(self, root, time, the_event_item):
         global userid
@@ -465,8 +504,6 @@ class MainApp(MDApp):
         c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
 
         c.execute("CREATE TABLE if not exists todos(todoID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), todoItem VARCHAR(255), userID int REFERENCES users)")
-
-        
         
         conn.commit()
         conn.close()
@@ -558,6 +595,7 @@ class MainApp(MDApp):
             first_day = (curr_day - timedelta(days = 6))
 
         self.theDays = StartingDates(first_day, second_day, third_day, fourth_day, fifth_day, sixth_day, seventh_day)
+
         
 
     def pick_date(self):
@@ -839,10 +877,56 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
-
     def changeIt(self, rect_color):
         self.rect_color=1,0,0,1
         return
+        
+    def colorChangerPink(self, root):
+        self.root.ids.contentEventMain.fill_color = [1, 0, .1, .5]
+        self.root.ids.contentEventMain._set_fill_color([1, 0, .1, .5])
+        
+        self.root.ids.contentTODOMain.fill_color = [.8, 0, .5, .5]
+        self.root.ids.contentTODOMain._set_fill_color([.8, 0, .5, .5])
+        
+        self.root.ids.addToDo.md_bg_color = [1, 0, 0, .8]
+        self.root.ids.addTask.md_bg_color = [1, 0, 0, .8]
+        
+    def colorChangerCitrus(self, root):
+        self.root.ids.contentEventMain.fill_color = [1, 1, 0, .5]
+        self.root.ids.contentEventMain._set_fill_color([1, 1, 0, .5])
+        
+        self.root.ids.contentTODOMain.fill_color = [1, .5, 0, .5]
+        self.root.ids.contentTODOMain._set_fill_color([1, .5, 0, .5])
+        
+        self.root.ids.addToDo.md_bg_color = [1, .5, 0, .8]
+        self.root.ids.addTask.md_bg_color = [1, .5, 0, .8]
+        global citrusIMG1
+        global citrusIMG2
+        self.root.overview_images(root, citrusIMG1, citrusIMG2)
+
+    def colorChangerSpooky(self, root):
+        self.root.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
+        self.root.ids.contentEventMain._set_fill_color([.8,0,.8,0.6])
+        
+        self.root.ids.contentTODOMain.fill_color = [.8,.7,.8,0.3]
+        self.root.ids.contentTODOMain._set_fill_color([.8,.7,.8,0.3])
+        
+        self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
+        self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
+        global img_1
+        global img_2
+        self.root.overview_images(root, img_1, img_2)
+
+        
+    def colorChangerOG(self, root):
+        self.root.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
+        self.root.ids.contentEventMain._set_fill_color([.5,1,.5,0.6])
+        
+        self.root.ids.contentTODOMain.fill_color = [.5,.5,.8,0.6]
+        self.root.ids.contentTODOMain._set_fill_color([.5,.5,.8,0.6])
+        
+        self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
+        self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
         
     def show_customize_dialog(self):
         if not self.customize_dialog:
@@ -853,18 +937,15 @@ class MainApp(MDApp):
             )
         self.customize_dialog.open()
     
-    # def show_theme_picker(self):
-    #     theme_dialog = MDThemePicker()
-    #     theme_dialog.open()
-
-    def open_color_picker(self):
-        color_picker = MDColorPicker(size_hint=(0.45, 0.85))
-        color_picker.open()
-        color_picker.bind(
-            on_select_color = self.on_select_color,
-            on_release = self.get_selected_color,
-        )
+    
+    def show_theme_picker(self):
+        theme_dialog = MDThemePicker()
+        theme_dialog.open()
         
+    
+    def customizeColor(self, root):
+        
+        self.root.ids.contentEventMain.fill_color = .5, 0, 0, .5
     
     def close_customize_dialog(self):
         self.customize_dialog.dismiss()
@@ -947,6 +1028,7 @@ class MainApp(MDApp):
         conn.close()
         #task.text = ''
 
+
 class CustomizeDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -973,7 +1055,8 @@ class DialogContent(MDBoxLayout):
     
   #  def pickSticker(self):
    #     pass
-        
+
+     
 class EventItemWithCheckbox(OneLineAvatarIconListItem):
 
     def __init__(self, pk=None, **kwargs):
@@ -1056,6 +1139,13 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
         conn.commit()
         conn.close()
         self.parent.remove_widget(the_list_item)
+
+#class RootWidget(BoxLayout):
+ #   def __init__(self, **kwargs):
+  #      super().__init__(**kwargs)
+   # def colorChanger(self):
+    #    rect_color=(1, 0, 0, 1)
+
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
     """creates checkbox for task"""
