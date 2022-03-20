@@ -408,6 +408,7 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
         
+        # easiest way to add images on pageload
         self.overview_images(root, origIMG1, origIMG2)
         
     
