@@ -366,6 +366,7 @@ class WindowManager(ScreenManager):
         
         self.ids.float.add_widget(image1)
         self.ids.float.add_widget(image2)
+        
 
     def colorChanger(self, root, style):
         global userid
@@ -490,6 +491,7 @@ class WindowManager(ScreenManager):
         
         conn.commit()
         conn.close()
+
         
     
     def delete_eventFromAdd(self, root, time, the_event_item):
@@ -538,6 +540,7 @@ class MainApp(MDApp):
     task_list_dialog = None
     customize_dialog = None
     global userid
+
     def build(self):
         Builder.load_file("app.kv")
 
@@ -569,22 +572,6 @@ class MainApp(MDApp):
         # Create theme table
         c.execute("CREATE TABLE if not exists theme(primary_palette VARCHAR(255), accent_palette VARCHAR(255), theme_style VARCHAR(255))")
 
-        # load theme data
-        c.execute("SELECT * FROM theme")
-        curr_theme = c.fetchall()
-        if len(curr_theme) == 0:
-            # default theme  
-            self.theme_cls.primary_palette = "Green" 
-            self.theme_cls.accent_palette = "Amber"
-            self.theme_cls.theme_style = "Light"
-            self.theme_cls.primary_hue = "500"
-        else:
-            # theme saved in database
-            self.theme_cls.primary_palette = curr_theme[0][0]
-            self.theme_cls.accent_palette = curr_theme[0][1]
-            self.theme_cls.theme_style = curr_theme[0][2]
-            self.theme_cls.primary_hue = "500"
-        
         conn.commit()
         conn.close()
 
@@ -593,15 +580,15 @@ class MainApp(MDApp):
         return WindowManager()
 
     def on_start(self):
-        Clock.schedule_once(self.set_screen, 0)
+        Clock.schedule_once(self.set_screen, 2.2)
 
     def set_screen(self, dt):
         global store
 
         if store.exists('account'):
             self.root.init_load(self.root)
-            self.root.postEvents(self.root)
             self.postTodo()
+            self.root.postEvents(self.root)
             self.root.current = "main_sc"
         else:
             self.root.current = "login_sc"
@@ -690,8 +677,8 @@ class MainApp(MDApp):
         global dateID
         dateID = value.strftime("%m%d%Y")
         self.gen_cal(value)
-        self.root.postEvents(self.root)
         self.postTodo()
+        self.root.postEvents(self.root)
 
         
         if self.theDays.day1 == value:
@@ -913,8 +900,8 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
-        self.root.postEvents(self.root)
         self.postTodo()
+        self.root.postEvents(self.root)
 
     def right_cal(self):
         global dateID
@@ -983,8 +970,8 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
-        self.root.postEvents(self.root)
         self.postTodo()
+        self.root.postEvents(self.root)
                 
     def current_day(self, instance):
         global dateID
@@ -999,8 +986,8 @@ class MainApp(MDApp):
         newDate = ''.join(newDate)
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
-        self.root.postEvents(self.root)
         self.postTodo()
+        self.root.postEvents(self.root)
 
     def changeIt(self, rect_color):
         self.rect_color=1,0,0,1
@@ -1138,6 +1125,23 @@ class MainApp(MDApp):
                if curr_day == record_day + timedelta(days = 1):
                     query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
                     c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
+
+         # load theme data
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+        
+        if len(curr_theme) == 0:
+            # default theme  
+            self.theme_cls.primary_palette = "Green" 
+            self.theme_cls.accent_palette = "Amber"
+            self.theme_cls.theme_style = "Light"
+            self.theme_cls.primary_hue = "500"
+        else:
+            # theme saved in database
+            self.theme_cls.primary_palette = curr_theme[0][0]
+            self.theme_cls.accent_palette = curr_theme[0][1]
+            self.theme_cls.theme_style = curr_theme[0][2]
+            self.theme_cls.primary_hue = "500"
 
         
         conn.commit()
