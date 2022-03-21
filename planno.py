@@ -538,6 +538,7 @@ class MainApp(MDApp):
     task_list_dialog = None
     customize_dialog = None
     global userid
+
     def build(self):
         Builder.load_file("app.kv")
 
@@ -569,22 +570,6 @@ class MainApp(MDApp):
         # Create theme table
         c.execute("CREATE TABLE if not exists theme(primary_palette VARCHAR(255), accent_palette VARCHAR(255), theme_style VARCHAR(255))")
 
-        # load theme data
-        c.execute("SELECT * FROM theme")
-        curr_theme = c.fetchall()
-        if len(curr_theme) == 0:
-            # default theme  
-            self.theme_cls.primary_palette = "Green" 
-            self.theme_cls.accent_palette = "Amber"
-            self.theme_cls.theme_style = "Light"
-            self.theme_cls.primary_hue = "500"
-        else:
-            # theme saved in database
-            self.theme_cls.primary_palette = curr_theme[0][0]
-            self.theme_cls.accent_palette = curr_theme[0][1]
-            self.theme_cls.theme_style = curr_theme[0][2]
-            self.theme_cls.primary_hue = "500"
-        
         conn.commit()
         conn.close()
 
@@ -1138,6 +1123,23 @@ class MainApp(MDApp):
                if curr_day == record_day + timedelta(days = 1):
                     query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
                     c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
+
+         # load theme data
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+        
+        if len(curr_theme) == 0:
+            # default theme  
+            self.theme_cls.primary_palette = "Green" 
+            self.theme_cls.accent_palette = "Amber"
+            self.theme_cls.theme_style = "Light"
+            self.theme_cls.primary_hue = "500"
+        else:
+            # theme saved in database
+            self.theme_cls.primary_palette = curr_theme[0][0]
+            self.theme_cls.accent_palette = curr_theme[0][1]
+            self.theme_cls.theme_style = curr_theme[0][2]
+            self.theme_cls.primary_hue = "500"
 
         
         conn.commit()
