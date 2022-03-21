@@ -963,7 +963,7 @@
 				text_color: 1, 0, 1, .5
 				line_color: 1, 0, 1, .5
 				pos_hint: {'x': .5, 'y': .3}
-				on_press: app.colorChangerSpooky(root)
+				on_press: root.colorChanger(root, "Spooky")
 			MDRoundFlatButton
 				text: 'PINK'
 				theme_text_color: "Custom"
@@ -971,7 +971,7 @@
 				text_color: 1, 0, 0, .5
 				line_color: 1, 0, 0, .5
 				pos_hint: {'x': .5, 'y': .5}
-				on_press: app.colorChangerPink(root)
+				on_press: root.colorChanger(root, "PINK")
 			MDRoundFlatButton
 				text: 'CITRUS'
 				theme_text_color: "Custom"
@@ -979,7 +979,7 @@
 				text_color: 1, 1, 0, 1
 				line_color: 1, 1, 0, 1
 				pos_hint: {'x': .5, 'y': .7}
-				on_press: app.colorChangerCitrus(root)	
+				on_press: root.colorChanger(root, "CITRUS")	
 			MDRoundFlatButton
 				text: 'OG'
 				theme_text_color: "Custom"
@@ -987,7 +987,7 @@
 				text_color: 0, 1, 0, 1
 				line_color: 0, 1, 0, 1
 				pos_hint: {'x': .5, 'y': .9}
-				on_press: app.colorChangerOG(root)
+				on_press: root.colorChanger(root, "OG")
 			MDRoundFlatButton:
 				text: 'BACK'
 				pos_hint: {'x': .5, 'y': .2}

@@ -23,8 +23,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage, Image
 
 
-events= []
-todos = []
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
@@ -273,7 +271,6 @@ class WindowManager(ScreenManager):
 
 
     def event_add(self, root, time):
-        global events
         global userid
         global dateID
 
@@ -370,9 +367,82 @@ class WindowManager(ScreenManager):
         self.ids.float.add_widget(image1)
         self.ids.float.add_widget(image2)
 
+    def colorChanger(self, root, style):
+        global userid
+        global img_1
+        global img_2
+        global citrusIMG1
+        global citrusIMG2
+        global origIMG1
+        global origIMG2
+        
+        if style == "OG":
+            self.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
+            self.ids.contentEventMain._set_fill_color([.5,1,.5,0.6])
+        
+            self.ids.contentTODOMain.fill_color = [.5,.5,.8,0.6]
+            self.ids.contentTODOMain._set_fill_color([.5,.5,.8,0.6])
+        
+            self.ids.addToDo.md_bg_color = [0, 1, 0, .5]
+            self.ids.addTask.md_bg_color = [0, 1, 0, .5]
+        
+            self.overview_images(root, origIMG1, origIMG2)
+        elif style == "CITRUS":
+            self.ids.contentEventMain.fill_color = [1, 1, 0, .5]
+            self.ids.contentEventMain._set_fill_color([1, 1, 0, .5])
+        
+            self.ids.contentTODOMain.fill_color = [1, .5, 0, .5]
+            self.ids.contentTODOMain._set_fill_color([1, .5, 0, .5])
+        
+            self.ids.addToDo.md_bg_color = [1, .5, 0, .8]
+            self.ids.addTask.md_bg_color = [1, .5, 0, .8]
+
+            self.overview_images(root, citrusIMG1, citrusIMG2)
+        elif style == "PINK":
+            self.ids.contentEventMain.fill_color = [1, 0, .1, .5]
+            self.ids.contentEventMain._set_fill_color([1, 0, .1, .5])
+        
+            self.ids.contentTODOMain.fill_color = [.8, 0, .5, .5]
+            self.ids.contentTODOMain._set_fill_color([.8, 0, .5, .5])
+        
+            self.ids.addToDo.md_bg_color = [1, 0, 0, .8]
+            self.ids.addTask.md_bg_color = [1, 0, 0, .8]
+        elif style == "Spooky":
+            self.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
+            self.ids.contentEventMain._set_fill_color([.8,0,.8,0.6])
+        
+            self.ids.contentTODOMain.fill_color = [.8,.7,.8,0.3]
+            self.ids.contentTODOMain._set_fill_color([.8,.7,.8,0.3])
+        
+            self.ids.addToDo.md_bg_color = [0, 1, 0, .5]
+            self.ids.addTask.md_bg_color = [0, 1, 0, .5]
+    
+            self.overview_images(root, img_1, img_2)
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        
+        c = conn.cursor()
+        query = "SELECT * FROM colors WHERE userID = %s"
+        c.execute(query, (userid,))
+        records = c.fetchall()
+        
+        if records:
+            c.execute("UPDATE colors SET style = %s, userid = %s", (style, userid))
+        else:
+            c.execute("INSERT INTO colors (style, userid) VALUES (%s, %s)", (style, userid))
+
+        conn.commit()
+        conn.close()
+
     def postEvents(self, root):
         global userid
-        global events
         global dateID
         global origIMG1
         global origIMG2
@@ -405,10 +475,21 @@ class WindowManager(ScreenManager):
             for items in records:
                 self.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
 
+        
+        # easiest way to do things on pageload
+
+        # load colors data
+        query = "SELECT * FROM colors WHERE userID = %s"
+        c.execute(query, (userid,))
+        records = c.fetchall()
+        
+        if records:
+            self.colorChanger(self, records[0][0])
+        else:
+            self.colorChanger(self, "OG")
+        
         conn.commit()
         conn.close()
-        
-        self.overview_images(root, origIMG1, origIMG2)
         
     
     def delete_eventFromAdd(self, root, time, the_event_item):
@@ -456,10 +537,10 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     task_list_dialog = None
     customize_dialog = None
+    global userid
     def build(self):
         Builder.load_file("app.kv")
-        self.theme_cls.theme_style = "Light"
-        self.theme_cls.primary_palette = "Green"
+
         
         # Create database table if it doesn't exist
         conn = psycopg2.connect(
@@ -479,14 +560,35 @@ class MainApp(MDApp):
         # Create events table
         c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
 
+        # Create todos table
         c.execute("CREATE TABLE if not exists todos(todoID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), todoItem VARCHAR(255), userID int REFERENCES users)")
+
+        # Create colors table
+        c.execute("CREATE TABLE if not exists colors(style VARCHAR(255), userID int REFERENCES users)")
+
+        # Create theme table
+        c.execute("CREATE TABLE if not exists theme(primary_palette VARCHAR(255), accent_palette VARCHAR(255), theme_style VARCHAR(255))")
+
+        # load theme data
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+        if len(curr_theme) == 0:
+            # default theme  
+            self.theme_cls.primary_palette = "Green" 
+            self.theme_cls.accent_palette = "Amber"
+            self.theme_cls.theme_style = "Light"
+            self.theme_cls.primary_hue = "500"
+        else:
+            # theme saved in database
+            self.theme_cls.primary_palette = curr_theme[0][0]
+            self.theme_cls.accent_palette = curr_theme[0][1]
+            self.theme_cls.theme_style = curr_theme[0][2]
+            self.theme_cls.primary_hue = "500"
         
         conn.commit()
         conn.close()
 
         self.gen_cal(date.today())
-
-        
 
         return WindowManager()
 
@@ -812,6 +914,7 @@ class MainApp(MDApp):
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
         self.root.postEvents(self.root)
+        self.postTodo()
 
     def right_cal(self):
         global dateID
@@ -881,6 +984,7 @@ class MainApp(MDApp):
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
         self.root.postEvents(self.root)
+        self.postTodo()
                 
     def current_day(self, instance):
         global dateID
@@ -896,61 +1000,12 @@ class MainApp(MDApp):
         dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.root.postEvents(self.root)
+        self.postTodo()
 
     def changeIt(self, rect_color):
         self.rect_color=1,0,0,1
         return
-        
-    def colorChangerPink(self, root):
-        self.root.ids.contentEventMain.fill_color = [1, 0, .1, .5]
-        self.root.ids.contentEventMain._set_fill_color([1, 0, .1, .5])
-        
-        self.root.ids.contentTODOMain.fill_color = [.8, 0, .5, .5]
-        self.root.ids.contentTODOMain._set_fill_color([.8, 0, .5, .5])
-        
-        self.root.ids.addToDo.md_bg_color = [1, 0, 0, .8]
-        self.root.ids.addTask.md_bg_color = [1, 0, 0, .8]
-        
-    def colorChangerCitrus(self, root):
-        self.root.ids.contentEventMain.fill_color = [1, 1, 0, .5]
-        self.root.ids.contentEventMain._set_fill_color([1, 1, 0, .5])
-        
-        self.root.ids.contentTODOMain.fill_color = [1, .5, 0, .5]
-        self.root.ids.contentTODOMain._set_fill_color([1, .5, 0, .5])
-        
-        self.root.ids.addToDo.md_bg_color = [1, .5, 0, .8]
-        self.root.ids.addTask.md_bg_color = [1, .5, 0, .8]
-        global citrusIMG1
-        global citrusIMG2
-        self.root.overview_images(root, citrusIMG1, citrusIMG2)
 
-    def colorChangerSpooky(self, root):
-        self.root.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
-        self.root.ids.contentEventMain._set_fill_color([.8,0,.8,0.6])
-        
-        self.root.ids.contentTODOMain.fill_color = [.8,.7,.8,0.3]
-        self.root.ids.contentTODOMain._set_fill_color([.8,.7,.8,0.3])
-        
-        self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
-        self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
-        global img_1
-        global img_2
-        self.root.overview_images(root, img_1, img_2)
-
-        
-    def colorChangerOG(self, root):
-        self.root.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
-        self.root.ids.contentEventMain._set_fill_color([.5,1,.5,0.6])
-        
-        self.root.ids.contentTODOMain.fill_color = [.5,.5,.8,0.6]
-        self.root.ids.contentTODOMain._set_fill_color([.5,.5,.8,0.6])
-        
-        self.root.ids.addToDo.md_bg_color = [0, 1, 0, .5]
-        self.root.ids.addTask.md_bg_color = [0, 1, 0, .5]
-        global origIMG1
-        global origIMG2
-        self.root.overview_images(root, origIMG1, origIMG2)
-        
         
     def show_customize_dialog(self):
         if not self.customize_dialog:
@@ -965,6 +1020,32 @@ class MainApp(MDApp):
     def show_theme_picker(self):
         theme_dialog = MDThemePicker()
         theme_dialog.open()
+
+    def update_theme(self):
+        # todo: modify it to save a theme for each user
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+
+        if len(curr_theme) == 0:
+            c.execute("INSERT INTO theme (primary_palette, accent_palette, theme_style) VALUES (%s, %s, %s)",
+            (self.theme_cls.primary_palette, self.theme_cls.accent_palette, self.theme_cls.theme_style))
+        else:
+            c.execute("UPDATE theme SET primary_palette = %s, accent_palette = %s, theme_style = %s", 
+            (self.theme_cls.primary_palette, self.theme_cls.accent_palette, self.theme_cls.theme_style))
+
+        conn.commit()
+        conn.close()
         
     
     def customizeColor(self, root):
@@ -990,7 +1071,6 @@ class MainApp(MDApp):
     def add_todo(self, task, task_date):
         global userid
         global dateID
-        global todos
 
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -1011,7 +1091,7 @@ class MainApp(MDApp):
         c.execute("INSERT INTO todos(dateID, timestamp, todoItem, userID) VALUES (%s, %s, %s, %s)", (dateID, task_date, todoMessage, userid))
         
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
-
+        
        
         conn.commit()
         conn.close()
@@ -1019,7 +1099,6 @@ class MainApp(MDApp):
 
     def postTodo(self):
         global userid
-        global todos
         global dateID
 
         if store.exists('account'):
@@ -1039,17 +1118,29 @@ class MainApp(MDApp):
         query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
         c.execute(query, (userid, dateID,))
         records = c.fetchall()
-        print(records)
         
-      #  self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
+
+
         self.root.ids['container'].clear_widgets()
         if records:
             for items in records:
                 self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
         
+        query = "SELECT * FROM todos WHERE userID = %s"
+        c.execute(query, (userid,))
+        records = c.fetchall()
+        
+        if records:
+            for items in records:
+               record_day = datetime.strptime(items[1], "%m%d%Y")
+               curr_day = datetime.strptime(dateID, "%m%d%Y")
+
+               if curr_day == record_day + timedelta(days = 1):
+                    query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
+                    c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
+
         
         conn.commit()
-        
         conn.close()
         #task.text = ''
 
