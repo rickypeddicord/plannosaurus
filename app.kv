@@ -318,25 +318,26 @@
 ## LIST TAB ##
 ##############
    
-
-            TabbedPanelItem:
-                text: "Lists"
-                id: listtab
-                FloatLayout:
-                    id: list
-                    MDTextFieldRound:
-                        id: ToDoList  
-                        hint_text: 'To Do List:'
-                        pos_hint: { 'center_x':.35, 'center_y': .95}
-                        size_hint_x: None
-                        width: 250
-            
-                    MDRoundFlatButton:
-                        id:ToDoButt
-                        text:"Add"
-                        pos_hint: {'center_x':.65, 'center_y':.95}
-                        #on_release: root.todo_press(root)  
-                        # size_hint: None    
+			TabbedPanelItem:
+    			text: "Lists"
+    			id: listtab
+                TabbedPanel:
+                    id: litskv
+                    do_default_tab: False
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    TabbedPanelItem:
+                        text: "Add New List"
+                        MDTextFieldRound:
+                            id:listname
+                            hint_text: "List Name"
+                            pos_hint: {'center_x':.35, 'center_y': .95}
+                            size_hint_x: None
+                            width: 250
+                        MDRoundFlatButton:
+                            id: listadd
+                            text: "Add"
+                            pos_hint: {'center_x':.65, 'center_y':.95}
+                            #on_release: app.newlist(listname)    
 
 ###########################
 ### REGISTRATION SCREEN ###  
