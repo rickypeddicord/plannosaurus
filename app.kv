@@ -1099,12 +1099,19 @@
     id: the_event_item
     markup: True
 
-    LeftCheckbox:
-        id: check2
-		theme_text_color: "Custom"
+    IconLeftWidget:
+        icon: 'star'
+        theme_text_color: "Custom"
         text_color: 0, 0, 1, 1
-        on_release: 
-            root.markEvent(check2, the_event_item)
+        on_release:
+            root.addSticker(the_event_item) ### this function does not exist yet, will be where we add the stickers
+			
+#    LeftCheckbox:
+ #       id: check2
+	#	theme_text_color: "Custom"
+     #   text_color: 0, 0, 1, 1
+      #  on_release: 
+       #     root.markEvent(check2, the_event_item)
 
     IconRightWidget:
         icon: 'trash-can-outline'
