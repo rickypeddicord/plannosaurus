@@ -27,39 +27,51 @@ userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
 img_1 = Image(
-    source = 'images/basicwitch-removebg-preview.png',
+    source = 'basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'images/crystals-removebg-preview.png',
+    source = 'crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'images/orangeflow-removebg-preview.png',
+    source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'images/yellowflow-removebg-preview.png',
+    source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'images/dinorain-removebg-preview.png',
+    source = 'dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/blue-removebg-preview.png',
+    source = 'blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
+    )
+    
+pinkIMG1 = Image(
+    source = 'work-removebg-preview.png',
+    pos_hint = {"x": .71, "y": .43},
+    size_hint = [.39, .39]
+    )
+
+pinkIMG2 = Image(
+    source = 'smiles-removebg-preview.png',
+    pos_hint = {"x": 0, "y": .05},
+    size_hint = [.34, .34]
     )
 store = JsonStore('account.json')
 
@@ -356,6 +368,8 @@ class WindowManager(ScreenManager):
         global citrusIMG2
         global origIMG1
         global origIMG2
+        global pinkIMG1
+        global pinkIMG2
         
         self.ids.float.remove_widget(img_1)
         self.ids.float.remove_widget(img_2)
@@ -363,6 +377,8 @@ class WindowManager(ScreenManager):
         self.ids.float.remove_widget(citrusIMG2)
         self.ids.float.remove_widget(origIMG1)
         self.ids.float.remove_widget(origIMG2)
+        self.ids.float.remove_widget(pinkIMG1)
+        self.ids.float.remove_widget(pinkIMG2)
         
         self.ids.float.add_widget(image1)
         self.ids.float.add_widget(image2)
@@ -376,6 +392,8 @@ class WindowManager(ScreenManager):
         global citrusIMG2
         global origIMG1
         global origIMG2
+        global pinkIMG1
+        global pinkIMG2
         
         if style == "OG":
             self.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
@@ -408,6 +426,8 @@ class WindowManager(ScreenManager):
         
             self.ids.addToDo.md_bg_color = [1, 0, 0, .8]
             self.ids.addTask.md_bg_color = [1, 0, 0, .8]
+            
+            self.overview_images(root, pinkIMG1, pinkIMG2)
         elif style == "Spooky":
             self.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
             self.ids.contentEventMain._set_fill_color([.8,0,.8,0.6])
@@ -1113,18 +1133,18 @@ class MainApp(MDApp):
             for items in records:
                 self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
         
-        query = "SELECT * FROM todos WHERE userID = %s"
-        c.execute(query, (userid,))
-        records = c.fetchall()
+     #   query = "SELECT * FROM todos WHERE userID = %s"
+      #  c.execute(query, (userid,))
+       # records = c.fetchall()
         
-        if records:
-            for items in records:
-               record_day = datetime.strptime(items[1], "%m%d%Y")
-               curr_day = datetime.strptime(dateID, "%m%d%Y")
+  #      if records:
+   #         for items in records:
+    #           record_day = datetime.strptime(items[1], "%m%d%Y")
+     #          curr_day = datetime.today().strptime(dateID, "%m%d%Y")
 
-               if curr_day == record_day + timedelta(days = 1):
-                    query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
-                    c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
+      #         if curr_day == record_day + timedelta(days = 1):
+       #             query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
+        #            c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
 
          # load theme data
         c.execute("SELECT * FROM theme")
