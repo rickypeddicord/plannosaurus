@@ -559,6 +559,7 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     task_list_dialog = None
     customize_dialog = None
+    addStickerDialog = None
     global userid
 
     def build(self):
@@ -1062,6 +1063,16 @@ class MainApp(MDApp):
     def close_customize_dialog(self):
         self.customize_dialog.dismiss()
     
+    def showAddSticker_dialog(self, eventItem):
+        if not self.addStickerDialog:
+            self.addStickerDialog=MDDialog(
+                title="Add Sticker",
+                type="custom",
+                content_cls=AddStickerDialog(),
+            )
+       # self.addStickerDialog.content_cls.update_date()
+        self.addStickerDialog.open()
+    
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
             self.task_list_dialog=MDDialog(
@@ -1074,6 +1085,9 @@ class MainApp(MDApp):
     
     def close_todolist_dialog(self):
         self.task_list_dialog.dismiss()
+    
+    def close_addSticker_dialog(self):
+        self.addStickerDialog.dismiss()
     
     def add_todo(self, task, task_date):
         global userid
@@ -1174,6 +1188,11 @@ class CustomizeDialog(MDBoxLayout):
         super().__init__(**kwargs)
        # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
 
+class AddStickerDialog(MDBoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+       # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
+
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -1211,7 +1230,7 @@ class DialogContent(MDBoxLayout):
 
      
 class EventItemWithCheckbox(OneLineAvatarIconListItem):
-
+    
     def __init__(self, pk=None, **kwargs):
         super().__init__(**kwargs)
         self.pk = pk
@@ -1250,7 +1269,11 @@ class EventItemWithCheckbox(OneLineAvatarIconListItem):
         conn.close()
         
         self.parent.remove_widget(the_event_item)
-
+        
+        
+    
+    
+        
 # below class for Todos
 class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
