@@ -1071,6 +1071,20 @@
 		MDFlatButton:
 			text: 'CANCEL'
 			on_release: app.close_todolist_dialog()
+			
+
+<AddStickerDialog>
+	orientation: "vertical"
+	spacing: "10dp"
+	size_hint: None, None
+	height: "130dp"
+	
+
+	BoxLayout:
+		orientation: 'horizontal'
+		MDFlatButton:
+			text: 'CLOSE'
+			on_release: app.close_addSticker_dialog()
 
 <CustomizeDialog>
 	orientation: "vertical"
@@ -1099,12 +1113,20 @@
     id: the_event_item
     markup: True
 
-    LeftCheckbox:
-        id: check2
-		theme_text_color: "Custom"
+
+    IconLeftWidget:
+        icon: 'star'
+        theme_text_color: "Custom"
         text_color: 0, 0, 1, 1
-        on_release: 
-            root.markEvent(check2, the_event_item)
+        on_release:
+            app.showAddSticker_dialog(the_event_item)
+			
+#    LeftCheckbox:
+ #       id: check2
+	#	theme_text_color: "Custom"
+     #   text_color: 0, 0, 1, 1
+      #  on_release: 
+       #     root.markEvent(check2, the_event_item)
 
     IconRightWidget:
         icon: 'trash-can-outline'
@@ -1121,6 +1143,8 @@
 <ListItemWithCheckbox>:
     id: the_list_item
     markup: True
+	
+
 
     LeftCheckbox:
         id: check
