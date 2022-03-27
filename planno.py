@@ -9,6 +9,7 @@ from kivymd.uix.picker import MDDatePicker, MDThemePicker
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
+from kivymd.uix.textfield import MDTextFieldRound, MDTextField, MDTextFieldRect
 from kivy.uix.checkbox import CheckBox
 from kivy.clock import Clock
 from kivy.storage.jsonstore import JsonStore
@@ -17,6 +18,7 @@ from kivymd.uix.selectioncontrol import MDCheckbox
 from kivymd.uix.dialog import MDDialog
 from kivy.utils import get_color_from_hex
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
 from kivy.uix.boxlayout import BoxLayout
@@ -34,49 +36,49 @@ dateID = datetime.today().strftime("%m%d%Y")
 listindex = 0
 
 img_1 = Image(
-    source = 'basicwitch-removebg-preview.png',
+    source = 'images/basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'crystals-removebg-preview.png',
+    source = 'images/crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'orangeflow-removebg-preview.png',
+    source = 'images/orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'yellowflow-removebg-preview.png',
+    source = 'images/yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'dinorain-removebg-preview.png',
+    source = 'images/dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'blue-removebg-preview.png',
+    source = 'images/blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 pinkIMG1 = Image(
-    source = 'work-removebg-preview.png',
+    source = 'images/work-removebg-preview.png',
     pos_hint = {"x": .71, "y": .43},
     size_hint = [.39, .39]
     )
 
 pinkIMG2 = Image(
-    source = 'smiles-removebg-preview.png',
+    source = 'images/smiles-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.34, .34]
     )
@@ -1018,12 +1020,22 @@ class MainApp(MDApp):
         return loginCode
         
     def newlist (self, listname):
-        # global listindex
-        # listindex +=1
         list = TabbedPanelItem(text = listname)
-        # new_id = 'list_' + str(listindex)
-        self.root.ids.listkv.add_widget(list)
-        # self.root.ids.listkv.ids.tabbedpanel.ids[new_id] = weakref.ref(list)
+        self.root.ids['listkv'].add_widget(list)
+        fl = FloatLayout()
+        list.add_widget(fl)
+        fl.add_widget(MDTextField(
+            hint_text = "Add item to list",
+            pos_hint = {'center_x': .5, 'center_y': .95},
+            size_hint_x = None,
+            width = 250))
+        fl.add_widget(MDRoundFlatButton(
+            text = "add",
+            pos_hint = {'center_x': .5, 'center_y': .85},
+            #on_release = blabla
+        ))
+        
+
                
         
       	
