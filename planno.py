@@ -6,7 +6,7 @@ import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker
-from kivy.uix.tabbedpanel import TabbedPanel
+from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 from kivy.uix.checkbox import CheckBox
@@ -978,6 +978,13 @@ class MainApp(MDApp):
             self.root.ids.day6.text = self.theDays.day6.strftime("%d")
             self.root.ids.day7.text = "[color=#42f58d]"+ self.theDays.day7.strftime("%d") +"[/color]"
         
+    def newlist (self, listname):
+        # global listindex
+        # listindex +=1
+        list = TabbedPanelItem(text = listname)
+        # new_id = 'list_' + str(listindex)
+        self.root.ids.listkv.add_widget(list)
+        # self.root.ids.listkv.ids.tabbedpanel.ids[new_id] = weakref.ref(list)
 
         
     def login(self):
