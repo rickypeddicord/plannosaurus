@@ -31,49 +31,49 @@ userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
 img_1 = Image(
-    source = 'images/basicwitch-removebg-preview.png',
+    source = 'basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'images/crystals-removebg-preview.png',
+    source = 'crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'images/orangeflow-removebg-preview.png',
+    source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'images/yellowflow-removebg-preview.png',
+    source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'images/dinorain-removebg-preview.png',
+    source = 'dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/blue-removebg-preview.png',
+    source = 'blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 pinkIMG1 = Image(
-    source = 'images/work-removebg-preview.png',
+    source = 'work-removebg-preview.png',
     pos_hint = {"x": .71, "y": .43},
     size_hint = [.39, .39]
     )
 
 pinkIMG2 = Image(
-    source = 'images/smiles-removebg-preview.png',
+    source = 'smiles-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.34, .34]
     )
@@ -1080,6 +1080,20 @@ class MainApp(MDApp):
     def update_sticker(self, text):
         global event_icon
         event_icon.ids.eventIcon.icon = text
+
+    
+    def update_stickerColor(self, color):
+        global event_icon
+        if color == "RED":
+            event_icon.ids.eventIcon.text_color = 1, 0, 0, 1
+        elif color == "GREEN":
+            event_icon.ids.eventIcon.text_color = 0, 1, 0, 1
+        elif color == "YELLOW":
+            event_icon.ids.eventIcon.text_color = 1, 1, 0, 1
+        elif color == "BLUE":
+            event_icon.ids.eventIcon.text_color = 0, 0, 1, 1
+        elif color == "PURPLE":
+            event_icon.ids.eventIcon.text_color = 1, 0, 1, 1
     
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
