@@ -1157,9 +1157,9 @@
 
     IconLeftWidget:
 		id: eventIcon
-        icon: 'star'
+        icon: 'circle-outline'
         theme_text_color: "Custom"
-        text_color: 0, 0, 1, 1
+        text_color: 0, 0, 0, 1
         on_release:
             app.showAddSticker_dialog(the_event_item)
 			
@@ -1173,7 +1173,7 @@
     IconRightWidget:
         icon: 'trash-can-outline'
         theme_text_color: "Custom"
-        text_color: 0, 0, 1, 1
+        text_color: 0, 0, 0, 1
         on_release:
             root.delete_event(the_event_item)
 

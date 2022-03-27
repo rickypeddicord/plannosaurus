@@ -408,6 +408,60 @@ class WindowManager(ScreenManager):
         
             self.ids.addToDo.md_bg_color = [0, 1, 0, .5]
             self.ids.addTask.md_bg_color = [0, 1, 0, .5]
+            
+            #Change colors of add event screen (left side)
+            self.ids.contentEvent.fill_color = (0,.5,.2,.5)
+            self.ids.contentEvent._set_fill_color([0,.5,.2,.5])
+            self.ids.sevenAM.fill_color = (0,.5,.35,.5)
+            self.ids.sevenAM._set_fill_color([0,.5,.35,.5])
+            self.ids.eightAM.fill_color = [0,.5,.4,.5]
+            self.ids.eightAM._set_fill_color([0,.5,.4,.5]) 
+            self.ids.nineAM.fill_color = [0,.5,.45,.5]
+            self.ids.nineAM._set_fill_color([0,.5,.45,.5]) 
+            self.ids.tenAM.fill_color = [0,.5,.5,.5]
+            self.ids.tenAM._set_fill_color([0,.5,.5,.5]) 
+            self.ids.elevenAM.fill_color = [0,.5,.55,.5]
+            self.ids.elevenAM._set_fill_color([0,.5,.55,.5]) 
+            self.ids.noon.fill_color = [0,.5,.6,.5]
+            self.ids.noon._set_fill_color([0,.5,.6,.5]) 
+            self.ids.onePM.fill_color = [0,.5,.65,.5]
+            self.ids.onePM._set_fill_color([0,.5,.65,.5]) 
+            #Change colors of add event screen (right side)
+            self.ids.twoPM.fill_color = (0,.5,.2,.5)
+            self.ids.twoPM._set_fill_color([0,.5,.2,.5]) 
+            self.ids.threePM.fill_color = (0,.5,.35,.5)
+            self.ids.threePM._set_fill_color([0,.5,.35,.5]) 
+            self.ids.fourPM.fill_color = [0,.5,.4,.5]
+            self.ids.fourPM._set_fill_color([0,.5,.4,.5]) 
+            self.ids.fivePM.fill_color = [0,.5,.45,.5]
+            self.ids.fivePM._set_fill_color([0,.5,.45,.5]) 
+            self.ids.sixPM.fill_color = [0,.5,.5,.5]
+            self.ids.sixPM._set_fill_color([0,.5,.5,.5]) 
+            self.ids.sevenPM.fill_color = [0,.5,.55,.5]
+            self.ids.sevenPM._set_fill_color([0,.5,.55,.5]) 
+            self.ids.eightPM.fill_color = [0,.5,.6,.5]
+            self.ids.eightPM._set_fill_color([0,.5,.6,.5]) 
+            self.ids.ninePM.fill_color = [0,.5,.65,.5]
+            self.ids.ninePM._set_fill_color([0,.5,.65,.5])
+            # Changes colors of buttons on Add Event Screen
+            self.ids.add6AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add7AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add8AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add9AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add10AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add11AM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add12PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add1PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add2PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add3PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add4PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add5PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add6PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add7PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add8PM.md_bg_color=[0, 1, 0, .5]
+            self.ids.add9PM.md_bg_color=[0, 1, 0, .5]
+            
+            
         
             self.overview_images(root, origIMG1, origIMG2)
         elif style == "CITRUS":
@@ -419,6 +473,58 @@ class WindowManager(ScreenManager):
         
             self.ids.addToDo.md_bg_color = [1, .5, 0, .8]
             self.ids.addTask.md_bg_color = [1, .5, 0, .8]
+            
+            #Change colors of add event screen (left side)
+            self.ids.contentEvent.fill_color = [1, .3, 0, .5]
+            self.ids.contentEvent._set_fill_color([1, .3, 0, .5]) 
+            self.ids.sevenAM.fill_color = [1, .4, 0, .5]
+            self.ids.sevenAM._set_fill_color([1, .4, 0, .5]) 
+            self.ids.eightAM.fill_color = [1, .5, 0, .5]
+            self.ids.eightAM._set_fill_color([1, .5, 0, .5]) 
+            self.ids.nineAM.fill_color = [1, .6, 0, .5]
+            self.ids.nineAM._set_fill_color([1, .6, 0, .5]) 
+            self.ids.tenAM.fill_color = [1, .7, 0, .5]
+            self.ids.tenAM._set_fill_color([1, .7, 0, .5]) 
+            self.ids.elevenAM.fill_color = [1, .8, 0, .5]
+            self.ids.elevenAM._set_fill_color([1, .8, 0, .5]) 
+            self.ids.noon.fill_color = [1, .9, 0, .5]
+            self.ids.noon._set_fill_color([1, .9, 0, .5]) 
+            self.ids.onePM.fill_color = [1, 1, 0, .5]
+            self.ids.onePM._set_fill_color([1, 1, 0, .5]) 
+            #Change colors of add event screen (right side)
+            self.ids.twoPM.fill_color = [1, .3, 0, .5]
+            self.ids.twoPM._set_fill_color([1, .3, 0, .5]) 
+            self.ids.threePM.fill_color = [1, .4, 0, .5]
+            self.ids.threePM._set_fill_color([1, .4, 0, .5]) 
+            self.ids.fourPM.fill_color = [1, .5, 0, .5]
+            self.ids.fourPM._set_fill_color([1, .5, 0, .5]) 
+            self.ids.fivePM.fill_color = [1, .6, 0, .5]
+            self.ids.fivePM._set_fill_color([1, .6, 0, .5]) 
+            self.ids.sixPM.fill_color = [1, .7, 0, .5]
+            self.ids.sixPM._set_fill_color([1, .7, 0, .5]) 
+            self.ids.sevenPM.fill_color = [1, .8, 0, .5]
+            self.ids.sevenPM._set_fill_color([1, .8, 0, .5]) 
+            self.ids.eightPM.fill_color = [1, .9, 0, .5]
+            self.ids.eightPM._set_fill_color([1, .9, 0, .5]) 
+            self.ids.ninePM.fill_color = [1, 1, 0, .5]
+            self.ids.ninePM._set_fill_color([1, 1, 0, .5]) 
+            # Changes colors of buttons on Add Event Screen
+            self.ids.add6AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add7AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add8AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add9AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add10AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add11AM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add12PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add1PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add2PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add3PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add4PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add5PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add6PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add7PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add8PM.md_bg_color=[1, .5, 0, .8]
+            self.ids.add9PM.md_bg_color=[1, .5, 0, .8]
 
             self.overview_images(root, citrusIMG1, citrusIMG2)
         elif style == "PINK":
@@ -431,6 +537,58 @@ class WindowManager(ScreenManager):
             self.ids.addToDo.md_bg_color = [1, 0, 0, .8]
             self.ids.addTask.md_bg_color = [1, 0, 0, .8]
             
+            #Change colors of add event screen (left side)
+            self.ids.contentEvent.fill_color = [.8, 0, .5, .5]
+            self.ids.contentEvent._set_fill_color([.8, 0, .5, .5]) 
+            self.ids.sevenAM.fill_color = [.85,0,.45,0.5]
+            self.ids.sevenAM._set_fill_color([.85,0,.45,0.5]) 
+            self.ids.eightAM.fill_color = [.85,0,.4,0.5]
+            self.ids.eightAM._set_fill_color([.85,0,.4,0.5]) 
+            self.ids.nineAM.fill_color = [.9,0,.4,0.5]
+            self.ids.nineAM._set_fill_color([.9,0,.4,0.5]) 
+            self.ids.tenAM.fill_color = [.9,0,.3,0.5]
+            self.ids.tenAM._set_fill_color([.9,0,.3,0.5]) 
+            self.ids.elevenAM.fill_color = [.95,0,.3,0.5]
+            self.ids.elevenAM._set_fill_color([.95,0,.3,0.5]) 
+            self.ids.noon.fill_color = [1,0,.2,0.5]
+            self.ids.noon._set_fill_color([1,0,.2,0.5]) 
+            self.ids.onePM.fill_color = [1, 0, .1, .5]
+            self.ids.onePM._set_fill_color([1, 0, .1, .5]) 
+            #Change colors of add event screen (right side)
+            self.ids.twoPM.fill_color = [.8, 0, .5, .5]
+            self.ids.twoPM._set_fill_color([.8, 0, .5, .5]) 
+            self.ids.threePM.fill_color = [.85,0,.45,0.5]
+            self.ids.threePM._set_fill_color([.85,0,.45,0.5]) 
+            self.ids.fourPM.fill_color = [.85,0,.4,0.5]
+            self.ids.fourPM._set_fill_color([.85,0,.4,0.5]) 
+            self.ids.fivePM.fill_color = [.9,0,.4,0.5]
+            self.ids.fivePM._set_fill_color([.9,0,.4,0.5]) 
+            self.ids.sixPM.fill_color = [.9,0,.3,0.5]
+            self.ids.sixPM._set_fill_color([.9,0,.3,0.5]) 
+            self.ids.sevenPM.fill_color = [.95,0,.3,0.5]
+            self.ids.sevenPM._set_fill_color([.95,0,.3,0.5]) 
+            self.ids.eightPM.fill_color = [1,0,.2,0.5]
+            self.ids.eightPM._set_fill_color([1,0,.2,0.5]) 
+            self.ids.ninePM.fill_color = [1, 0, .1, .5]
+            self.ids.ninePM._set_fill_color([1, 0, .1, .5]) 
+            # Changes colors of buttons on Add Event Screen
+            self.ids.add6AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add7AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add8AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add9AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add10AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add11AM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add12PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add1PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add2PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add3PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add4PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add5PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add6PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add7PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add8PM.md_bg_color=[1, 0, 0, .8]
+            self.ids.add9PM.md_bg_color=[1, 0, 0, .8]
+            
             self.overview_images(root, pinkIMG1, pinkIMG2)
         elif style == "Spooky":
             self.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
@@ -439,8 +597,60 @@ class WindowManager(ScreenManager):
             self.ids.contentTODOMain.fill_color = [.8,.7,.8,0.3]
             self.ids.contentTODOMain._set_fill_color([.8,.7,.8,0.3])
         
-            self.ids.addToDo.md_bg_color = [0, 1, 0, .5]
-            self.ids.addTask.md_bg_color = [0, 1, 0, .5]
+            self.ids.addToDo.md_bg_color = [1, 0, 1, .5]
+            self.ids.addTask.md_bg_color = [1, 0, 1, .5]
+            
+            # Changes colors of Add Event Screen
+            self.ids.contentEvent.fill_color = [.8,.7,.8,0.6]
+            self.ids.contentEvent._set_fill_color([.8,.7,.8,0.6]) 
+            self.ids.sevenAM.fill_color = [.8,.6,.8,0.6]
+            self.ids.sevenAM._set_fill_color([.8,.6,.8,0.6]) 
+            self.ids.eightAM.fill_color = [.8,.5,.8,0.6]
+            self.ids.eightAM._set_fill_color([.8,.5,.8,0.6]) 
+            self.ids.nineAM.fill_color = [.8,.4,.8,0.6]
+            self.ids.nineAM._set_fill_color([.8,.4,.8,0.6]) 
+            self.ids.tenAM.fill_color = [.8,.3,.8,0.6]
+            self.ids.tenAM._set_fill_color([.8,.3,.8,0.6]) 
+            self.ids.elevenAM.fill_color = [.8,.2,.8,0.6]
+            self.ids.elevenAM._set_fill_color([.8,.2,.8,0.6]) 
+            self.ids.noon.fill_color = [.8,.1,.8,0.6]
+            self.ids.noon._set_fill_color([.8,.1,.8,0.6]) 
+            self.ids.onePM.fill_color = [.8,0,.8,0.6]
+            self.ids.onePM._set_fill_color([.8,0,.8,0.6]) 
+            self.ids.twoPM.fill_color = [.8,.7,.8,0.6]
+            self.ids.twoPM._set_fill_color([.8,.7,.8,0.6]) 
+            self.ids.threePM.fill_color = [.8,.6,.8,0.6]
+            self.ids.threePM._set_fill_color([.8,.6,.8,0.6]) 
+            self.ids.fourPM.fill_color = [.8,.5,.8,0.6]
+            self.ids.fourPM._set_fill_color([.8,.5,.8,0.6]) 
+            self.ids.fivePM.fill_color = [.8,.4,.8,0.6]
+            self.ids.fivePM._set_fill_color([.8,.4,.8,0.6]) 
+            self.ids.sixPM.fill_color = [.8,.3,.8,0.6]
+            self.ids.sixPM._set_fill_color([.8,.3,.8,0.6]) 
+            self.ids.sevenPM.fill_color = [.8,.2,.8,0.6]
+            self.ids.sevenPM._set_fill_color([.8,.2,.8,0.6]) 
+            self.ids.eightPM.fill_color = [.8,.1,.8,0.6]
+            self.ids.eightPM._set_fill_color([.8,.1,.8,0.6]) 
+            self.ids.ninePM.fill_color = [.8,0,.8,0.6]
+            self.ids.ninePM._set_fill_color([.8,0,.8,0.6]) 
+            # Changes colors of buttons on Add Event Screen
+            self.ids.add6AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add7AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add8AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add9AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add10AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add11AM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add12PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add1PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add2PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add3PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add4PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add5PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add6PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add7PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add8PM.md_bg_color=[1, 0, 1, .5]
+            self.ids.add9PM.md_bg_color=[1, 0, 1, .5]
+            
     
             self.overview_images(root, img_1, img_2)
 
