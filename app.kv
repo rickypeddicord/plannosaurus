@@ -331,14 +331,14 @@
                             MDTextFieldRound:
                                 id:listname
                                 hint_text: "List Name"
-                                pos_hint: {'center_x':.35, 'center_y': .95}
+                                pos_hint: {'center_x':.5, 'center_y': .95}
                                 size_hint_x: None
                                 width: 250
                             MDRoundFlatButton:
                                 id: listadd
                                 text: "Add"
-                                pos_hint: {'center_x':.65, 'center_y':.95}
-                                #on_release: app.newlist(listname)    
+                                pos_hint: {'center_x':.5, 'center_y':.85}
+                                on_release: app.newlist(listname)    
 
 ###########################
 ### REGISTRATION SCREEN ###  
