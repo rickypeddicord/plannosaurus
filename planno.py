@@ -27,7 +27,6 @@ from kivymd.icon_definitions import md_icons
 from kivymd.uix.button import MDRoundFlatButton
 import weakref
 
-
 icon_text = ""
 event_icon = ""
 userid = -1
