@@ -21,55 +21,59 @@ from kivy.graphics import Rectangle
 from kivy.graphics import Color
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage, Image
+from kivymd.uix.menu import MDDropdownMenu
+from kivy.properties import StringProperty
+from kivymd.icon_definitions import md_icons
 
-
+icon_text = ""
+event_icon = ""
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
 img_1 = Image(
-    source = 'basicwitch-removebg-preview.png',
+    source = 'images/basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'crystals-removebg-preview.png',
+    source = 'images/crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'orangeflow-removebg-preview.png',
+    source = 'images/orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'yellowflow-removebg-preview.png',
+    source = 'images/yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'dinorain-removebg-preview.png',
+    source = 'images/dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'blue-removebg-preview.png',
+    source = 'images/blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 pinkIMG1 = Image(
-    source = 'work-removebg-preview.png',
+    source = 'images/work-removebg-preview.png',
     pos_hint = {"x": .71, "y": .43},
     size_hint = [.39, .39]
     )
 
 pinkIMG2 = Image(
-    source = 'smiles-removebg-preview.png',
+    source = 'images/smiles-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.34, .34]
     )
@@ -565,7 +569,6 @@ class MainApp(MDApp):
     def build(self):
         Builder.load_file("app.kv")
 
-        
         # Create database table if it doesn't exist
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -1064,14 +1067,19 @@ class MainApp(MDApp):
         self.customize_dialog.dismiss()
     
     def showAddSticker_dialog(self, eventItem):
+        global event_icon
         if not self.addStickerDialog:
             self.addStickerDialog=MDDialog(
                 title="Add Sticker",
                 type="custom",
                 content_cls=AddStickerDialog(),
             )
-       # self.addStickerDialog.content_cls.update_date()
+        event_icon = eventItem
         self.addStickerDialog.open()
+
+    def update_sticker(self, text):
+        global event_icon
+        event_icon.ids.eventIcon.icon = text
     
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
@@ -1085,6 +1093,11 @@ class MainApp(MDApp):
     
     def close_todolist_dialog(self):
         self.task_list_dialog.dismiss()
+
+    def save_addSticker(self):
+        global icon_text
+        self.addStickerDialog.content_cls.get_sticker()
+        self.update_sticker(icon_text)
     
     def close_addSticker_dialog(self):
         self.addStickerDialog.dismiss()
@@ -1191,7 +1204,32 @@ class CustomizeDialog(MDBoxLayout):
 class AddStickerDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-       # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
+        sticker_list = [
+            {
+                "viewclass": "StickerItem",
+                "icon": f"{i}",
+                "text": f"{i}",
+                "on_release": lambda x = f"{i}": self.set_sticker(x),
+            } for i in md_icons.keys()
+        ]
+        self.menu = MDDropdownMenu(
+            caller = self.ids.stickers_list,
+            items = sticker_list,
+            position = "center",
+            width_mult = 4,
+        )
+        self.menu.bind()
+
+    def set_sticker(self, item):
+        global icon_text
+        self.ids.stickers_list.set_item(item)
+        icon_text = item
+        self.menu.dismiss()
+    
+    def get_sticker(self):
+        global icon_text
+        return icon_text
+        
 
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
@@ -1325,5 +1363,8 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
     """creates checkbox for task"""
+
+class StickerItem(OneLineAvatarIconListItem):
+    icon = StringProperty()
 
 MainApp().run()

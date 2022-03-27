@@ -1072,8 +1072,12 @@
 			text: 'CANCEL'
 			on_release: app.close_todolist_dialog()
 			
+<StickerItem>
+	IconLeftWidget:
+		icon: root.icon
 
 <AddStickerDialog>
+	id: sticker_root
 	orientation: "vertical"
 	spacing: "10dp"
 	size_hint: None, None
@@ -1082,6 +1086,14 @@
 
 	BoxLayout:
 		orientation: 'horizontal'
+		MDDropDownItem:
+			id: stickers_list
+			pos_hint: {'center_x': .5, 'center_y': .5}
+			text: 'Choose a Sticker'
+			on_release: self.parent.parent.menu.open()
+		MDRaisedButton:
+			text: 'SAVE'
+			on_release: (app.save_addSticker(), app.close_addSticker_dialog())
 		MDFlatButton:
 			text: 'CLOSE'
 			on_release: app.close_addSticker_dialog()
@@ -1115,6 +1127,7 @@
 
 
     IconLeftWidget:
+		id: eventIcon
         icon: 'star'
         theme_text_color: "Custom"
         text_color: 0, 0, 1, 1
