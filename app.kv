@@ -1072,6 +1072,61 @@
 		MDFlatButton:
 			text: 'CANCEL'
 			on_release: app.close_todolist_dialog()
+			
+<StickerItem>
+	IconLeftWidget:
+		icon: root.icon
+
+<AddStickerDialog>
+	id: sticker_root
+	orientation: "vertical"
+	spacing: "10dp"
+	size_hint: None, None
+	height: "300dp"
+	
+
+	BoxLayout:
+		orientation: 'horizontal'
+
+		MDDropDownItem:
+			id: stickers_list
+			pos_hint: {'x': .15, 'y': .5}
+			text: 'Choose a Sticker'
+			on_release: self.parent.parent.menu.open()
+		MDRaisedButton:
+			text: 'SAVE'
+			pos_hint: {'x': .5, 'y': .15}
+			on_release: (app.save_addSticker(), app.close_addSticker_dialog())
+		MDFlatButton:
+			text: 'CLOSE'
+			pos_hint: {'x': .5, 'y': .15}
+			on_release: app.close_addSticker_dialog()
+
+		MDFloatingActionButton:
+			md_bg_color: 1, 0, 0, 1
+			icon: 'alpha-r-circle-outline'
+			#pos_hint: {'x': .5, 'y': .85}
+			on_release: app.update_stickerColor("RED")
+		MDFloatingActionButton:
+			md_bg_color: 0, 1, 0, 1
+			icon: 'alpha-g-circle-outline'
+			#pos_hint: {'x': .8, 'y': .85}
+			on_release: app.update_stickerColor("GREEN")
+		MDFloatingActionButton:
+			md_bg_color: 1, 1, 0, 1
+			icon: 'alpha-y-circle-outline'
+			#pos_hint: {'x': .5, 'y': .3}
+			on_release: app.update_stickerColor("YELLOW")
+		MDFloatingActionButton:
+			md_bg_color: 1, 0, 1, 1
+			icon: 'alpha-p-circle-outline'
+			#pos_hint: {'x': .8, 'y': .3}
+			on_release: app.update_stickerColor("PURPLE")
+		MDFloatingActionButton:
+			md_bg_color: 0, 0, 1, 1
+			icon: 'alpha-b-circle-outline'
+			#pos_hint: {'x': .7, 'y': .1}
+			on_release: app.update_stickerColor("BLUE")
 
 <CustomizeDialog>
 	orientation: "vertical"
@@ -1100,12 +1155,21 @@
     id: the_event_item
     markup: True
 
-    LeftCheckbox:
-        id: check2
-		theme_text_color: "Custom"
+
+    IconLeftWidget:
+		id: eventIcon
+        icon: 'star'
+        theme_text_color: "Custom"
         text_color: 0, 0, 1, 1
-        on_release: 
-            root.markEvent(check2, the_event_item)
+        on_release:
+            app.showAddSticker_dialog(the_event_item)
+			
+#    LeftCheckbox:
+ #       id: check2
+	#	theme_text_color: "Custom"
+     #   text_color: 0, 0, 1, 1
+      #  on_release: 
+       #     root.markEvent(check2, the_event_item)
 
     IconRightWidget:
         icon: 'trash-can-outline'
@@ -1113,12 +1177,17 @@
         text_color: 0, 0, 1, 1
         on_release:
             root.delete_event(the_event_item)
+
+	
+
 			
 
 
 <ListItemWithCheckbox>:
     id: the_list_item
     markup: True
+	
+
 
     LeftCheckbox:
         id: check

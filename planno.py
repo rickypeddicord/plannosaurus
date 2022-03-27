@@ -21,45 +21,61 @@ from kivy.graphics import Rectangle
 from kivy.graphics import Color
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage, Image
+from kivymd.uix.menu import MDDropdownMenu
+from kivy.properties import StringProperty
+from kivymd.icon_definitions import md_icons
 
-
+icon_text = ""
+event_icon = ""
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 
 img_1 = Image(
-    source = 'images/basicwitch-removebg-preview.png',
+    source = 'basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'images/crystals-removebg-preview.png',
+    source = 'crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'images/orangeflow-removebg-preview.png',
+    source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'images/yellowflow-removebg-preview.png',
+    source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'images/dinorain-removebg-preview.png',
+    source = 'dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/blue-removebg-preview.png',
+    source = 'blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
+    )
+    
+pinkIMG1 = Image(
+    source = 'work-removebg-preview.png',
+    pos_hint = {"x": .71, "y": .43},
+    size_hint = [.39, .39]
+    )
+
+pinkIMG2 = Image(
+    source = 'smiles-removebg-preview.png',
+    pos_hint = {"x": 0, "y": .05},
+    size_hint = [.34, .34]
     )
 store = JsonStore('account.json')
 
@@ -356,6 +372,8 @@ class WindowManager(ScreenManager):
         global citrusIMG2
         global origIMG1
         global origIMG2
+        global pinkIMG1
+        global pinkIMG2
         
         self.ids.float.remove_widget(img_1)
         self.ids.float.remove_widget(img_2)
@@ -363,6 +381,8 @@ class WindowManager(ScreenManager):
         self.ids.float.remove_widget(citrusIMG2)
         self.ids.float.remove_widget(origIMG1)
         self.ids.float.remove_widget(origIMG2)
+        self.ids.float.remove_widget(pinkIMG1)
+        self.ids.float.remove_widget(pinkIMG2)
         
         self.ids.float.add_widget(image1)
         self.ids.float.add_widget(image2)
@@ -376,6 +396,8 @@ class WindowManager(ScreenManager):
         global citrusIMG2
         global origIMG1
         global origIMG2
+        global pinkIMG1
+        global pinkIMG2
         
         if style == "OG":
             self.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
@@ -408,6 +430,8 @@ class WindowManager(ScreenManager):
         
             self.ids.addToDo.md_bg_color = [1, 0, 0, .8]
             self.ids.addTask.md_bg_color = [1, 0, 0, .8]
+            
+            self.overview_images(root, pinkIMG1, pinkIMG2)
         elif style == "Spooky":
             self.ids.contentEventMain.fill_color = [.8,0,.8,0.6]
             self.ids.contentEventMain._set_fill_color([.8,0,.8,0.6])
@@ -539,12 +563,12 @@ class WindowManager(ScreenManager):
 class MainApp(MDApp):
     task_list_dialog = None
     customize_dialog = None
+    addStickerDialog = None
     global userid
 
     def build(self):
         Builder.load_file("app.kv")
 
-        
         # Create database table if it doesn't exist
         conn = psycopg2.connect(
             host = "ec2-34-205-209-14.compute-1.amazonaws.com",
@@ -1042,6 +1066,35 @@ class MainApp(MDApp):
     def close_customize_dialog(self):
         self.customize_dialog.dismiss()
     
+    def showAddSticker_dialog(self, eventItem):
+        global event_icon
+        if not self.addStickerDialog:
+            self.addStickerDialog=MDDialog(
+                title="Add Sticker",
+                type="custom",
+                content_cls=AddStickerDialog(),
+            )
+        event_icon = eventItem
+        self.addStickerDialog.open()
+
+    def update_sticker(self, text):
+        global event_icon
+        event_icon.ids.eventIcon.icon = text
+
+    
+    def update_stickerColor(self, color):
+        global event_icon
+        if color == "RED":
+            event_icon.ids.eventIcon.text_color = 1, 0, 0, 1
+        elif color == "GREEN":
+            event_icon.ids.eventIcon.text_color = 0, 1, 0, 1
+        elif color == "YELLOW":
+            event_icon.ids.eventIcon.text_color = 1, 1, 0, 1
+        elif color == "BLUE":
+            event_icon.ids.eventIcon.text_color = 0, 0, 1, 1
+        elif color == "PURPLE":
+            event_icon.ids.eventIcon.text_color = 1, 0, 1, 1
+    
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
             self.task_list_dialog=MDDialog(
@@ -1054,6 +1107,14 @@ class MainApp(MDApp):
     
     def close_todolist_dialog(self):
         self.task_list_dialog.dismiss()
+
+    def save_addSticker(self):
+        global icon_text
+        self.addStickerDialog.content_cls.get_sticker()
+        self.update_sticker(icon_text)
+    
+    def close_addSticker_dialog(self):
+        self.addStickerDialog.dismiss()
     
     def add_todo(self, task, task_date):
         global userid
@@ -1113,18 +1174,18 @@ class MainApp(MDApp):
             for items in records:
                 self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
         
-        query = "SELECT * FROM todos WHERE userID = %s"
-        c.execute(query, (userid,))
-        records = c.fetchall()
+     #   query = "SELECT * FROM todos WHERE userID = %s"
+      #  c.execute(query, (userid,))
+       # records = c.fetchall()
         
-        if records:
-            for items in records:
-               record_day = datetime.strptime(items[1], "%m%d%Y")
-               curr_day = datetime.strptime(dateID, "%m%d%Y")
+  #      if records:
+   #         for items in records:
+    #           record_day = datetime.strptime(items[1], "%m%d%Y")
+     #          curr_day = datetime.today().strptime(dateID, "%m%d%Y")
 
-               if curr_day == record_day + timedelta(days = 1):
-                    query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
-                    c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
+      #         if curr_day == record_day + timedelta(days = 1):
+       #             query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
+        #            c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
 
          # load theme data
         c.execute("SELECT * FROM theme")
@@ -1153,6 +1214,36 @@ class CustomizeDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
        # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
+
+class AddStickerDialog(MDBoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        sticker_list = [
+            {
+                "viewclass": "StickerItem",
+                "icon": f"{i}",
+                "text": f"{i}",
+                "on_release": lambda x = f"{i}": self.set_sticker(x),
+            } for i in md_icons.keys()
+        ]
+        self.menu = MDDropdownMenu(
+            caller = self.ids.stickers_list,
+            items = sticker_list,
+            position = "center",
+            width_mult = 4,
+        )
+        self.menu.bind()
+
+    def set_sticker(self, item):
+        global icon_text
+        self.ids.stickers_list.set_item(item)
+        icon_text = item
+        self.menu.dismiss()
+    
+    def get_sticker(self):
+        global icon_text
+        return icon_text
+        
 
 class DialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
@@ -1191,7 +1282,7 @@ class DialogContent(MDBoxLayout):
 
      
 class EventItemWithCheckbox(OneLineAvatarIconListItem):
-
+    
     def __init__(self, pk=None, **kwargs):
         super().__init__(**kwargs)
         self.pk = pk
@@ -1230,7 +1321,11 @@ class EventItemWithCheckbox(OneLineAvatarIconListItem):
         conn.close()
         
         self.parent.remove_widget(the_event_item)
-
+        
+        
+    
+    
+        
 # below class for Todos
 class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
@@ -1282,5 +1377,8 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
     """creates checkbox for task"""
+
+class StickerItem(OneLineAvatarIconListItem):
+    icon = StringProperty()
 
 MainApp().run()
