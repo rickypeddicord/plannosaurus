@@ -24,56 +24,60 @@ from kivy.uix.image import AsyncImage, Image
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import StringProperty
 from kivymd.icon_definitions import md_icons
+from kivymd.uix.button import MDRoundFlatButton
+import weakref
+
 
 icon_text = ""
 event_icon = ""
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
+listindex = 0
 
 img_1 = Image(
-    source = 'images/basicwitch-removebg-preview.png',
+    source = 'basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'images/crystals-removebg-preview.png',
+    source = 'crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'images/orangeflow-removebg-preview.png',
+    source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'images/yellowflow-removebg-preview.png',
+    source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'images/dinorain-removebg-preview.png',
+    source = 'dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/blue-removebg-preview.png',
+    source = 'blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 pinkIMG1 = Image(
-    source = 'images/work-removebg-preview.png',
+    source = 'work-removebg-preview.png',
     pos_hint = {"x": .71, "y": .43},
     size_hint = [.39, .39]
     )
 
 pinkIMG2 = Image(
-    source = 'images/smiles-removebg-preview.png',
+    source = 'smiles-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.34, .34]
     )
@@ -775,6 +779,8 @@ class MainApp(MDApp):
     customize_dialog = None
     addStickerDialog = None
     global userid
+    global listindex
+
 
     def build(self):
         Builder.load_file("app.kv")
@@ -814,7 +820,7 @@ class MainApp(MDApp):
         return WindowManager()
 
     def on_start(self):
-        Clock.schedule_once(self.set_screen, 2.5)
+        Clock.schedule_once(self.set_screen, 2.2)
 
     def set_screen(self, dt):
         global store
@@ -978,13 +984,6 @@ class MainApp(MDApp):
             self.root.ids.day6.text = self.theDays.day6.strftime("%d")
             self.root.ids.day7.text = "[color=#42f58d]"+ self.theDays.day7.strftime("%d") +"[/color]"
         
-    def newlist (self, listname):
-        # global listindex
-        # listindex +=1
-        list = TabbedPanelItem(text = listname)
-        # new_id = 'list_' + str(listindex)
-        self.root.ids.listkv.add_widget(list)
-        # self.root.ids.listkv.ids.tabbedpanel.ids[new_id] = weakref.ref(list)
 
         
     def login(self):
@@ -1018,7 +1017,18 @@ class MainApp(MDApp):
         conn.commit()
         conn.close()
         return loginCode
-    
+        
+    def newlist (self, listname):
+        # global listindex
+        # listindex +=1
+        list = TabbedPanelItem(text = listname)
+        # new_id = 'list_' + str(listindex)
+        self.root.ids.listkv.add_widget(list)
+        # self.root.ids.listkv.ids.tabbedpanel.ids[new_id] = weakref.ref(list)
+               
+        
+      	
+        
     def clear(self):
         self.root.ids.welcome_label.text = "Please Login or Register"
         self.root.ids.user.text = ""

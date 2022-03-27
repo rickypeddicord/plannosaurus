@@ -322,12 +322,13 @@
     			text: "Lists"
     			id: listtab
                 TabbedPanel:
-                    id: litskv
+                    id: listkv
                     do_default_tab: False
                     pos_hint: {"center_x": .5, "center_y": .5}
                     TabbedPanelItem:
+                        id:listpanel
                         text: "Add New List"
-                        BoxLayout:
+                        FloatLayout:
                             MDTextFieldRound:
                                 id:listname
                                 hint_text: "List Name"
@@ -338,7 +339,7 @@
                                 id: listadd
                                 text: "Add"
                                 pos_hint: {'center_x':.5, 'center_y':.85}
-                                on_release: app.newlist(listname)    
+                                on_release: app.newlist(listname.text)    
 
 ###########################
 ### REGISTRATION SCREEN ###  
