@@ -789,6 +789,7 @@
 			id: add6AM
 			pos_hint: {"top":.94, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "6 AM")
 	#	MDFloatingActionButton:
@@ -801,6 +802,7 @@
 			id: add7AM
 			pos_hint: {"top":.83, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "7 AM")
 				#root.postEvents(root)
@@ -815,6 +817,7 @@
 			id: add8AM
 			pos_hint: {"top":.72, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "8 AM")
 				#screen_manager.current="main_sc"
@@ -823,6 +826,7 @@
 			id: add9AM
 			pos_hint: {"top":.61, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "9 AM")
 				#screen_manager.current="main_sc"
@@ -831,6 +835,7 @@
 			id: add10AM
 			pos_hint: {"top":.50, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "10 AM")
 				#screen_manager.current="main_sc"
@@ -839,6 +844,7 @@
 			id: add11AM
 			pos_hint: {"top":.39, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "11 AM")
 				#screen_manager.current="main_sc"
@@ -847,6 +853,7 @@
 			id: add12PM
 			pos_hint: {"top":.28, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "12 PM")
 				#screen_manager.current="main_sc"
@@ -855,6 +862,7 @@
 			id: add1PM
 			pos_hint: {"top":.17, "right":.5}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "1 PM")
 				#screen_manager.current="main_sc"
@@ -863,6 +871,7 @@
 			id: add2PM
 			pos_hint: {"top":.94, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "2 PM")
 				#screen_manager.current="main_sc"
@@ -872,6 +881,7 @@
 			id: add3PM
 			pos_hint: {"top":.83, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "3 PM")
 				#screen_manager.current="main_sc"
@@ -880,6 +890,7 @@
 			id: add4PM
 			pos_hint: {"top":.72, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "4 PM")
 				#screen_manager.current="main_sc"
@@ -888,6 +899,7 @@
 			id: add5PM
 			pos_hint: {"top":.61, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "5 PM")
 				#screen_manager.current="main_sc"
@@ -896,6 +908,7 @@
 			id: add6PM
 			pos_hint: {"top":.50, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "6 PM")
 				#screen_manager.current="main_sc"
@@ -904,6 +917,7 @@
 			id: add7PM
 			pos_hint: {"top":.39, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "7 PM")
 				#screen_manager.current="main_sc"
@@ -912,6 +926,7 @@
 			id: add8PM
 			pos_hint: {"top":.28, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "8 PM")
 				#screen_manager.current="main_sc"
@@ -920,6 +935,7 @@
 			id: add9PM
 			pos_hint: {"top":.17, "right":1}
 			icon: 'check'
+			disabled: False
 			on_release: 
 				root.event_add(root, "9 PM")
 				#screen_manager.current="main_sc"
@@ -1177,7 +1193,7 @@
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1
         on_release:
-            root.delete_event(the_event_item)
+            app.delete_event(root, the_event_item)
 
 	
 
