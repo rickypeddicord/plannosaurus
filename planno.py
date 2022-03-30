@@ -31,54 +31,56 @@ import weakref
 
 icon_text = ""
 event_icon = ""
+content_Event = ""
+eleven_AM = ""
 userid = -1
 dateID = datetime.today().strftime("%m%d%Y")
 listindex = 0
 
 img_1 = Image(
-    source = 'images/basicwitch-removebg-preview.png',
+    source = 'basicwitch-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.35, .35]
     )
 
 img_2 = Image(
-    source = 'images/crystals-removebg-preview.png',
+    source = 'crystals-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.35, .35]
     )
     
 citrusIMG1 = Image(
-    source = 'images/orangeflow-removebg-preview.png',
+    source = 'orangeflow-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 citrusIMG2 = Image(
-    source = 'images/yellowflow-removebg-preview.png',
+    source = 'yellowflow-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 origIMG1 = Image(
-    source = 'images/dinorain-removebg-preview.png',
+    source = 'dinorain-removebg-preview.png',
     pos_hint = {"x": .71, "y": .45},
     size_hint = [.32, .32]
     )
 
 origIMG2 = Image(
-    source = 'images/blue-removebg-preview.png',
+    source = 'blue-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.32, .32]
     )
     
 pinkIMG1 = Image(
-    source = 'images/work-removebg-preview.png',
+    source = 'work-removebg-preview.png',
     pos_hint = {"x": .71, "y": .43},
     size_hint = [.39, .39]
     )
 
 pinkIMG2 = Image(
-    source = 'images/smiles-removebg-preview.png',
+    source = 'smiles-removebg-preview.png',
     pos_hint = {"x": 0, "y": .05},
     size_hint = [.34, .34]
     )
@@ -302,36 +304,68 @@ class WindowManager(ScreenManager):
 
         if index == 0:
             messageText = self.ids.contentEvent.text
+            self.ids.contentEvent.disabled = True
+            self.ids.add6AM.disabled = True
         elif index == 1:
             messageText = self.ids.sevenAM.text
+            self.ids.sevenAM.disabled = True
+            self.ids.add7AM.disabled = True
         elif index == 2:
             messageText = self.ids.eightAM.text
+            self.ids.eightAM.disabled = True
+            self.ids.add8AM.disabled = True
         elif index == 3:
             messageText = self.ids.nineAM.text
+            self.ids.nineAM.disabled = True
+            self.ids.add9AM.disabled = True
         elif index == 4:
             messageText = self.ids.tenAM.text
+            self.ids.tenAM.disabled = True
+            self.ids.add10AM.disabled = True
         elif index == 5:
             messageText = self.ids.elevenAM.text
+            self.ids.elevenAM.disabled = True
+            self.ids.add11AM.disabled = True
         elif index == 6:
             messageText = self.ids.noon.text
+            self.ids.noon.disabled = True
+            self.ids.add12PM.disabled = True
         elif index == 7:
             messageText = self.ids.onePM.text
+            self.ids.onePM.disabled = True
+            self.ids.add1PM.disabled = True
         elif index == 8:
             messageText = self.ids.twoPM.text
+            self.ids.twoPM.disabled = True
+            self.ids.add2PM.disabled = True
         elif index == 9:
             messageText = self.ids.threePM.text
+            self.ids.threePM.disabled = True
+            self.ids.add3PM.disabled = True
         elif index == 10:
             messageText = self.ids.fourPM.text
+            self.ids.fourPM.disabled = True
+            self.ids.add4PM.disabled = True
         elif index == 11:
             messageText = self.ids.fivePM.text
+            self.ids.fivePM.disabled = True
+            self.ids.add5PM.disabled = True
         elif index == 12:
             messageText = self.ids.sixPM.text
+            self.ids.sixPM.disabled = True
+            self.ids.add6PM.disabled = True
         elif index == 13:
             messageText = self.ids.sevenPM.text
+            self.ids.sevenPM.disabled = True
+            self.ids.add7PM.disabled = True
         elif index == 14:
             messageText = self.ids.eightPM.text
+            self.ids.eightPM.disabled = True
+            self.ids.add8PM.disabled = True
         elif index == 15:
             messageText = self.ids.ninePM.text
+            self.ids.ninePM.disabled = True
+            self.ids.add9PM.disabled = True
         
 
         conn = psycopg2.connect(
@@ -352,22 +386,24 @@ class WindowManager(ScreenManager):
         conn.commit()
         conn.close()
         
-        self.ids.contentEvent.text = ''
-        self.ids.sevenAM.text = ''
-        self.ids.eightAM.text = ''
-        self.ids.nineAM.text = ''
-        self.ids.tenAM.text = ''
-        self.ids.elevenAM.text = ''
-        self.ids.noon.text = ''
-        self.ids.onePM.text = ''
-        self.ids.twoPM.text = ''
-        self.ids.threePM.text = ''
-        self.ids.fourPM.text = ''
-        self.ids.fivePM.text = ''
-        self.ids.sixPM.text = ''
-        self.ids.sevenPM.text = ''
-        self.ids.eightPM.text = ''
-        self.ids.ninePM.text = ''
+        
+        
+    #    self.ids.contentEvent.text = ''
+     #   self.ids.sevenAM.text = ''
+      #  self.ids.eightAM.text = ''
+       # self.ids.nineAM.text = ''
+#        self.ids.tenAM.text = ''
+ #       self.ids.elevenAM.text = ''
+  #      self.ids.noon.text = ''
+   #     self.ids.onePM.text = ''
+    #    self.ids.twoPM.text = ''
+     #   self.ids.threePM.text = ''
+      #  self.ids.fourPM.text = ''
+       # self.ids.fivePM.text = ''
+        #self.ids.sixPM.text = ''
+#        self.ids.sevenPM.text = ''
+ #       self.ids.eightPM.text = ''
+  #      self.ids.ninePM.text = ''
 
 
     def overview_images(self, root, image1, image2):
@@ -730,6 +766,7 @@ class WindowManager(ScreenManager):
         
         conn.commit()
         conn.close()
+        
 
         
     
@@ -1251,6 +1288,107 @@ class MainApp(MDApp):
         self.postTodo()
         self.root.postEvents(self.root)
 
+    def delete_event(self, root, the_event_item):
+        global userid
+        global content_Event
+        global eleven_AM
+        deleteItem = ''
+        
+        if the_event_item.text[0:3] == '[b]':
+            deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+        else:
+            deleteItem = the_event_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
+        
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "SELECT time FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (userid, deleteItem,))
+        timeofEvent = c.fetchall()
+
+        
+        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
+        
+        if str(timeofEvent) == "[('6 AM',)]":
+            self.root.ids.contentEvent.disabled=False
+            self.root.ids.contentEvent.text = ''
+            self.root.ids.add6AM.disabled=False
+        elif str(timeofEvent) == "[('7 AM',)]":
+            self.root.ids.sevenAM.disabled=False
+            self.root.ids.sevenAM.text = ''
+            self.root.ids.add7AM.disabled=False
+        elif str(timeofEvent) == "[('8 AM',)]":
+            self.root.ids.eightAM.disabled=False
+            self.root.ids.eightAM.text = ''
+            self.root.ids.add8AM.disabled=False
+        elif str(timeofEvent) == "[('9 AM',)]":
+            self.root.ids.nineAM.disabled=False
+            self.root.ids.nineAM.text = ''
+            self.root.ids.add9AM.disabled=False
+        elif str(timeofEvent) == "[('10 AM',)]":
+            self.root.ids.tenAM.disabled=False
+            self.root.ids.tenAM.text = ''
+            self.root.ids.add10AM.disabled=False
+        elif str(timeofEvent) == "[('11 AM',)]":
+            self.root.ids.elevenAM.disabled=False
+            self.root.ids.elevenAM.text = ''
+            self.root.ids.add11AM.disabled=False
+        elif str(timeofEvent) == "[('12 PM',)]":
+            self.root.ids.noon.disabled=False
+            self.root.ids.noon.text = ''
+            self.root.ids.add12PM.disabled=False
+        elif str(timeofEvent) == "[('1 PM',)]":
+            self.root.ids.onePM.disabled=False
+            self.root.ids.onePM.text = ''
+            self.root.ids.add1PM.disabled=False
+        elif str(timeofEvent) == "[('2 PM',)]":
+            self.root.ids.twoPM.disabled=False
+            self.root.ids.twoPM.text = ''
+            self.root.ids.add2PM.disabled=False
+        elif str(timeofEvent) == "[('3 PM',)]":
+            self.root.ids.threePM.disabled=False
+            self.root.ids.threePM.text = ''
+            self.root.ids.add3PM.disabled=False
+        elif str(timeofEvent) == "[('4 PM',)]":
+            self.root.ids.fourPM.disabled=False
+            self.root.ids.fourPM.text = ''
+            self.root.ids.add4PM.disabled=False
+        elif str(timeofEvent) == "[('5 PM',)]":
+            self.root.ids.fivePM.disabled=False
+            self.root.ids.fivePM.text = ''
+            self.root.ids.add5PM.disabled=False
+        elif str(timeofEvent) == "[('6 PM',)]":
+            self.root.ids.sixPM.disabled=False
+            self.root.ids.sixPM.text = ''
+            self.root.ids.add6PM.disabled=False
+        elif str(timeofEvent) == "[('7 PM',)]":
+            self.root.ids.sevenPM.disabled=False
+            self.root.ids.sevenPM.text = ''
+            self.root.ids.add7PM.disabled=False
+        elif str(timeofEvent) == "[('8 PM',)]":
+            self.root.ids.eightPM.disabled=False
+            self.root.ids.eightPM.text = ''
+            self.root.ids.add8PM.disabled=False
+        elif str(timeofEvent) == "[('9 PM',)]":
+            self.root.ids.ninePM.disabled=False
+            self.root.ids.ninePM.text = ''
+            self.root.ids.add9PM.disabled=False
+        
+        self.root.ids.eventContainer.remove_widget(the_event_item)
+        
+        
     def changeIt(self, rect_color):
         self.rect_color=1,0,0,1
         return
@@ -1532,33 +1670,7 @@ class EventItemWithCheckbox(OneLineAvatarIconListItem):
         else:
             the_event_item.text = the_event_item.text.split('[s]')[1].split('[/s]')[0]
 
-    def delete_event(self, the_event_item):
-        global userid
-        deleteItem = ''
-        
-        if the_event_item.text[0:3] == '[b]':
-            deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
-        else:
-            deleteItem = the_event_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
-        
 
-        conn = psycopg2.connect(
-            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            database = "d19re7njihace8",
-            user = "lveasasuicarlg",
-            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            port = "5432",
-        )
-
-        # Create a cursor
-        c = conn.cursor()
-        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
-        c.execute(query, (userid, deleteItem,))
-        
-        conn.commit()
-        conn.close()
-        
-        self.parent.remove_widget(the_event_item)
         
         
     
