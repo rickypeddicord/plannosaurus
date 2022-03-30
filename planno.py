@@ -858,7 +858,7 @@ class MainApp(MDApp):
         return WindowManager()
 
     def on_start(self):
-        Clock.schedule_once(self.set_screen, 2.2)
+        Clock.schedule_once(self.set_screen, 5)
 
     def set_screen(self, dt):
         global store
