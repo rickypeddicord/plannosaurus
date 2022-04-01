@@ -9,55 +9,16 @@ from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivy.storage.jsonstore import JsonStore
 
-img_1 = Image(
-    source = 'basicwitch-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.35, .35]
-    )
+img_1 = config.img_1
+img_2 = config.img_2
+citrusIMG1 = config.citrusIMG1
+citrusIMG2 = config.citrusIMG2
+origIMG1 = config.origIMG1
+origIMG2 = config.origIMG2
+pinkIMG1 = config.pinkIMG1
+pinkIMG2 = config.pinkIMG2
 
-img_2 = Image(
-    source = 'crystals-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.35, .35]
-    )
-    
-citrusIMG1 = Image(
-    source = 'orangeflow-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.32, .32]
-    )
 
-citrusIMG2 = Image(
-    source = 'yellowflow-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.32, .32]
-    )
-    
-origIMG1 = Image(
-    source = 'dinorain-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.32, .32]
-    )
-
-origIMG2 = Image(
-    source = 'blue-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.32, .32]
-    )
-    
-pinkIMG1 = Image(
-    source = 'work-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .43},
-    size_hint = [.39, .39]
-    )
-
-pinkIMG2 = Image(
-    source = 'smiles-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.34, .34]
-    )
-
-#store = JsonStore('account.json')
 class WindowManager(ScreenManager):
     def init_load(self, root):
         curr_day = datetime.today()
@@ -317,7 +278,7 @@ class WindowManager(ScreenManager):
         global origIMG2
         global pinkIMG1
         global pinkIMG2
-        
+
         self.ids.float.remove_widget(img_1)
         self.ids.float.remove_widget(img_2)
         self.ids.float.remove_widget(citrusIMG1)
@@ -340,7 +301,7 @@ class WindowManager(ScreenManager):
         global origIMG2
         global pinkIMG1
         global pinkIMG2
-        
+
         if style == "OG":
             self.ids.contentEventMain.fill_color = [.5,1,.5,0.6]
             self.ids.contentEventMain._set_fill_color([.5,1,.5,0.6])
@@ -619,8 +580,6 @@ class WindowManager(ScreenManager):
         conn.close()
 
     def postEvents(self, root):
-        global origIMG1
-        global origIMG2
 
         if config.store.exists('account'):
             config.userid = config.store.get('account')['userid']

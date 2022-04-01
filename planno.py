@@ -2,6 +2,7 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from sdates import StartingDates
 from wmanager import WindowManager
+from db import Database
 import config
 import psycopg2
 import psycopg2.extras
@@ -25,14 +26,13 @@ from kivymd.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import AsyncImage, Image
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import StringProperty
 from kivymd.icon_definitions import md_icons
 from kivymd.uix.button import MDRoundFlatButton
 
 
-
+db = Database()
 icon_text = ""
 event_icon = ""
 content_Event = ""
@@ -41,54 +41,6 @@ config.userid = -1
 config.dateID = datetime.today().strftime("%m%d%Y")
 config.store = JsonStore('account.json')
 listindex = 0
-
-img_1 = Image(
-    source = 'basicwitch-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.35, .35]
-    )
-
-img_2 = Image(
-    source = 'crystals-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.35, .35]
-    )
-    
-citrusIMG1 = Image(
-    source = 'orangeflow-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.32, .32]
-    )
-
-citrusIMG2 = Image(
-    source = 'yellowflow-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.32, .32]
-    )
-    
-origIMG1 = Image(
-    source = 'dinorain-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .45},
-    size_hint = [.32, .32]
-    )
-
-origIMG2 = Image(
-    source = 'blue-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.32, .32]
-    )
-    
-pinkIMG1 = Image(
-    source = 'work-removebg-preview.png',
-    pos_hint = {"x": .71, "y": .43},
-    size_hint = [.39, .39]
-    )
-
-pinkIMG2 = Image(
-    source = 'smiles-removebg-preview.png',
-    pos_hint = {"x": 0, "y": .05},
-    size_hint = [.34, .34]
-    )
 
 
 class MainApp(MDApp):
@@ -100,37 +52,6 @@ class MainApp(MDApp):
 
     def build(self):
         Builder.load_file("app.kv")
-
-        # Create database table if it doesn't exist
-        conn = psycopg2.connect(
-            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            database = "d19re7njihace8",
-            user = "lveasasuicarlg",
-            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            port = "5432",
-        )
-
-        # Create a cursor
-        c = conn.cursor()
-
-        # Create users table
-        c.execute("CREATE TABLE if not exists users(userID SERIAL PRIMARY KEY, email VARCHAR(255), password VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255))")
-
-        # Create events table
-        c.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
-
-        # Create todos table
-        c.execute("CREATE TABLE if not exists todos(todoID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), todoItem VARCHAR(255), userID int REFERENCES users)")
-
-        # Create colors table
-        c.execute("CREATE TABLE if not exists colors(style VARCHAR(255), userID int REFERENCES users)")
-
-        # Create theme table
-        c.execute("CREATE TABLE if not exists theme(primary_palette VARCHAR(255), accent_palette VARCHAR(255), theme_style VARCHAR(255))")
-
-        conn.commit()
-        conn.close()
-
         self.gen_cal(date.today())
 
         return WindowManager()
@@ -300,35 +221,11 @@ class MainApp(MDApp):
 
         
     def login(self):
-        loginCode = -1
-        conn = psycopg2.connect(
-            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            database = "d19re7njihace8",
-            user = "lveasasuicarlg",
-            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            port = "5432",
-        )
-
-        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM users WHERE email = %s"
-        c.execute(query, (self.root.ids.user.text,))
-        records = c.fetchone()
-        
-
-        if records:
-            if records[1] == self.root.ids.user.text and records[2] == self.root.ids.password.text:
-                self.root.ids.welcome_label.text = "Logged in successfully"
-                loginCode = 1
-                config.store.put('account', userid=records[0], email=self.root.ids.user.text, password=self.root.ids.password.text)
-            else:
-                self.root.ids.welcome_label.text = "User doesn't exist or incorrect password entered"
-                loginCode = -1
+        loginCode = db.login(self.root.ids.user.text, self.root.ids.password.text)
+        if loginCode == 1:
+            self.root.ids.welcome_label.text = "Logged in successfully"
         else:
             self.root.ids.welcome_label.text = "User doesn't exist or incorrect password entered"
-            loginCode = -1
-
-        conn.commit()
-        conn.close()
         return loginCode
         
     def newlist (self, listname):
