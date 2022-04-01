@@ -255,49 +255,28 @@ class MainApp(MDApp):
         self.root.ids.password.text = ""
 
     def register(self):
-        conn = psycopg2.connect(
-            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            database = "d19re7njihace8",
-            user = "lveasasuicarlg",
-            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            port = "5432",
-        )
+        firstName = self.root.ids.firstName.text
+        lastName = self.root.ids.lastName.text
+        enterPass = self.root.ids.enterPass.text
+        passReEnter = self.root.ids.passReEnter.text
+        emailPrompt = self.root.ids.emailPrompt.text
+        regCode = db.register(firstName, lastName, enterPass, passReEnter, emailPrompt)
+        print(regCode) # fix account already exists bug
 
-        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        if self.root.ids.firstName.text == "" or self.root.ids.lastName.text == "":
-            self.root.ids.regLabel.text = "Fields cannot be empty"
-            return
-        elif self.root.ids.enterPass.text != self.root.ids.passReEnter.text:
+        if regCode == 0:
+            self.root.ids.welcome_label.text = "An account with these credentials already exists"
+        elif regCode == 1:
+            self.root.ids.welcome_label.text = "Account created successfully"
+            #redirect
+            self.root.current = "login_sc"
+        elif regCode == -1:
+            self.root.ids.regLabel.text = "Fields cannot be empty."
+        elif regCode == -2:
             self.root.ids.enterPass.text = ''
             self.root.ids.passReEnter.text = ''
-            self.root.ids.regLabel.text = 'Passwords must match.'
-            return
-        elif self.root.ids.enterPass.text == "" or self.root.ids.passReEnter.text == "":
+            self.root.ids.regLabel.text = "Passwords must match."
+        elif regCode == -3:
             self.root.ids.regLabel.text = "Password fields required."
-            return
-        else:
-            c.execute("SELECT * FROM users")
-            records = c.fetchall()
-        if records:
-            for record in records:
-                if record[1] == self.root.ids.emailPrompt.text:
-                    self.root.ids.welcome_label.text = "An account with these credentials already exists"
-                else:
-                    c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
-                    self.root.ids.welcome_label.text = "Account created successfully"
-                    config.store.put('account', userid=record[0], email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
-                    break
-        else:
-            c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (self.root.ids.emailPrompt.text, self.root.ids.enterPass.text, self.root.ids.firstName.text, self.root.ids.lastName.text))
-            self.root.ids.welcome_label.text = "Account created successfully"
-            config.store.put('account', userid=1, email=self.root.ids.emailPrompt.text, password=self.root.ids.enterPass.text)
-
-        conn.commit()
-        conn.close()
-        # redirect
-        self.root.current = "login_sc"
-    
    
 
     def left_cal(self):

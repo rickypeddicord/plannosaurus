@@ -54,5 +54,40 @@ class Database:
         self.conn.commit()
         return loginCode
 
+    def register(self, firstName, lastName, enterPass, passReEnter, emailPrompt):
+        regCode = -1
+        c = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        if firstName == "" or lastName == "":
+            regCode = -1
+            return regCode
+        elif enterPass != passReEnter:
+            regCode = -2
+            return regCode
+        elif enterPass == "" or passReEnter == "":
+            regCode = -3
+            regLabel = "Password fields required."
+            return regCode
+        else:
+            c.execute("SELECT * FROM users")
+            records = c.fetchall()
+        if records:
+            for record in records:
+                if record[1] == emailPrompt:
+                    regCode = 0
+                else:
+                    c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (emailPrompt, enterPass, firstName, lastName))
+                    regCode = 1
+                    config.store.put('account', userid=record[0], email=emailPrompt, password=enterPass)
+                    break
+        else:
+            c.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", (emailPrompt, enterPass, firstName, lastName))
+            regCode = 1
+            config.store.put('account', userid=record[0], email=emailPrompt, password=enterPass)
+        
+        self.conn.commit()
+        
+        return regCode
+
     def close_db(self):
         self.conn.close()
