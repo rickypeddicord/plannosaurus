@@ -261,14 +261,13 @@ class MainApp(MDApp):
         passReEnter = self.root.ids.passReEnter.text
         emailPrompt = self.root.ids.emailPrompt.text
         regCode = db.register(firstName, lastName, enterPass, passReEnter, emailPrompt)
-        print(regCode) # fix account already exists bug
 
         if regCode == 0:
-            self.root.ids.welcome_label.text = "An account with these credentials already exists"
+            self.root.ids.regLabel.text = "An account with these credentials already exists"
         elif regCode == 1:
-            self.root.ids.welcome_label.text = "Account created successfully"
-            #redirect
+            # redirect to login upon successful account creation
             self.root.current = "login_sc"
+            self.root.ids.welcome_label.text = "Account created successfully"
         elif regCode == -1:
             self.root.ids.regLabel.text = "Fields cannot be empty."
         elif regCode == -2:
