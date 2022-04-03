@@ -680,10 +680,9 @@ class MainApp(MDApp):
             
         todoMessage = task.text
         
-        c.execute("INSERT INTO todos(dateID, timestamp, todoItem, userID) VALUES (%s, %s, %s, %s)", (config.dateID, task_date, todoMessage, config.userid))
-        
+        c.execute("INSERT INTO tasks(dateID, timestamp, completed, taskItem, userID) VALUES (%s, %s, %s, %s, %s)", (dateID, task_date, 0, todoMessage, userid))
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
-        
+        task.text=''
        
         conn.commit()
         conn.close()
@@ -705,7 +704,7 @@ class MainApp(MDApp):
         )
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
+        query = "SELECT * FROM tasks WHERE userID = %s AND dateID = %s"
         c.execute(query, (config.userid, config.dateID,))
         records = c.fetchall()
         
@@ -714,8 +713,13 @@ class MainApp(MDApp):
         self.root.ids['container'].clear_widgets()
         if records:
             for items in records:
-                self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
-        
+                if items[3] == 1:
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[s][b]' + items[4] + '[/b][/s]'))
+                    self.root.ids['container'].children[0].ids['check'].active = True
+    
+                elif items[3] == 0:
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
+
      #   query = "SELECT * FROM todos WHERE userID = %s"
       #  c.execute(query, (userid,))
        # records = c.fetchall()
@@ -850,9 +854,41 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
     def mark(self, check, the_list_item):
         if check.active == True:
-            the_list_item.text = '[s]'+the_list_item.text+'[/s]'
+            conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+            )
+            markedItem = the_list_item.text.split('[b]')[1].split('[/b]')[0]
+            print(markedItem)
+            # Create a cursor
+            c = conn.cursor()
+            query = "UPDATE tasks SET completed = 1 WHERE userid = %s AND taskItem = %s"
+            c.execute(query, (config.userid, markedItem,))
+
+            conn.commit()
+            conn.close()
+            the_list_item.text = '[s][b]'+the_list_item.text+'[/b][/s]'
         else:
             the_list_item.text = the_list_item.text.split('[s]')[1].split('[/s]')[0]
+            conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+            )
+            markedItem = the_list_item.text.split('[b]')[1].split('[/b]')[0]
+            print(markedItem)
+            # Create a cursor
+            c = conn.cursor()
+            query = "UPDATE tasks SET completed = 0 WHERE userid = %s AND taskItem = %s"
+            c.execute(query, (config.userid, markedItem,))
+        
+            conn.commit()
+            conn.close()
 
     def delete_item(self, the_list_item):
         deleteItem = ''
@@ -873,7 +909,7 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
         # Create a cursor
         c = conn.cursor()
-        query = "DELETE FROM todos WHERE userid = %s AND todoItem = %s"
+        query = "DELETE FROM tasks WHERE userid = %s AND taskItem = %s"
         c.execute(query, (config.userid, deleteItem,))
         
         conn.commit()
