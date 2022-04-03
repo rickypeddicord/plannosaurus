@@ -18,7 +18,8 @@ class Database:
     def create_tables(self):
          # Create users table
         self.cursor.execute("CREATE TABLE if not exists users(userID SERIAL PRIMARY KEY, email VARCHAR(255), password VARCHAR(255), firstName VARCHAR(255), lastName VARCHAR(255))")
-
+        # NEW TODOS TABLE NAMED TASKS
+        c.execute("CREATE TABLE if not exists tasks(taskID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), completed int, taskItem VARCHAR(255), userID int REFERENCES users)")
         # Create events table
         self.cursor.execute("CREATE TABLE if not exists events(eventID SERIAL PRIMARY KEY, dateID VARCHAR(255), timestamp VARCHAR(255), time VARCHAR(255), messageBody VARCHAR(255), userID int REFERENCES users)")
 
