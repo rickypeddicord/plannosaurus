@@ -421,15 +421,40 @@ class MainApp(MDApp):
                 
     def current_day(self, instance):
         newDate = ''
+        prevDay = ''
+        currDay = ''
+        currKey = ''
+        prevKey = ''
+        temp = ''
+        tempMonth = ''
         for key, val in self.root.ids.items():
             if "day" in key:
                 if "[" in self.root.ids[key].text:
                     self.root.ids[key].text = self.root.ids[key].text.split(']')[1].split('[')[0]
+                    prevDay = self.root.ids[key].text
+                    prevKey = key
+                if instance.text[0:2] == self.root.ids[key].text:
+                    currDay = self.root.ids[key].text # 01 [April 1st] day we clicked on
+                    currKey = key
+
         newDate = list(config.dateID)
         newDate[2] = instance.text[0]
         newDate[3] = instance.text[1]
         newDate = ''.join(newDate)
-        config.dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
+        
+        if prevDay == "01" and currDay > prevDay and currKey < prevKey:
+            temp = datetime.strptime(config.dateID, "%m%d%Y")
+            tempMonth = str(temp.month - 1)
+            temp = tempMonth + newDate[2:4] + newDate[4:]
+            config.dateID = datetime.strptime(temp, '%m%d%Y').strftime("%m%d%Y")
+        elif prevDay == "28" or prevDay == "30" or prevDay == "31" and currDay < prevDay and currKey > prevKey:
+            temp = datetime.strptime(config.dateID, "%m%d%Y")
+            tempMonth = str(temp.month + 1)
+            temp = tempMonth + newDate[2:4] + newDate[4:]
+            config.dateID = datetime.strptime(temp, '%m%d%Y').strftime("%m%d%Y")
+        else:
+            config.dateID = datetime.strptime(newDate, '%m%d%Y').strftime("%m%d%Y")
+        
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.postTodo()
         self.root.postEvents(self.root)
