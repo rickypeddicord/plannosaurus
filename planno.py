@@ -680,7 +680,7 @@ class MainApp(MDApp):
             
         todoMessage = task.text
         
-        c.execute("INSERT INTO tasks(dateID, timestamp, completed, taskItem, userID) VALUES (%s, %s, %s, %s, %s)", (dateID, task_date, 0, todoMessage, userid))
+        c.execute("INSERT INTO tasks(dateID, timestamp, completed, taskItem, userID) VALUES (%s, %s, %s, %s, %s)", (config.dateID, task_date, 0, todoMessage, config.userid))
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
         task.text=''
        
