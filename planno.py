@@ -753,7 +753,7 @@ class MainApp(MDApp):
         )
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
+        query = "SELECT * FROM tasks WHERE userID = %s AND dateID = %s"
         c.execute(query, (config.userid, config.dateID,))
         records = c.fetchall()
         
@@ -899,7 +899,6 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
             conn.commit()
             conn.close()
             the_list_item.text = '[s][b]'+the_list_item.text+'[/b][/s]'
-
         else:
             the_list_item.text = the_list_item.text.split('[s]')[1].split('[/s]')[0]
             conn = psycopg2.connect(
@@ -938,7 +937,7 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
         # Create a cursor
         c = conn.cursor()
-        query = "DELETE FROM todos WHERE userid = %s AND todoItem = %s"
+        query = "DELETE FROM tasks WHERE userid = %s AND taskItem = %s"
         c.execute(query, (config.userid, deleteItem,))
         
         conn.commit()

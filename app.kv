@@ -247,6 +247,7 @@
 						font_size: 20
 						pos_hint: {"x": .32, "center_y": .32}
                     MDTextField:
+						#eventColor: app.testColor()
                         id: contentEventMain
                         multiline: True
                         on_text: app.contentEvent = self.text
@@ -254,6 +255,7 @@
                         color_mode: 'custom'
                         helper_text_mode: "on_focus"
                         mode: "fill"
+						#fill_color: self.eventColor
                         fill_color: .5,1,.5,0.6
                         #line_color_focus: .8, 0, 0, 1
                         line_color_focus: 0, 0, 0, 1
@@ -792,6 +794,7 @@
 			disabled: False
 			on_release: 
 				root.event_add(root, "6 AM")
+				#root.storeText(root, "6 AM", contentEvent)
 	#	MDFloatingActionButton:
 	#		id: delete6AM
 	#		pos_hint: {"top":.94, "right":.45}
@@ -1047,6 +1050,7 @@
 		MDRaisedButton:
 			text: 'SAVE'
 			on_release: (app.add_todo(task_text, date_text.text), app.postTodo(), app.close_todolist_dialog())
+			
 		
 		MDFlatButton:
 			text: 'CANCEL'
@@ -1169,6 +1173,7 @@
         text_color: 0, 0, 0, 1
         on_release: 
             root.mark(check, the_list_item)
+
 
     IconRightWidget:
         icon: 'trash-can-outline'
