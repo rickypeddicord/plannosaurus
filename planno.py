@@ -753,7 +753,7 @@ class MainApp(MDApp):
         )
 
         c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM tasks WHERE userID = %s AND dateID = %s"
+        query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
         c.execute(query, (config.userid, config.dateID,))
         records = c.fetchall()
         
@@ -763,10 +763,10 @@ class MainApp(MDApp):
         if records:
             for items in records:
                 if items[3] == 1:
-                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[s][b]' + items[4] + '[/b][/s]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[s][b]' + items[4] + '[/b][/s]'))
                     self.root.ids['container'].children[0].ids['check'].active = True
                 elif items[3] == 0:
-                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[4] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
         
          # load theme data
         c.execute("SELECT * FROM theme")
@@ -871,7 +871,7 @@ class EventItemWithCheckbox(OneLineAvatarIconListItem):
     
         
 # below class for Todos
-class ListItemWithCheckbox(TwoLineAvatarIconListItem):
+class ListItemWithCheckbox(OneLineAvatarIconListItem):
 
 
     def __init__(self, pk=None, **kwargs):
@@ -937,7 +937,7 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
         # Create a cursor
         c = conn.cursor()
-        query = "DELETE FROM tasks WHERE userid = %s AND taskItem = %s"
+        query = "DELETE FROM todos WHERE userid = %s AND todoItem = %s"
         c.execute(query, (config.userid, deleteItem,))
         
         conn.commit()
