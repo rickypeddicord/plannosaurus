@@ -245,28 +245,9 @@ class WindowManager(ScreenManager):
         if config.store.exists('account'):
             config.userid = config.store.get('account')['userid']
         
-        c.execute("INSERT INTO events(dateID, timestamp, time, messageBody, userID) VALUES (%s, %s, %s, %s, %s)", (config.dateID, timeObj, time, time + " - " + messageText, config.userid))
+        c.execute("INSERT INTO events(dateID, timestamp, time, messageBody, userID, sticker, color) VALUES (%s, %s, %s, %s, %s, %s, %s)", (config.dateID, timeObj, time, time + " - " + messageText, config.userid, 'circle-outline', 'default'))
         conn.commit()
         conn.close()
-        
-        
-        
-    #    self.ids.contentEvent.text = ''
-     #   self.ids.sevenAM.text = ''
-      #  self.ids.eightAM.text = ''
-       # self.ids.nineAM.text = ''
-#        self.ids.tenAM.text = ''
- #       self.ids.elevenAM.text = ''
-  #      self.ids.noon.text = ''
-   #     self.ids.onePM.text = ''
-    #    self.ids.twoPM.text = ''
-     #   self.ids.threePM.text = ''
-      #  self.ids.fourPM.text = ''
-       # self.ids.fivePM.text = ''
-        #self.ids.sixPM.text = ''
-#        self.ids.sevenPM.text = ''
- #       self.ids.eightPM.text = ''
-  #      self.ids.ninePM.text = ''
 
 
     def overview_images(self, root, image1, image2):
@@ -600,14 +581,36 @@ class WindowManager(ScreenManager):
         records = c.fetchall()
         records.sort(key = lambda date: datetime.strptime(date[2], "%H:%M"))
 
-        # query = "DELETE FROM events"
-        # c.execute(query)
-
-        
+        # RED 1, 0, 0, 1
+        # GREEN 0, 1, 0, 1
+        # YELLOW 1, 1, 0, 1
+        # BLUE 0, 0, 1, 1
+        # PURPLE 1, 0, 1, 1
+        # DEFAULT 0, 0, 0, 1
         self.ids['eventContainer'].clear_widgets()
         if records:
             for items in records:
                 self.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
+                self.ids['eventContainer'].children[0].ids['eventIcon'].icon = items[6]
+
+                if items[7] == "RED":
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 0, 0, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 0, 0, 1])
+                elif items[7] == "GREEN":
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 1, 0, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 1, 0, 1])
+                elif items[7] == "YELLOW":
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 1, 0, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 1, 0, 1])
+                elif items[7] == "BLUE":
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 0, 1, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 0, 1, 1])
+                elif items[7] == "PURPLE":
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 0, 1, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 0, 1, 1])
+                else:
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 0, 0, 1
+                    self.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 0, 0, 1])
 
         
         # easiest way to do things on pageload

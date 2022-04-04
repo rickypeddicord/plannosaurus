@@ -41,6 +41,7 @@ config.userid = -1
 config.dateID = datetime.today().strftime("%m%d%Y")
 config.store = JsonStore('account.json')
 listindex = 0
+theColor = ""
 
 
 class MainApp(MDApp):
@@ -230,19 +231,26 @@ class MainApp(MDApp):
         
     def newlist (self, listname):
         list = TabbedPanelItem(text = listname)
-        self.root.ids['listkv'].add_widget(list)
-        fl = FloatLayout()
-        list.add_widget(fl)
-        fl.add_widget(MDTextField(
+        mdtextfield = MDTextField(
             hint_text = "Add item to list",
             pos_hint = {'center_x': .5, 'center_y': .95},
             size_hint_x = None,
-            width = 250))
-        fl.add_widget(MDRoundFlatButton(
-            text = "add",
-            pos_hint = {'center_x': .5, 'center_y': .85},
-            #on_release = blabla
-        ))
+            width = 250)
+
+        self.root.ids['listkv'].add_widget(list)
+        fl = FloatLayout()
+        list.add_widget(fl)
+        fl.add_widget(mdtextfield)
+        mdbutton = MDRoundFlatButton(
+            text = "+",
+            pos_hint = {'center_x': .79, 'center_y': .95},
+            on_release = lambda widget:self.addlistitem(mdtextfield.text, fl)
+        )
+        fl.add_widget(mdbutton)
+
+    def addlistitem(self, text, fl):
+        listitem = OneLineListItem(text = text, pos_hint = {'center_x': .5, 'center_y': .5})
+        fl.add_widget(listitem)
         
 
                
@@ -434,7 +442,7 @@ class MainApp(MDApp):
                     prevDay = self.root.ids[key].text
                     prevKey = key
                 if instance.text[0:2] == self.root.ids[key].text:
-                    currDay = self.root.ids[key].text # 01 [April 1st] day we clicked on
+                    currDay = self.root.ids[key].text
                     currKey = key
 
         newDate = list(config.dateID)
@@ -626,20 +634,59 @@ class MainApp(MDApp):
     def update_sticker(self, text):
         global event_icon
         event_icon.ids.eventIcon.icon = text
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "UPDATE events SET sticker = %s"
+        c.execute(query, (text,))
+        conn.commit()
+        conn.close()
 
     
     def update_stickerColor(self, color):
         global event_icon
+        theColor = ""
+
         if color == "RED":
             event_icon.ids.eventIcon.text_color = 1, 0, 0, 1
+            theColor = "RED"
         elif color == "GREEN":
             event_icon.ids.eventIcon.text_color = 0, 1, 0, 1
+            theColor = "GREEN"
         elif color == "YELLOW":
             event_icon.ids.eventIcon.text_color = 1, 1, 0, 1
+            theColor = "YELLOW"
         elif color == "BLUE":
             event_icon.ids.eventIcon.text_color = 0, 0, 1, 1
+            theColor = "BLUE"
         elif color == "PURPLE":
             event_icon.ids.eventIcon.text_color = 1, 0, 1, 1
+            theColor = "PURPLE"
+        self.save_stickerColor(theColor)
+
+    def save_stickerColor(self, color):
+         # 0, 0, 0, 1 is default
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "UPDATE events SET color = %s"
+        c.execute(query, (color,))
+        conn.commit()
+        conn.close()
     
     def show_todolist_dialog(self):
         if not self.task_list_dialog:
@@ -656,6 +703,7 @@ class MainApp(MDApp):
 
     def save_addSticker(self):
         global icon_text
+        global event_icon
         self.addStickerDialog.content_cls.get_sticker()
         self.update_sticker(icon_text)
     
@@ -680,9 +728,9 @@ class MainApp(MDApp):
             
         todoMessage = task.text
         
-        c.execute("INSERT INTO todos(dateID, timestamp, todoItem, userID) VALUES (%s, %s, %s, %s)", (config.dateID, task_date, todoMessage, config.userid))
-        
+        c.execute("INSERT INTO todos(dateID, timestamp, completed, todoItem, userID) VALUES (%s, %s, %s, %s, %s)", (config.dateID, task_date, 0, todoMessage, config.userid))
         self.root.ids['container'].add_widget(ListItemWithCheckbox(text='[b]'+task.text+'[/b]', secondary_text='[size=12]'+'have done by: '+ task_date+'[/size]'))
+        task.text=''
         
        
         conn.commit()
@@ -714,21 +762,12 @@ class MainApp(MDApp):
         self.root.ids['container'].clear_widgets()
         if records:
             for items in records:
-                self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[3] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
+                if items[3] == 1:
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[s][b]' + items[4] + '[/b][/s]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
+                    self.root.ids['container'].children[0].ids['check'].active = True
+                elif items[3] == 0:
+                    self.root.ids['container'].add_widget(ListItemWithCheckbox(text= '[b]' + items[4] + '[/b]', secondary_text='[size=12]'+'have done by: '+ items[2] +'[/size]'))
         
-     #   query = "SELECT * FROM todos WHERE userID = %s"
-      #  c.execute(query, (userid,))
-       # records = c.fetchall()
-        
-  #      if records:
-   #         for items in records:
-    #           record_day = datetime.strptime(items[1], "%m%d%Y")
-     #          curr_day = datetime.today().strptime(dateID, "%m%d%Y")
-
-      #         if curr_day == record_day + timedelta(days = 1):
-       #             query = "DELETE FROM todos WHERE userid = %s AND dateID = %s"
-        #            c.execute(query, (userid, record_day.strftime("%m%d%Y"),))
-
          # load theme data
         c.execute("SELECT * FROM theme")
         curr_theme = c.fetchall()
@@ -809,17 +848,9 @@ class DialogContent(MDBoxLayout):
         date_dialog.open()
 
     def on_save(self, instance, value, date_range):
-
-
         date = value.strftime('%A %d %B %Y')
         self.ids.date_text.text = str(date)
-#class StickerClass():
- #   icon = StringProperty()
-    
-  #  def pickSticker(self):
-   #     pass
 
-     
 class EventItemWithCheckbox(OneLineAvatarIconListItem):
     
     def __init__(self, pk=None, **kwargs):
@@ -849,10 +880,44 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
 
 
     def mark(self, check, the_list_item):
+        
         if check.active == True:
-            the_list_item.text = '[s]'+the_list_item.text+'[/s]'
+            conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+            )
+            markedItem = the_list_item.text.split('[b]')[1].split('[/b]')[0]
+            
+            # Create a cursor
+            c = conn.cursor()
+            query = "UPDATE todos SET completed = 1 WHERE userid = %s AND todoItem = %s"
+            c.execute(query, (config.userid, markedItem,))
+
+            conn.commit()
+            conn.close()
+            the_list_item.text = '[s][b]'+the_list_item.text+'[/b][/s]'
+
         else:
             the_list_item.text = the_list_item.text.split('[s]')[1].split('[/s]')[0]
+            conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+            )
+            markedItem = the_list_item.text.split('[b]')[1].split('[/b]')[0]
+            
+            # Create a cursor
+            c = conn.cursor()
+            query = "UPDATE todos SET completed = 0 WHERE userid = %s AND todoItem = %s"
+            c.execute(query, (config.userid, markedItem,))
+        
+            conn.commit()
+            conn.close()
 
     def delete_item(self, the_list_item):
         deleteItem = ''
@@ -879,13 +944,6 @@ class ListItemWithCheckbox(TwoLineAvatarIconListItem):
         conn.commit()
         conn.close()
         self.parent.remove_widget(the_list_item)
-
-#class RootWidget(BoxLayout):
- #   def __init__(self, **kwargs):
-  #      super().__init__(**kwargs)
-   # def colorChanger(self):
-    #    rect_color=(1, 0, 0, 1)
-
 
 class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
     """creates checkbox for task"""
