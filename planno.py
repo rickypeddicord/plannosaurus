@@ -42,6 +42,7 @@ config.dateID = datetime.today().strftime("%m%d%Y")
 config.store = JsonStore('account.json')
 listindex = 0
 theColor = ""
+trigger = ""
 
 
 class MainApp(MDApp):
@@ -49,7 +50,6 @@ class MainApp(MDApp):
     customize_dialog = None
     addStickerDialog = None
     global listindex
-
 
     def build(self):
         Builder.load_file("app.kv")
@@ -802,13 +802,65 @@ class CustomizeDialog(MDBoxLayout):
 class AddStickerDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        
+        md_stickers = ["cat",
+        "christianity",
+        "coffee",
+        "coffin",
+        "crown",
+        "dance-pole",
+        "diamond-stone",
+        "dumbbell",
+        "dog",
+        "doctor",
+        "email-outline",
+        "emoticon-poop",
+        "flower",
+        "food",
+        "foot-print",
+        "ghost-outline",
+        "glass-cocktail",
+        "google-downasaur",
+        "airplane",
+        "baby-carriage",
+        "bat",
+        "beach",
+        "beer-outline",
+        "book-open-variant",
+        "cake-variant",
+        "cannabis",
+        "car",
+        "cards-heart",
+        "alarm",
+        "halloween",
+        "deathly-hallows",
+        "lightning-bolt",
+        "yoga",
+        "whatsapp",
+        "web",
+        "ultra-high-definition",
+        "twitter",
+        "turkey",
+        "triforce",
+        "zodiac-aquarius",
+        "zodiac-aries",
+        "zodiac-cancer",
+        "zodiac-capricorn",
+        "zodiac-gemini",
+        "zodiac-leo",
+        "zodiac-libra",
+        "zodiac-pisces",
+        "zodiac-sagittarius",
+        "zodiac-scorpio",
+        "zodiac-taurus",
+        "zodiac-virgo"]
         sticker_list = [
             {
                 "viewclass": "StickerItem",
                 "icon": f"{i}",
                 "text": f"{i}",
                 "on_release": lambda x = f"{i}": self.set_sticker(x),
-            } for i in md_icons.keys()
+            } for i in md_stickers
         ]
         self.menu = MDDropdownMenu(
             caller = self.ids.stickers_list,
