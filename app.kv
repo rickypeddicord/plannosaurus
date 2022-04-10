@@ -314,6 +314,14 @@
 						font_size: 12
 						pos_hint: {"x": .85, "y": .85}
 						on_release: app.show_theme_picker()
+
+					MDTextButton:
+						id: logoutButton
+						text: 'Logout'
+						font_size: 12
+						pos_hint: {"x": .15, "y": .05}
+						on_release: app.logout()
+
 						
 						
 ##############

@@ -70,6 +70,9 @@ class MainApp(MDApp):
         else:
             self.root.current = "login_sc"
 
+    def logout(self):
+        config.store.delete('account')
+        self.root.current = "login_sc"
 
     def gen_cal(self, date):
         curr_day = date
