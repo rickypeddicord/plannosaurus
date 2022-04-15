@@ -66,7 +66,7 @@ class MainApp(MDApp):
         if config.store.exists('account'):
             self.root.init_load(self.root)
             self.postTodo()
-            self.root.postEvents(self.root)
+            self.postEvents()
             self.root.current = "main_sc"
         else:
             self.root.current = "login_sc"
@@ -157,7 +157,7 @@ class MainApp(MDApp):
         config.dateID = value.strftime("%m%d%Y")
         self.gen_cal(value)
         self.postTodo()
-        self.root.postEvents(self.root)
+        self.postEvents()
 
         
         if self.theDays.day1 == value:
@@ -361,7 +361,7 @@ class MainApp(MDApp):
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
         self.postTodo()
-        self.root.postEvents(self.root)
+        self.postEvents()
 
     def right_cal(self):
         self.theDays.day1 = (self.theDays.day1 + timedelta(days = 7))
@@ -429,7 +429,7 @@ class MainApp(MDApp):
 
         dayHold.text = "[color=#42f58d]" + dayHold.text + "[/color]" # change text color of same day of the week when shifted
         self.postTodo()
-        self.root.postEvents(self.root)
+        self.postEvents()
                 
     def current_day(self, instance):
         newDate = ''
@@ -469,7 +469,7 @@ class MainApp(MDApp):
         
         instance.text = "[color=#42f58d]" + instance.text + "[/color]"
         self.postTodo()
-        self.root.postEvents(self.root)
+        self.postEvents()
 
     def delete_event(self, root, the_event_item):
         global content_Event
@@ -818,6 +818,216 @@ class MainApp(MDApp):
         conn.commit()
         conn.close()
         #task.text = ''
+
+    def event_add(self, time):
+        timesArr = ["6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM"]
+        militaryArr = ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"]
+        index = timesArr.index(time)
+        timeObj = datetime.strptime(militaryArr[index], '%H:%M').strftime("%H:%M")
+
+        if index == 0:
+            messageText = self.root.ids.contentEvent.text
+            self.root.ids.contentEvent.disabled = True
+            self.root.ids.add6AM.disabled = True
+        elif index == 1:
+            messageText = self.root.ids.sevenAM.text
+            self.root.ids.sevenAM.disabled = True
+            self.root.ids.add7AM.disabled = True
+        elif index == 2:
+            messageText = self.root.ids.eightAM.text
+            self.root.ids.eightAM.disabled = True
+            self.root.ids.add8AM.disabled = True
+        elif index == 3:
+            messageText = self.root.ids.nineAM.text
+            self.ids.nineAM.disabled = True
+            self.ids.add9AM.disabled = True
+        elif index == 4:
+            messageText = self.root.ids.tenAM.text
+            self.root.ids.tenAM.disabled = True
+            self.root.ids.add10AM.disabled = True
+        elif index == 5:
+            messageText = self.root.ids.elevenAM.text
+            self.root.ids.elevenAM.disabled = True
+            self.root.ids.add11AM.disabled = True
+        elif index == 6:
+            messageText = self.root.ids.noon.text
+            self.root.ids.noon.disabled = True
+            self.root.ids.add12PM.disabled = True
+        elif index == 7:
+            messageText = self.root.ids.onePM.text
+            self.root.ids.onePM.disabled = True
+            self.root.ids.add1PM.disabled = True
+        elif index == 8:
+            messageText = self.root.ids.twoPM.text
+            self.root.ids.twoPM.disabled = True
+            self.root.ids.add2PM.disabled = True
+        elif index == 9:
+            messageText = self.root.ids.threePM.text
+            self.root.ids.threePM.disabled = True
+            self.ids.add3PM.disabled = True
+        elif index == 10:
+            messageText = self.root.ids.fourPM.text
+            self.root.ids.fourPM.disabled = True
+            self.root.ids.add4PM.disabled = True
+        elif index == 11:
+            messageText = self.root.ids.fivePM.text
+            self.root.ids.fivePM.disabled = True
+            self.root.ids.add5PM.disabled = True
+        elif index == 12:
+            messageText = self.root.ids.sixPM.text
+            self.root.ids.sixPM.disabled = True
+            self.root.ids.add6PM.disabled = True
+        elif index == 13:
+            messageText = self.root.ids.sevenPM.text
+            self.root.ids.sevenPM.disabled = True
+            self.root.ids.add7PM.disabled = True
+        elif index == 14:
+            messageText = self.root.ids.eightPM.text
+            self.root.ids.eightPM.disabled = True
+            self.root.ids.add8PM.disabled = True
+        elif index == 15:
+            messageText = self.root.ids.ninePM.text
+            self.root.ids.ninePM.disabled = True
+            self.root.ids.add9PM.disabled = True
+        
+
+        conn = psycopg2.connect(
+            # host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            # database = "d19re7njihace8",
+            # user = "lveasasuicarlg",
+            # password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            # port = "5432",
+            host = "localhost",
+            database = "plannodb",
+            user = "postgres",
+            password = "postgres",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+
+        if config.store.exists('account'):
+            config.userid = config.store.get('account')['userid']
+        
+        c.execute("INSERT INTO events(dateID, timestamp, time, messageBody, userID, sticker, color) VALUES (%s, %s, %s, %s, %s, %s, %s)", (config.dateID, timeObj, time, time + " - " + messageText, config.userid, 'circle-outline', 'default'))
+        conn.commit()
+        conn.close()
+
+    def postEvents(self):
+
+        if config.store.exists('account'):
+            config.userid = config.store.get('account')['userid']
+
+     #   self.ids.contentEventMain.text = '' # reset textfield to be blank
+
+        conn = psycopg2.connect(
+            # host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            # database = "d19re7njihace8",
+            # user = "lveasasuicarlg",
+            # password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            # port = "5432",
+            host = "localhost",
+            database = "plannodb",
+            user = "postgres",
+            password = "postgres",
+            port = "5432",
+        )
+
+        c = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = "SELECT * FROM events WHERE userID = %s AND dateID = %s"
+        c.execute(query, (config.userid, config.dateID,))
+        records = c.fetchall()
+        records.sort(key = lambda date: datetime.strptime(date[2], "%H:%M"))
+
+        # RED 1, 0, 0, 1
+        # GREEN 0, 1, 0, 1
+        # YELLOW 1, 1, 0, 1
+        # BLUE 0, 0, 1, 1
+        # PURPLE 1, 0, 1, 1
+        # DEFAULT 0, 0, 0, 1
+        self.root.ids['eventContainer'].clear_widgets()
+        if records:
+            for items in records:
+                self.root.ids['eventContainer'].add_widget(EventItemWithCheckbox(text= '[b]' + items[4] + '[/b]'))
+                self.root.ids['eventContainer'].children[0].ids['eventIcon'].icon = items[6]
+
+                if items[7] == "RED":
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 0, 0, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 0, 0, 1])
+                elif items[7] == "GREEN":
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 1, 0, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 1, 0, 1])
+                elif items[7] == "YELLOW":
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 1, 0, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 1, 0, 1])
+                elif items[7] == "BLUE":
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 0, 1, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 0, 1, 1])
+                elif items[7] == "PURPLE":
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 1, 0, 1, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([1, 0, 1, 1])
+                else:
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].text_color = 0, 0, 0, 1
+                    self.root.ids['eventContainer'].children[0].ids['eventIcon'].set_text_color([0, 0, 0, 1])
+
+        
+        # easiest way to do things on pageload
+
+        # load colors data
+        query = "SELECT * FROM colors WHERE userID = %s"
+        c.execute(query, (config.userid,))
+        records = c.fetchall()
+        
+        if records:
+            self.root.colorChanger(self, records[0][0])
+        else:
+            self.root.colorChanger(self, "OG")
+        
+        conn.commit()
+        conn.close()
+        
+
+        
+    
+    def delete_eventFromAdd(self, time, the_event_item):
+        deleteItem = ''
+        
+        if the_event_item.text[0:3] == '[b]':
+            deleteItem = the_event_item.text.split('[b]')[1].split('[/b]')[0]
+        else:
+            deleteItem = the_event_item.text.split('[s][b]')[1].split('[/b][/s]')[0]
+
+        conn = psycopg2.connect(
+            host = "ec2-34-205-209-14.compute-1.amazonaws.com",
+            database = "d19re7njihace8",
+            user = "lveasasuicarlg",
+            password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
+            port = "5432",
+        )
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (config.userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
+        
+        # if records:
+        #     for items in records:
+        #         self.parent.remove_widget(the_event_item)
+                
+        
+        
+        
+        #self.parent.remove_widget(the_event_item)
+        if time == "6 AM":
+            self.root.ids.contentEvent.disabled = False
+            self.root.ids.contentEvent.text = ''
+        elif time == "7 AM":
+            self.root.ids.sevenAM.disabled = False
+            self.root.ids.sevenAM.text = ''
 
 
 class CustomizeDialog(MDBoxLayout):
