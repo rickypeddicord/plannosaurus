@@ -3,10 +3,11 @@ from kivymd.app import MDApp
 from sdates import StartingDates
 from wmanager import WindowManager
 from db import Database
+import pygame
 import config
 import psycopg2
 import psycopg2.extras
-import datetime
+import datetime as dateT
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker, MDTimePicker
@@ -976,7 +977,7 @@ class MainApp(MDApp):
             self.root.colorChanger(self, records[0][0])
         else:
             self.root.colorChanger(self, "OG")
-        
+
         conn.commit()
         conn.close()
         
@@ -1022,7 +1023,45 @@ class MainApp(MDApp):
     def closeAskDialog(self):
         self.questionDialog.dismiss()
         
+        addAlarmDialog = MDTimePicker()
+        addAlarmDialog.bind(time=self.get_time, on_save=self.schedule)
+        addAlarmDialog.open()
     
+    
+    def schedule(self, *args):
+        Clock.schedule_once(self.alarm, 1)
+    
+    def alarm(self, *args):
+        global alarm_time
+        while True:
+            current_time=dateT.datetime.now().strftime("%H:%M:%S")
+            
+            
+            if alarm_time==current_time:
+                print("ALARM")
+                break
+    def get_time(self, instance, time):
+        global alarm_time
+        print(time)
+        alarm_time = str(time)
+    
+
+    
+    def close_alarm_dialog(self):
+        self.addAlarmDialog.dismiss()
+    
+    def show_question_dialog(self):
+        if not self.questionDialog:
+            self.questionDialog=MDDialog(
+                title="Add Alarm?",
+                type="custom",
+                content_cls=QuestionDialog(),
+            )
+
+        self.questionDialog.open()
+        
+    def closeAskDialog(self):
+        self.questionDialog.dismiss()
     def delete_eventFromAdd(self, time, the_event_item):
         deleteItem = ''
         
@@ -1062,17 +1101,17 @@ class MainApp(MDApp):
             self.root.ids.sevenAM.disabled = False
             self.root.ids.sevenAM.text = ''
 
-
 # to ask if user wants to add alarm to the list item
 class QuestionDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+
 # dialog to open time picker and set alarm
 class AddAlarmDialogContent(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
+        
 class CustomizeDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

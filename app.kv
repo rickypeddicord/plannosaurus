@@ -1106,6 +1106,20 @@
 			on_release: app.closeAskDialog()
 
 
+	
+	BoxLayout:
+		orientation: 'horizontal'
+		MDFlatButton:
+			text: 'YES'
+			on_release: 
+				app.show_addalarm_dialog()	
+				app.closeAskDialog()
+
+		MDFlatButton:
+			text: 'NO'
+			on_release: app.closeAskDialog()	
+			
+			
 <EventItemWithCheckbox>:
     id: the_event_item
     markup: True
@@ -1127,6 +1141,7 @@
         text_color: 0, 0, 0, 1
         on_release:
             app.delete_event(root, the_event_item)
+
 
 	
 <AddAlarmDialogContent>
