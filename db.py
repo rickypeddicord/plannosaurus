@@ -36,7 +36,7 @@ class Database:
         # Create theme table
         self.cursor.execute("CREATE TABLE if not exists theme(primary_palette VARCHAR(255), accent_palette VARCHAR(255), theme_style VARCHAR(255))")
 
-        #self.cursor.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", ("mai5013@calu.edu", "Bunnies", "Hailey", "Maimone"))
+        self.cursor.execute("INSERT INTO users (email, password, firstName, lastName) VALUES (%s, %s, %s, %s)", ("mai5013@calu.edu", "Bunnies", "Hailey", "Maimone"))
 
         self.conn.commit()
 
