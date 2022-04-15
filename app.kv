@@ -130,9 +130,10 @@
 						font_size: 12
 						pos_hint: {"x": .85, "y": .95}
 						on_press: app.right_cal()
-				    MDTextButton:
+				    MDRaisedButton:
 						text: "Change Colors"
 						font_size: 12
+						md_bg_color:  (0, 0, 0, 1)
 						pos_hint: {"x": .05, "y": .85}
 						on_press: screen_manager.current = "changeBoxColors"
 
@@ -314,18 +315,20 @@
                         MDSwiperItem:
                             id: listItem
 					
-					MDTextButton:
+					MDRaisedButton:
 						id: customizeButton
-						text: 'Themes & Buttons'
+						text: 'Themes'
+						md_bg_color:  0, 0, 0, 1
 						font_size: 12
-						pos_hint: {"x": .85, "y": .85}
+						pos_hint: {"x": .2, "y": .85}
 						on_release: app.show_theme_picker()
 
-					MDTextButton:
+					MDRaisedButton:
 						id: logoutButton
 						text: 'Logout'
+						md_bg_color:  0, 0, 0, 1
 						font_size: 12
-						pos_hint: {"x": .15, "y": .05}
+						pos_hint: {"x": .85, "y": .85}
 						on_release: app.logout()
 
 						
