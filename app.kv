@@ -1084,10 +1084,33 @@
 			text: 'CLOSE'
 			on_release: app.close_customize_dialog()
 			
+<QuestionDialog>
+	id: askforAlarm
+	markup: True
+	orientation: "vertical"
+	spacing: "10dp"
+	size_hint: None, None
+	height: "60dp"
 
+	
+	BoxLayout:
+		orientation: 'horizontal'
+		MDFlatButton:
+			text: 'YES'
+			on_release: 
+				app.show_addalarm_dialog()	
+				app.closeAskDialog()
+
+		MDFlatButton:
+			text: 'NO'
+			on_release: app.closeAskDialog()	
+			
+			
 <EventItemWithCheckbox>:
     id: the_event_item
     markup: True
+	on_release: app.show_question_dialog()
+
 
 
     IconLeftWidget:
@@ -1106,9 +1129,20 @@
         on_release:
             app.delete_event(root, the_event_item)
 
+
 	
 
-			
+<AddAlarmDialogContent>
+	orientation: "vertical"
+	spacing: "10dp"
+	size_hint: None, None
+	height: "130dp"
+	
+	BoxLayout:
+		orientation: 'horizontal'
+		MDFlatButton:
+			text: 'CLOSE'
+			on_release: app.close_alarm_dialog()	
 
 
 <ListItemWithCheckbox>:
