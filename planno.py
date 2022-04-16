@@ -3,12 +3,12 @@ from kivymd.app import MDApp
 from sdates import StartingDates
 from wmanager import WindowManager
 from db import Database
-import pygame
+from plyer import notification
 import config
 import psycopg2
 import psycopg2.extras
-import datetime as dateT
 from datetime import *
+import time
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker, MDTimePicker
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
@@ -31,19 +31,21 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import StringProperty
 from kivymd.icon_definitions import md_icons
 from kivymd.uix.button import MDRoundFlatButton
+import threading
 
 
 db = Database()
 icon_text = ""
 event_icon = ""
-content_Event = ""
-eleven_AM = ""
 config.userid = -1
 config.dateID = datetime.today().strftime("%m%d%Y")
 config.store = JsonStore('account.json')
 listindex = 0
 theColor = ""
+eventText = ""
 alarm_time = ""
+
+
 
 
 class MainApp(MDApp):
@@ -61,7 +63,6 @@ class MainApp(MDApp):
         return WindowManager()
 
     def on_start(self):
-        #Clock.schedule_once(self.set_screen, 5)
         self.set_screen(0)
 
     def set_screen(self, dt):
@@ -448,8 +449,6 @@ class MainApp(MDApp):
         self.postEvents()
 
     def delete_event(self, the_event_item):
-        global content_Event
-        global eleven_AM
         deleteItem = ''
         
         if the_event_item.text[0:3] == '[b]':
@@ -827,34 +826,44 @@ class MainApp(MDApp):
         conn.close()
         
     def show_addalarm_dialog(self):
-
         addAlarmDialog = MDTimePicker()
         addAlarmDialog.bind(time=self.get_time, on_save=self.schedule)
         addAlarmDialog.open()
-
-
+    
+    
     def schedule(self, *args):
-        Clock.schedule_once(self.alarm, 1)
-
-    def alarm(self, *args):
-        global alarm_time
-        while True:
-            current_time=datetime.now().strftime("%H:%M:%S")
-
-
-            if alarm_time==current_time:
-                print("ALARM")
-                break
+        notify = BackgroundThread()
+        #Clock.schedule_once(self.alarm, 1)
+    
+    # def alarm(self, *args):
+    #     global alarm_time
+    #     while True:
+    #         current_time=datetime.now().strftime("%H:%M:%S")
+            
+            
+    #         if alarm_time==current_time:
+    #             notification.notify(
+    #                 title = 'testing',
+    #                 message = eventText,
+    #                 app_icon = None,
+    #                 timeout = 10,
+    #             )
+    #             break
 
     def get_time(self, instance, time):
         global alarm_time
         print(time)
         alarm_time = str(time)
+    
 
+    
     def close_alarm_dialog(self):
         self.addAlarmDialog.dismiss()
+    
+    def show_question_dialog(self, alarmEvent):
+        global eventText
 
-    def show_question_dialog(self):
+        eventText = alarmEvent.text.split('[b]')[1].split('[/b]')[0]
         if not self.questionDialog:
             self.questionDialog=MDDialog(
                 title="Add Alarm?",
@@ -863,13 +872,9 @@ class MainApp(MDApp):
             )
 
         self.questionDialog.open()
-
+        
     def closeAskDialog(self):
         self.questionDialog.dismiss()
-        
-        addAlarmDialog = MDTimePicker()
-        addAlarmDialog.bind(time=self.get_time, on_save=self.schedule)
-        addAlarmDialog.open()
 
 # to ask if user wants to add alarm to the list item
 class QuestionDialog(MDBoxLayout):
@@ -885,7 +890,6 @@ class AddAlarmDialogContent(MDBoxLayout):
 class CustomizeDialog(MDBoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-       # self.ids.date_text.text = str(datetime.now().strftime('%A %d %B %Y'))
 
 class AddStickerDialog(MDBoxLayout):
     def __init__(self, **kwargs):
@@ -1087,5 +1091,30 @@ class LeftCheckbox(ILeftBodyTouch, MDCheckbox):
 
 class StickerItem(OneLineAvatarIconListItem):
     icon = StringProperty()
+
+class BackgroundThread(object):
+    def __init__ (self, interval = 1):
+        self.interval = interval
+        
+        thread = threading.Thread(target = self.run)
+        thread.daemon = True
+        thread.start()
+
+    def run(self, *args):
+        global alarm_time
+        global eventText
+
+        while True:
+            current_time=datetime.now().strftime("%H:%M:%S")
+
+            if alarm_time==current_time:
+                notification.notify(
+                    title = 'Upcoming Event',
+                    message = eventText,
+                    app_icon = None,
+                    timeout = 10,
+                )
+                break
+            time.sleep(self.interval)
 
 MainApp().run()
