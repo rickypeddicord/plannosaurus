@@ -1092,20 +1092,6 @@
 	size_hint: None, None
 	height: "60dp"
 
-
-	BoxLayout:
-		orientation: 'horizontal'
-		MDFlatButton:
-			text: 'YES'
-			on_release: 
-				app.show_addalarm_dialog()	
-				app.closeAskDialog()
-
-		MDFlatButton:
-			text: 'NO'
-			on_release: app.closeAskDialog()
-
-
 	
 	BoxLayout:
 		orientation: 'horizontal'
@@ -1123,7 +1109,8 @@
 <EventItemWithCheckbox>:
     id: the_event_item
     markup: True
-	on_release: app.show_question_dialog()
+	on_release: app.show_question_dialog(the_event_item)
+
 
 
     IconLeftWidget:
@@ -1140,22 +1127,22 @@
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1
         on_release:
-            app.delete_event(the_event_item)
+            app.delete_event(root, the_event_item)
 
 
 	
+
 <AddAlarmDialogContent>
 	orientation: "vertical"
 	spacing: "10dp"
 	size_hint: None, None
 	height: "130dp"
-
+	
 	BoxLayout:
 		orientation: 'horizontal'
 		MDFlatButton:
 			text: 'CLOSE'
-			on_release: app.close_alarm_dialog()
-			
+			on_release: app.close_alarm_dialog()	
 
 
 <ListItemWithCheckbox>:
