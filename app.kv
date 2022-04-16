@@ -1092,7 +1092,6 @@
 	size_hint: None, None
 	height: "60dp"
 
-
 	BoxLayout:
 		orientation: 'horizontal'
 		MDFlatButton:
@@ -1126,22 +1125,22 @@
         theme_text_color: "Custom"
         text_color: 0, 0, 0, 1
         on_release:
-            app.delete_event(the_event_item)
+            app.delete_event(root, the_event_item)
 
 
 	
+
 <AddAlarmDialogContent>
 	orientation: "vertical"
 	spacing: "10dp"
 	size_hint: None, None
 	height: "130dp"
-
+	
 	BoxLayout:
 		orientation: 'horizontal'
 		MDFlatButton:
 			text: 'CLOSE'
-			on_release: app.close_alarm_dialog()
-			
+			on_release: app.close_alarm_dialog()	
 
 
 <ListItemWithCheckbox>:
