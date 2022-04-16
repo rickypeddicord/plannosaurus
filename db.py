@@ -10,11 +10,6 @@ class Database:
             user = "postgres",
             password = "postgres",
             port = "5432",
-            # host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            # database = "d19re7njihace8",
-            # user = "lveasasuicarlg",
-            # password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            # port = "5432",
         )
 
         self.cursor = self.conn.cursor()
@@ -93,6 +88,91 @@ class Database:
         self.conn.commit()
         
         return regCode
+
+    def delete_event(self, deleteItem):
+        c = self.conn.cursor()
+        query = "SELECT time FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (config.userid, deleteItem,))
+        timeofEvent = c.fetchall()
+
+        query = "DELETE FROM events WHERE userid = %s AND messageBody = %s"
+        c.execute(query, (config.userid, deleteItem,))
+        
+        self.conn.commit()
+
+        return timeofEvent
+
+    def update_theme(self, primary, accent, theme):
+        c = self.conn.cursor()
+
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+
+        if len(curr_theme) == 0:
+            c.execute("INSERT INTO theme (primary_palette, accent_palette, theme_style) VALUES (%s, %s, %s)",
+            (primary, accent, theme))
+        else:
+            c.execute("UPDATE theme SET primary_palette = %s, accent_palette = %s, theme_style = %s", 
+            (primary, accent, theme))
+
+        self.conn.commit()
+
+    def update_sticker(self, text, event_text):
+        c = self.conn.cursor()
+        query = "UPDATE events SET sticker = %s WHERE messageBody = %s"
+        c.execute(query, (text, event_text))
+        
+        self.conn.commit()
+
+    def save_stickerColor(self, color, event_text):
+        c = self.conn.cursor()
+        query = "UPDATE events SET color = %s WHERE messageBody = %s"
+        c.execute(query, (color, event_text))
+
+        self.conn.commit()
+
+    def add_todo(self, task_date, todoMessage):
+        c = self.conn.cursor()
+        c.execute("INSERT INTO todos(dateID, timestamp, completed, todoItem, userID) VALUES (%s, %s, %s, %s, %s)", (config.dateID, task_date, 0, todoMessage, config.userid))
+        
+        self.conn.commit()
+
+    def post_todo(self):
+        c = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = "SELECT * FROM todos WHERE userID = %s AND dateID = %s"
+        c.execute(query, (config.userid, config.dateID,))
+        records = c.fetchall()
+
+        return records
+        
+
+    def load_theme(self, primary, accent, theme, hue):
+        # load theme data
+        c = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        c.execute("SELECT * FROM theme")
+        curr_theme = c.fetchall()
+
+        self.conn.commit()
+
+        return curr_theme
+
+    def event_add(self):
+        pass
+
+    def post_events(self):
+        pass
+
+    def load_colors(self):
+        pass
+
+    def mark(self):
+        pass
+
+    def delete_item(self):
+        pass
+
+    def color_changer(self):
+        pass
 
     def close_db(self):
         self.conn.close()
