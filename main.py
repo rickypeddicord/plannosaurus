@@ -10,7 +10,6 @@ from datetime import *
 import time
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.picker import MDDatePicker, MDThemePicker, MDTimePicker
-from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivymd.uix.label import MDLabel
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.textfield import MDTextFieldRound, MDTextField, MDTextFieldRect
@@ -25,7 +24,6 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.floatlayout import FloatLayout
 from kivy.graphics import Rectangle
 from kivy.graphics import Color
-from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.properties import StringProperty
 from kivymd.icon_definitions import md_icons
@@ -567,7 +565,21 @@ class MainApp(MDApp):
         
         self.root.ids.eventContainer.remove_widget(the_event_item)
         
+    def deleteAlarm(self, alarmItem):
+        deleteItem = ''
 
+        deleteItem = alarmItem.secondary_text
+
+        conn = sqlite3.connect('plannodb.db')
+
+        # Create a cursor
+        c = conn.cursor()
+        query = "DELETE FROM alarms WHERE userid = ? AND alarmtext = ?"
+        c.execute(query, (config.userid, deleteItem,))
+        
+        conn.commit()
+        conn.close()
+        self.root.ids.alarmContainer.remove_widget(alarmItem)
         
     def show_customize_dialog(self):
         if not self.customize_dialog:
@@ -1104,22 +1116,6 @@ class AlarmList(TwoLineAvatarIconListItem):
     def __init__(self, pk=None, **kwargs):
         super().__init__(**kwargs)
         self.pk = pk
-
-    def deleteAlarm(self, alarmItem):
-        deleteItem = ''
-
-        deleteItem = alarmItem.secondary_text
-
-        conn = sqlite3.connect('plannodb.db')
-
-        # Create a cursor
-        c = conn.cursor()
-        query = "DELETE FROM alarms WHERE userid = ? AND alarmtext = ?"
-        c.execute(query, (config.userid, deleteItem,))
-        
-        conn.commit()
-        conn.close()
-        self.parent.remove_widget(alarmItem)
         
 # below class for Todos
 class ListItemWithCheckbox(OneLineAvatarIconListItem):
@@ -1207,7 +1203,23 @@ class BackgroundThread(object):
                     app_icon = None,
                     timeout = 10,
                 )
+
+                if config.store.exists('account'):
+                    config.userid = config.store.get('account')['userid']
+
+                conn = sqlite3.connect('plannodb.db')
+        
+                c = conn.cursor()
+                query = "DELETE FROM alarms WHERE userID = ? AND dateID = ? AND alarmtext = ?"
+                c.execute(query, (config.userid, config.dateID, eventText,))
+                conn.commit()
+                conn.close()
+
                 break
             time.sleep(self.interval)
 
 MainApp().run()
+
+# sever database connection once app is exited
+
+db.close_db()
