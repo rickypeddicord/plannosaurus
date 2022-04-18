@@ -1117,7 +1117,7 @@ class AlarmList(TwoLineAvatarIconListItem):
 
         # Create a cursor
         c = conn.cursor()
-        query = "DELETE FROM alarms WHERE userid = ? AND alarmtext = >"
+        query = "DELETE FROM alarms WHERE userid = ? AND alarmtext = ?"
         c.execute(query, (config.userid, deleteItem,))
         
         conn.commit()
