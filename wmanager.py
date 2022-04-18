@@ -2,8 +2,7 @@ from sdates import StartingDates
 import config
 from kivymd.uix.list import OneLineAvatarIconListItem
 from kivy.uix.image import AsyncImage, Image
-import psycopg2
-import psycopg2.extras
+import sqlite3
 import datetime
 from datetime import *
 from kivy.uix.screenmanager import ScreenManager
@@ -446,29 +445,18 @@ class WindowManager(ScreenManager):
     
             self.overview_images(root, img_1, img_2)
 
-        conn = psycopg2.connect(
-            # host = "ec2-34-205-209-14.compute-1.amazonaws.com",
-            # database = "d19re7njihace8",
-            # user = "lveasasuicarlg",
-            # password = "c372ee6ba2bc15c476bf85a8258fa444d2a51f4323b6903a1963c0c5fb118a08",
-            # port = "5432",
-            host = "localhost",
-            database = "plannodb",
-            user = "postgres",
-            password = "postgres",
-            port = "5432",
-        )
+        conn = sqlite3.connect('plannodb.db')
 
         
         c = conn.cursor()
-        query = "SELECT * FROM colors WHERE userID = %s"
+        query = "SELECT * FROM colors WHERE userID = ?"
         c.execute(query, (config.userid,))
         records = c.fetchall()
         
         if records:
-            c.execute("UPDATE colors SET style = %s, userid = %s", (style, config.userid))
+            c.execute("UPDATE colors SET style = ?, userid = ?", (style, config.userid))
         else:
-            c.execute("INSERT INTO colors (style, userid) VALUES (%s, %s)", (style, config.userid))
+            c.execute("INSERT INTO colors (style, userid) VALUES (?, ?)", (style, config.userid))
 
         conn.commit()
         conn.close()
