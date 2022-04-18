@@ -55,9 +55,6 @@ class MainApp(MDApp):
     customize_dialog = None
     addStickerDialog = None
     global listindex
-  #  pygame.init()
-   # sound = pygame.mixer.Sound("alarm.mp3")
-    #volume = 0
 
     def build(self):
         Builder.load_file("app.kv")
