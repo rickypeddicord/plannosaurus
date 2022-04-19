@@ -922,7 +922,7 @@ class MainApp(MDApp):
         
         if records:
             for items in records:
-                self.root.ids['alarmContainer'].add_widget(AlarmList(text= 'Alarm Time: ' + items[2] , secondary_text= items[3]))
+                self.root.ids['alarmContainer'].add_widget(AlarmList(text= 'Date: ' + items[1] + ' - Alarm Time: ' + items[2] , secondary_text= items[3]))
         
         conn.commit()
         conn.close()
