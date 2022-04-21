@@ -922,7 +922,15 @@ class MainApp(MDApp):
         
         if records:
             for items in records:
-                self.root.ids['alarmContainer'].add_widget(AlarmList(text= 'Date: ' + items[1] + ' - Alarm Time: ' + items[2] , secondary_text= items[3]))
+                dateList = list(items[1])
+                dateList.insert(2, '/')
+                dateList.insert(5, '/')
+                theDate = ''.join(dateList)
+
+                theTime = datetime.strptime(items[2], "%H:%M:%S").strftime("%I:%M %p")
+
+
+                self.root.ids['alarmContainer'].add_widget(AlarmList(text= 'Date: ' + theDate + ' - Alarm Time: ' + theTime , secondary_text= items[3]))
         
         conn.commit()
         conn.close()
@@ -1217,6 +1225,8 @@ class BackgroundThread(object):
 
                 break
             time.sleep(self.interval)
+
+        Clock.schedule_once(MainApp.get_running_app().postAlarm())
 
 MainApp().run()
 
