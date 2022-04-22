@@ -961,7 +961,6 @@ class MainApp(MDApp):
     
     def get_time(self, instance, time):
         global alarm_time
-        print(time)
         alarm_time = str(time)
     
 
