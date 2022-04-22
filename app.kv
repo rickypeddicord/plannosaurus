@@ -98,6 +98,7 @@
 				pos_hint: {"x": .85, "y": .95}
 				on_press: app.right_cal()
 			MDRaisedButton:
+				id: changeColorsButton
 				text: "Change Colors"
 				font_size: 12
 				md_bg_color:  (0, 0, 0, 1)
@@ -1184,7 +1185,7 @@
 	IconRightWidget:
 		icon: 'trash-can-outline'
 		text_color: 0, 0, 0, 1
-		on_release: root.deleteAlarm(alarmListItem)
+		on_release: app.deleteAlarm(alarmListItem)
 
 	ScrollView:
 		pos_hint: {'center_y': .6, 'x': .04}
